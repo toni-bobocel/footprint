@@ -18,6 +18,19 @@ SOCIAL_TAGS = {
 }
 # Big radii make Overpass time out on public instances; 15 km already covers a city.
 MAX_RADIUS_M = 15_000
+# "Everything here" returns every named shop and office, so the circle stays small.
+EVERYTHING_RADIUS_M = 1_500
+# Named amenities include benches and fountains; these are the ones that sell something.
+EVERYTHING = (
+    '["shop"]',
+    '["office"]',
+    '["craft"]',
+    '["amenity"~"^(restaurant|cafe|bar|pub|fast_food|dentist|doctors|clinic|pharmacy|veterinary|'
+    'driving_school|language_school|music_school|coworking_space)$"]',
+    '["tourism"~"^(hotel|guest_house|hostel)$"]',
+    '["leisure"~"^(fitness_centre|sports_centre|spa)$"]',
+    '["healthcare"]',
+)
 
 
 class OverpassUnavailable(Exception):
@@ -27,9 +40,11 @@ class OverpassUnavailable(Exception):
 def build(
     lat: float, lon: float, radius_km: float, cats: list[Category], terms: str | None, limit: int
 ) -> str:
-    r = int(min(radius_km * 1000, MAX_RADIUS_M))
+    everything = not cats and not terms
+    cap = EVERYTHING_RADIUS_M if everything else MAX_RADIUS_M
+    r = int(min(radius_km * 1000, cap))
     around = f'(around:{r},{lat:.6f},{lon:.6f})'
-    parts: list[str] = []
+    parts: list[str] = [f'nwr{sel}["name"]{around};' for sel in EVERYTHING] if everything else []
     for c in cats:
         for k, v in c.osm:
             parts.append(f'nwr["{k}"="{v}"]["name"]{around};')

@@ -47,15 +47,14 @@ async def search(
     size: str | None,
 ) -> list[Business]:
     naf = sorted({code for c in cats for code in c.naf})
-    if not naf:
-        return []
     params: dict[str, str | int | float] = {
         'lat': lat,
         'long': lon,
         'radius': min(radius_km, MAX_RADIUS_KM),
-        'activite_principale': ','.join(naf),
         'per_page': PER_PAGE,
     }
+    if naf:
+        params['activite_principale'] = ','.join(naf)
     out: list[Business] = []
     for page in range(1, PAGES + 1):
         res = await client.get(f'{base}/near_point', params={**params, 'page': page})

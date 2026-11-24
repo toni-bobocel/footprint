@@ -42,6 +42,12 @@ def test_overpass_query_is_bounded() -> None:
     assert q.endswith('out center tags 300;')
 
 
+def test_everything_here_stays_small() -> None:
+    q = overpass.build(45.76, 4.83, 10, [], None, 300)
+    assert '(around:1500,' in q
+    assert 'nwr["shop"]["name"]' in q
+
+
 def test_overpass_parse_skips_nameless() -> None:
     found = overpass.parse(ELEMENTS, 45.76, 4.83, [BAKERY])
     assert len(found) == 1
