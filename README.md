@@ -23,13 +23,13 @@ one concrete thing, ready to copy. The list exports to CSV.
 
 ## Where the data comes from
 
-| Source | Covers | How |
-| --- | --- | --- |
-| [Overture Maps](https://overturemaps.org) places | worldwide, ~60M places with websites, socials, phones | GeoParquet on public S3, read with DuckDB; only the row groups around the search are fetched |
-| [OpenStreetMap](https://www.openstreetmap.org) | worldwide, live, volunteer-mapped | public Overpass servers, walked in order when one is busy |
-| [Recherche d'entreprises](https://recherche-entreprises.api.gouv.fr) | every registered company in France, incl. ones with no shopfront | `near_point`, with headcount bands and creation dates |
-| [Nominatim](https://nominatim.org) | place names to coordinates and back | one request a second, as its policy asks |
-| Google Places | ratings and review counts | only if you set your own `GOOGLE_PLACES_KEY` |
+| Source                                                               | Covers                                                           | How                                                                                          |
+| -------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [Overture Maps](https://overturemaps.org) places                     | worldwide, ~60M places with websites, socials, phones            | GeoParquet on public S3, read with DuckDB; only the row groups around the search are fetched |
+| [OpenStreetMap](https://www.openstreetmap.org)                       | worldwide, live, volunteer-mapped                                | public Overpass servers, walked in order when one is busy                                    |
+| [Recherche d'entreprises](https://recherche-entreprises.api.gouv.fr) | every registered company in France, incl. ones with no shopfront | `near_point`, with headcount bands and creation dates                                        |
+| [Nominatim](https://nominatim.org)                                   | place names to coordinates and back                              | one request a second, as its policy asks                                                     |
+| Google Places                                                        | ratings and review counts                                        | only if you set your own `GOOGLE_PLACES_KEY`                                                 |
 
 Records are merged by name and distance, so a bakery found on the map and in
 the register shows up once, with the map's website and the register's
@@ -76,18 +76,18 @@ Point it at a running API with `?api=https://your-host` or the
 
 ## Configuration
 
-| Variable | Default | |
-| --- | --- | --- |
-| `OVERTURE` | `1` | set `0` to skip Overture |
-| `OVERTURE_RELEASE` | latest | pin a release such as `2026-11-18.0` |
-| `OVERPASS_URLS` | two public instances | comma-separated, tried in order |
-| `OVERPASS_TIMEOUT_S` | `25` | per instance |
-| `SCAN_CONCURRENCY` | `12` | websites opened at once |
-| `SCAN_TIMEOUT_S` | `8` | per website |
-| `MAX_RESULTS` | `300` | per search |
-| `GOOGLE_PLACES_KEY` | unset | enables ratings and review counts |
-| `FOOTPRINT_CACHE` | `footprint.db` | SQLite cache of places, searches and scans |
-| `CORS_ORIGINS` | localhost, GitHub Pages | comma-separated |
+| Variable             | Default                 |                                            |
+| -------------------- | ----------------------- | ------------------------------------------ |
+| `OVERTURE`           | `1`                     | set `0` to skip Overture                   |
+| `OVERTURE_RELEASE`   | latest                  | pin a release such as `2026-11-18.0`       |
+| `OVERPASS_URLS`      | two public instances    | comma-separated, tried in order            |
+| `OVERPASS_TIMEOUT_S` | `25`                    | per instance                               |
+| `SCAN_CONCURRENCY`   | `12`                    | websites opened at once                    |
+| `SCAN_TIMEOUT_S`     | `8`                     | per website                                |
+| `MAX_RESULTS`        | `300`                   | per search                                 |
+| `GOOGLE_PLACES_KEY`  | unset                   | enables ratings and review counts          |
+| `FOOTPRINT_CACHE`    | `footprint.db`          | SQLite cache of places, searches and scans |
+| `CORS_ORIGINS`       | localhost, GitHub Pages | comma-separated                            |
 
 ## Layout
 
