@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Footprint</title>
+    <meta name="description" content="Find businesses anywhere in the world and see what their online presence is missing." />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23171a20' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23e31937'/%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <canvas class="globe" aria-label="Globe. Click anywhere to search around that point."></canvas>
+    <div class="atlas" aria-hidden="true"></div>
+
+    <header class="top">
+      <a class="mark" href="./">Footprint</a>
+      <nav>
+        <button class="link" type="button" data-sheet="how">How it works</button>
+        <button class="link" type="button" data-sheet="sources">Sources</button>
+        <a class="link" href="https://github.com/toni-bobocel/footprint">Code</a>
+      </nav>
+    </header>
+
+    <main class="hero">
+      <h1 class="title">Every business on Earth.<br />And what it's missing.</h1>
+      <form class="search" autocomplete="off">
+        <label class="sr" for="q">Search businesses</label>
+        <input id="q" name="q" type="text" spellcheck="false" maxlength="300" />
+        <span class="ghost" aria-hidden="true"></span>
+        <span class="line" aria-hidden="true"></span>
+        <button class="go" type="submit" aria-label="Search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" /></svg>
+        </button>
+      </form>
+      <p class="hint">Type a search, or click anywhere on the globe.</p>
+      <div class="picked" hidden>
+        <p class="pin-name"></p>
+        <div class="radius">
+          <div class="track"><span class="fill"></span><span class="knob" tabindex="0" role="slider" aria-label="Search radius" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"></span></div>
+          <span class="km"></span>
+        </div>
+        <div class="pin-acts">
+          <button class="act" type="button" data-act="here">Search here</button>
+          <button class="act quiet" type="button" data-act="cancel">Cancel</button>
+        </div>
+      </div>
+    </main>
+
+    <div class="pin" hidden><span class="cross" aria-hidden="true"></span></div>
+
+    <aside class="results" hidden>
+      <div class="r-head">
+        <button class="act back" type="button">New search</button>
+        <h2 class="r-title">Results</h2>
+        <p class="r-meta"><span class="r-count">0</span> <span class="r-status"></span></p>
+      </div>
+      <div class="r-tools">
+        <div class="filters">
+          <span class="tools-label">Missing</span>
+        </div>
+        <div class="sort">
+          <span class="tools-label">Sort</span>
+          <button class="toggle on" type="button" data-sort="opportunity">Opportunity</button>
+          <button class="toggle" type="button" data-sort="distance">Distance</button>
+          <button class="toggle" type="button" data-sort="name">Name</button>
+        </div>
+      </div>
+      <ol class="list"></ol>
+      <div class="r-foot">
+        <p class="depth"></p>
+        <button class="act" type="button" data-act="csv">Export CSV</button>
+      </div>
+    </aside>
+
+    <aside class="detail" hidden aria-live="polite"></aside>
+
+    <section class="sheet" hidden>
+      <button class="act close" type="button">Close</button>
+      <article data-sheet="how">
+        <h2>How it works</h2>
+        <p>You tell me what and where, in your own words: "dentists in Porto", "new restaurants near Leeds without a website". Or you click a spot on the globe and pick how far around it to look.</p>
+        <p>I ask Overture Maps and OpenStreetMap for everything matching around that point and, in France, the national company register too, which lists businesses that never put themselves on a map. Everything is merged so each business shows up once.</p>
+        <p>Then I open each business's home page once, the way a visitor would, and note what's there and what isn't: a site at all, https, speed, a phone layout, social profiles, review links, analytics. The businesses with the most missing come first. They're the ones with the most to gain.</p>
+        <p>Nothing is guessed by a model. Every flag comes from a rule you can read in the code.</p>
+      </article>
+      <article data-sheet="sources">
+        <h2>Sources</h2>
+        <p><strong>Overture Maps</strong>, the open places dataset published each month by the Overture Maps Foundation: tens of millions of businesses worldwide, often with their website, phone and social links. The API reads only the slice of it around your search.</p>
+        <p><strong>OpenStreetMap</strong>, through the public Overpass servers. Worldwide, volunteer-mapped, best in cities. When those servers are busy I say so instead of pretending there's nothing there.</p>
+        <p><strong>Recherche d'entreprises</strong>, the French government's open company register. Companies that opted out of commercial prospecting are never shown.</p>
+        <p><strong>Nominatim</strong> turns place names into coordinates, at most once a second as its rules ask.</p>
+        <p><strong>Google ratings</strong> appear only when whoever runs the server adds their own Places API key. I don't scrape Google.</p>
+      </article>
+    </section>
+
+    <p class="toast" role="status" hidden></p>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
