@@ -13,6 +13,7 @@ class Category:
     label: str
     words: tuple[str, ...]
     osm: tuple[tuple[str, str], ...]
+    overture: tuple[str, ...]
     naf: tuple[str, ...]
 
 
@@ -25,6 +26,7 @@ def categories(path: Path = _DEFAULT) -> tuple[Category, ...]:
             label=c['label'],
             words=tuple(w.lower() for w in c['words']),
             osm=tuple((k, v) for k, v in c['osm']),
+            overture=tuple(c['overture']),
             naf=tuple(c['naf']),
         )
         for c in raw['categories']

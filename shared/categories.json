@@ -1,61 +1,609 @@
 {
-  "$comment": "One catalogue for the API and the web client. osm: tag pairs matched with OR. naf: French activity codes for the SIRENE source.",
+  "$comment": "One catalogue for the API and the web client. osm: tag pairs matched with OR. overture: names anywhere in an Overture place's taxonomy hierarchy. naf: French activity codes for the SIRENE source.",
   "categories": [
-    { "id": "bakery", "label": "Bakeries", "words": ["bakery", "bakeries", "baker", "bakers", "boulangerie"], "osm": [["shop", "bakery"]], "naf": ["10.71C", "10.71D"] },
-    { "id": "pastry", "label": "Pastry shops", "words": ["pastry", "pastries", "patisserie", "cake shop"], "osm": [["shop", "pastry"], ["shop", "confectionery"]], "naf": ["10.71D"] },
-    { "id": "butcher", "label": "Butchers", "words": ["butcher", "butchers"], "osm": [["shop", "butcher"]], "naf": ["47.22Z", "10.13B"] },
-    { "id": "grocery", "label": "Grocery stores", "words": ["grocery", "groceries", "grocer", "convenience store", "corner shop"], "osm": [["shop", "convenience"], ["shop", "greengrocer"]], "naf": ["47.11B", "47.21Z"] },
-    { "id": "supermarket", "label": "Supermarkets", "words": ["supermarket", "supermarkets"], "osm": [["shop", "supermarket"]], "naf": ["47.11D", "47.11F"] },
-    { "id": "restaurant", "label": "Restaurants", "words": ["restaurant", "restaurants", "bistro", "bistros", "diner", "diners"], "osm": [["amenity", "restaurant"]], "naf": ["56.10A"] },
-    { "id": "fast_food", "label": "Fast food", "words": ["fast food", "takeaway", "takeaways", "burger", "kebab", "pizzeria", "pizzerias"], "osm": [["amenity", "fast_food"]], "naf": ["56.10C"] },
-    { "id": "cafe", "label": "Cafés", "words": ["cafe", "cafes", "café", "cafés", "coffee shop", "coffee shops", "coffee"], "osm": [["amenity", "cafe"]], "naf": ["56.30Z"] },
-    { "id": "bar", "label": "Bars and pubs", "words": ["bar", "bars", "pub", "pubs"], "osm": [["amenity", "bar"], ["amenity", "pub"]], "naf": ["56.30Z"] },
-    { "id": "hotel", "label": "Hotels", "words": ["hotel", "hotels", "guest house", "guesthouses", "b&b", "hostel", "hostels"], "osm": [["tourism", "hotel"], ["tourism", "guest_house"], ["tourism", "hostel"]], "naf": ["55.10Z", "55.20Z"] },
-    { "id": "hairdresser", "label": "Hairdressers", "words": ["hairdresser", "hairdressers", "hair salon", "hair salons", "barber", "barbers", "barbershop"], "osm": [["shop", "hairdresser"]], "naf": ["96.02A"] },
-    { "id": "beauty", "label": "Beauty salons", "words": ["beauty", "beauty salon", "beauty salons", "nail salon", "nails", "spa", "spas", "aesthetician"], "osm": [["shop", "beauty"], ["leisure", "spa"]], "naf": ["96.02B"] },
-    { "id": "tattoo", "label": "Tattoo studios", "words": ["tattoo", "tattoos", "tattoo studio", "piercing"], "osm": [["shop", "tattoo"]], "naf": ["96.09Z"] },
-    { "id": "florist", "label": "Florists", "words": ["florist", "florists", "flower shop", "flowers"], "osm": [["shop", "florist"]], "naf": ["47.76Z"] },
-    { "id": "clothes", "label": "Clothing stores", "words": ["clothes", "clothing", "fashion", "boutique", "boutiques", "apparel"], "osm": [["shop", "clothes"], ["shop", "boutique"]], "naf": ["47.71Z"] },
-    { "id": "shoes", "label": "Shoe stores", "words": ["shoes", "shoe store", "shoe shop"], "osm": [["shop", "shoes"]], "naf": ["47.72A"] },
-    { "id": "jeweller", "label": "Jewellers", "words": ["jeweller", "jewellers", "jeweler", "jewelers", "jewelry", "jewellery"], "osm": [["shop", "jewelry"]], "naf": ["47.77Z"] },
-    { "id": "optician", "label": "Opticians", "words": ["optician", "opticians", "optometrist", "glasses"], "osm": [["shop", "optician"]], "naf": ["47.78A"] },
-    { "id": "books", "label": "Bookshops", "words": ["bookshop", "bookshops", "bookstore", "bookstores", "books"], "osm": [["shop", "books"]], "naf": ["47.61Z"] },
-    { "id": "furniture", "label": "Furniture stores", "words": ["furniture", "furniture store", "interior", "home decor"], "osm": [["shop", "furniture"], ["shop", "interior_decoration"]], "naf": ["47.59A"] },
-    { "id": "hardware", "label": "Hardware stores", "words": ["hardware", "hardware store", "diy", "home improvement"], "osm": [["shop", "hardware"], ["shop", "doityourself"]], "naf": ["47.52B"] },
-    { "id": "bicycle", "label": "Bike shops", "words": ["bike shop", "bike shops", "bicycle", "bicycles", "cycle shop"], "osm": [["shop", "bicycle"]], "naf": ["47.64Z"] },
-    { "id": "car_repair", "label": "Car repair", "words": ["garage", "garages", "car repair", "mechanic", "mechanics", "auto repair"], "osm": [["shop", "car_repair"]], "naf": ["45.20A"] },
-    { "id": "car_dealer", "label": "Car dealers", "words": ["car dealer", "car dealers", "car dealership", "dealership"], "osm": [["shop", "car"]], "naf": ["45.11Z"] },
-    { "id": "plumber", "label": "Plumbers", "words": ["plumber", "plumbers", "plumbing", "heating engineer"], "osm": [["craft", "plumber"], ["craft", "hvac"]], "naf": ["43.22A", "43.22B"] },
-    { "id": "electrician", "label": "Electricians", "words": ["electrician", "electricians", "electrical contractor"], "osm": [["craft", "electrician"]], "naf": ["43.21A"] },
-    { "id": "carpenter", "label": "Carpenters", "words": ["carpenter", "carpenters", "joiner", "joiners", "joinery", "woodworker"], "osm": [["craft", "carpenter"], ["craft", "joiner"]], "naf": ["43.32A", "16.23Z"] },
-    { "id": "builder", "label": "Builders", "words": ["builder", "builders", "construction", "contractor", "contractors", "mason", "masons", "building company"], "osm": [["craft", "builder"], ["office", "construction_company"]], "naf": ["41.20A", "41.20B", "43.99C"] },
-    { "id": "painter", "label": "Painters and decorators", "words": ["painter", "painters", "decorator", "decorators"], "osm": [["craft", "painter"]], "naf": ["43.34Z"] },
-    { "id": "roofer", "label": "Roofers", "words": ["roofer", "roofers", "roofing"], "osm": [["craft", "roofer"]], "naf": ["43.91B"] },
-    { "id": "locksmith", "label": "Locksmiths", "words": ["locksmith", "locksmiths"], "osm": [["craft", "locksmith"], ["shop", "locksmith"]], "naf": ["43.29B"] },
-    { "id": "gardener", "label": "Gardeners and landscapers", "words": ["gardener", "gardeners", "landscaper", "landscapers", "landscaping"], "osm": [["craft", "gardener"]], "naf": ["81.30Z"] },
-    { "id": "cleaning", "label": "Cleaning services", "words": ["cleaner", "cleaners", "cleaning", "cleaning company", "janitorial"], "osm": [["craft", "cleaning"], ["shop", "dry_cleaning"]], "naf": ["81.21Z", "81.22Z"] },
-    { "id": "photographer", "label": "Photographers", "words": ["photographer", "photographers", "photo studio", "photography"], "osm": [["craft", "photographer"], ["shop", "photo"]], "naf": ["74.20Z"] },
-    { "id": "dentist", "label": "Dentists", "words": ["dentist", "dentists", "dental", "dental clinic"], "osm": [["amenity", "dentist"]], "naf": ["86.23Z"] },
-    { "id": "doctor", "label": "Doctors", "words": ["doctor", "doctors", "gp", "clinic", "clinics", "medical practice"], "osm": [["amenity", "doctors"], ["amenity", "clinic"]], "naf": ["86.21Z", "86.22C"] },
-    { "id": "physio", "label": "Physiotherapists", "words": ["physio", "physiotherapist", "physiotherapists", "physical therapist", "osteopath", "osteopaths", "chiropractor"], "osm": [["healthcare", "physiotherapist"], ["healthcare", "osteopath"]], "naf": ["86.90E"] },
-    { "id": "pharmacy", "label": "Pharmacies", "words": ["pharmacy", "pharmacies", "chemist", "chemists", "drugstore"], "osm": [["amenity", "pharmacy"]], "naf": ["47.73Z"] },
-    { "id": "veterinary", "label": "Vets", "words": ["vet", "vets", "veterinary", "veterinarian", "veterinarians", "animal clinic"], "osm": [["amenity", "veterinary"]], "naf": ["75.00Z"] },
-    { "id": "gym", "label": "Gyms", "words": ["gym", "gyms", "fitness", "fitness centre", "fitness center", "crossfit", "yoga", "yoga studio", "pilates"], "osm": [["leisure", "fitness_centre"], ["leisure", "sports_centre"]], "naf": ["93.13Z"] },
-    { "id": "driving_school", "label": "Driving schools", "words": ["driving school", "driving schools", "driving instructor"], "osm": [["amenity", "driving_school"]], "naf": ["85.53Z"] },
-    { "id": "lawyer", "label": "Lawyers", "words": ["lawyer", "lawyers", "solicitor", "solicitors", "attorney", "attorneys", "law firm", "law firms", "notary"], "osm": [["office", "lawyer"], ["office", "notary"]], "naf": ["69.10Z"] },
-    { "id": "accountant", "label": "Accountants", "words": ["accountant", "accountants", "accounting", "bookkeeper", "bookkeeping", "tax advisor"], "osm": [["office", "accountant"], ["office", "tax_advisor"]], "naf": ["69.20Z"] },
-    { "id": "estate_agent", "label": "Estate agents", "words": ["estate agent", "estate agents", "real estate", "realtor", "realtors", "property agent"], "osm": [["office", "estate_agent"]], "naf": ["68.31Z"] },
-    { "id": "insurance", "label": "Insurance", "words": ["insurance", "insurer", "insurance broker", "broker", "brokers"], "osm": [["office", "insurance"]], "naf": ["66.22Z", "65.12Z"] },
-    { "id": "architect", "label": "Architects", "words": ["architect", "architects", "architecture firm"], "osm": [["office", "architect"]], "naf": ["71.11Z"] },
-    { "id": "it", "label": "IT and software", "words": ["it company", "software", "software company", "web agency", "developer", "developers", "tech company", "startup", "startups"], "osm": [["office", "it"], ["office", "company"]], "naf": ["62.01Z", "62.02A", "63.12Z"] },
-    { "id": "marketing", "label": "Marketing agencies", "words": ["marketing", "marketing agency", "advertising", "advertising agency", "ad agency", "communication agency", "design studio"], "osm": [["office", "advertising_agency"]], "naf": ["73.11Z", "70.21Z", "74.10Z"] },
-    { "id": "consulting", "label": "Consultancies", "words": ["consultant", "consultants", "consulting", "consultancy", "advisory"], "osm": [["office", "consulting"]], "naf": ["70.22Z"] },
-    { "id": "coworking", "label": "Coworking spaces", "words": ["coworking", "co-working", "coworking space", "shared office"], "osm": [["amenity", "coworking_space"], ["office", "coworking"]], "naf": ["68.20B"] },
-    { "id": "school", "label": "Private schools and tutoring", "words": ["tutoring", "tutor", "tutors", "language school", "music school", "training centre", "training center"], "osm": [["amenity", "language_school"], ["amenity", "music_school"], ["office", "educational_institution"]], "naf": ["85.59A", "85.59B", "85.52Z"] },
-    { "id": "pet", "label": "Pet shops and grooming", "words": ["pet shop", "pet shops", "pet store", "pet grooming", "groomer", "dog grooming"], "osm": [["shop", "pet"], ["shop", "pet_grooming"]], "naf": ["47.76Z", "96.09Z"] },
-    { "id": "wine", "label": "Wine shops", "words": ["wine shop", "wine shops", "wine", "liquor store", "off licence", "cave"], "osm": [["shop", "wine"], ["shop", "alcohol"]], "naf": ["47.25Z"] },
-    { "id": "travel", "label": "Travel agencies", "words": ["travel agency", "travel agencies", "travel agent", "tour operator"], "osm": [["shop", "travel_agency"], ["office", "travel_agent"]], "naf": ["79.11Z", "79.12Z"] },
-    { "id": "funeral", "label": "Funeral directors", "words": ["funeral", "funeral home", "funeral director", "undertaker"], "osm": [["shop", "funeral_directors"]], "naf": ["96.03Z"] },
-    { "id": "printing", "label": "Print shops", "words": ["print shop", "printing", "printer", "printers", "copy shop"], "osm": [["shop", "copyshop"], ["craft", "printer"]], "naf": ["18.12Z"] }
+    {
+      "id": "bakery",
+      "label": "Bakeries",
+      "words": ["bakery", "bakeries", "baker", "bakers", "boulangerie"],
+      "osm": [["shop", "bakery"]],
+      "overture": ["bakery"],
+      "naf": ["10.71C", "10.71D"]
+    },
+    {
+      "id": "pastry",
+      "label": "Pastry shops",
+      "words": ["pastry", "pastries", "patisserie", "cake shop"],
+      "osm": [["shop", "pastry"], ["shop", "confectionery"]],
+      "overture": ["dessert_shop", "cupcake_shop", "chocolatier", "patisserie"],
+      "naf": ["10.71D"]
+    },
+    {
+      "id": "butcher",
+      "label": "Butchers",
+      "words": ["butcher", "butchers"],
+      "osm": [["shop", "butcher"]],
+      "overture": ["butcher_shop"],
+      "naf": ["47.22Z", "10.13B"]
+    },
+    {
+      "id": "grocery",
+      "label": "Grocery stores",
+      "words": ["grocery", "groceries", "grocer", "convenience store", "corner shop"],
+      "osm": [["shop", "convenience"], ["shop", "greengrocer"]],
+      "overture": [
+        "grocery_store",
+        "convenience_store",
+        "greengrocer",
+        "specialty_foods_store",
+        "produce_store"
+      ],
+      "naf": ["47.11B", "47.21Z"]
+    },
+    {
+      "id": "supermarket",
+      "label": "Supermarkets",
+      "words": ["supermarket", "supermarkets"],
+      "osm": [["shop", "supermarket"]],
+      "overture": ["supermarket", "hypermarket"],
+      "naf": ["47.11D", "47.11F"]
+    },
+    {
+      "id": "restaurant",
+      "label": "Restaurants",
+      "words": ["restaurant", "restaurants", "bistro", "bistros", "diner", "diners"],
+      "osm": [["amenity", "restaurant"]],
+      "overture": ["restaurant"],
+      "naf": ["56.10A"]
+    },
+    {
+      "id": "fast_food",
+      "label": "Fast food",
+      "words": ["fast food", "takeaway", "takeaways", "burger", "kebab", "pizzeria", "pizzerias"],
+      "osm": [["amenity", "fast_food"]],
+      "overture": [
+        "fast_food_restaurant",
+        "pizza_restaurant",
+        "burger_restaurant",
+        "sandwich_shop",
+        "doner_kebab_restaurant",
+        "food_truck_stand"
+      ],
+      "naf": ["56.10C"]
+    },
+    {
+      "id": "cafe",
+      "label": "Cafés",
+      "words": ["cafe", "cafes", "café", "cafés", "coffee shop", "coffee shops", "coffee"],
+      "osm": [["amenity", "cafe"]],
+      "overture": ["cafe", "coffee_shop", "tea_room", "bubble_tea_shop"],
+      "naf": ["56.30Z"]
+    },
+    {
+      "id": "bar",
+      "label": "Bars and pubs",
+      "words": ["bar", "bars", "pub", "pubs"],
+      "osm": [["amenity", "bar"], ["amenity", "pub"]],
+      "overture": ["bar", "pub"],
+      "naf": ["56.30Z"]
+    },
+    {
+      "id": "hotel",
+      "label": "Hotels",
+      "words": ["hotel", "hotels", "guest house", "guesthouses", "b&b", "hostel", "hostels"],
+      "osm": [["tourism", "hotel"], ["tourism", "guest_house"], ["tourism", "hostel"]],
+      "overture": ["hotel", "bed_and_breakfast", "hostel", "inn", "guest_house"],
+      "naf": ["55.10Z", "55.20Z"]
+    },
+    {
+      "id": "hairdresser",
+      "label": "Hairdressers",
+      "words": [
+        "hairdresser",
+        "hairdressers",
+        "hair salon",
+        "hair salons",
+        "barber",
+        "barbers",
+        "barbershop"
+      ],
+      "osm": [["shop", "hairdresser"]],
+      "overture": ["hair_salon", "barber", "hair_stylist"],
+      "naf": ["96.02A"]
+    },
+    {
+      "id": "beauty",
+      "label": "Beauty salons",
+      "words": [
+        "beauty",
+        "beauty salon",
+        "beauty salons",
+        "nail salon",
+        "nails",
+        "spa",
+        "spas",
+        "aesthetician"
+      ],
+      "osm": [["shop", "beauty"], ["leisure", "spa"]],
+      "overture": [
+        "beauty_salon",
+        "nail_salon",
+        "spa",
+        "day_spa",
+        "esthetician",
+        "tanning_salon",
+        "laser_hair_removal"
+      ],
+      "naf": ["96.02B"]
+    },
+    {
+      "id": "tattoo",
+      "label": "Tattoo studios",
+      "words": ["tattoo", "tattoos", "tattoo studio", "piercing"],
+      "osm": [["shop", "tattoo"]],
+      "overture": ["tattoo_and_piercing", "tattoo"],
+      "naf": ["96.09Z"]
+    },
+    {
+      "id": "florist",
+      "label": "Florists",
+      "words": ["florist", "florists", "flower shop", "flowers"],
+      "osm": [["shop", "florist"]],
+      "overture": ["florist", "flowers_and_gifts_store"],
+      "naf": ["47.76Z"]
+    },
+    {
+      "id": "clothes",
+      "label": "Clothing stores",
+      "words": ["clothes", "clothing", "fashion", "boutique", "boutiques", "apparel"],
+      "osm": [["shop", "clothes"], ["shop", "boutique"]],
+      "overture": ["clothing_store", "fashion_boutique", "fashion_and_apparel_store"],
+      "naf": ["47.71Z"]
+    },
+    {
+      "id": "shoes",
+      "label": "Shoe stores",
+      "words": ["shoes", "shoe store", "shoe shop"],
+      "osm": [["shop", "shoes"]],
+      "overture": ["shoe_store"],
+      "naf": ["47.72A"]
+    },
+    {
+      "id": "jeweller",
+      "label": "Jewellers",
+      "words": ["jeweller", "jewellers", "jeweler", "jewelers", "jewelry", "jewellery"],
+      "osm": [["shop", "jewelry"]],
+      "overture": ["jewelry_store", "watch_store"],
+      "naf": ["47.77Z"]
+    },
+    {
+      "id": "optician",
+      "label": "Opticians",
+      "words": ["optician", "opticians", "optometrist", "glasses"],
+      "osm": [["shop", "optician"]],
+      "overture": ["eyewear_store", "optometry"],
+      "naf": ["47.78A"]
+    },
+    {
+      "id": "books",
+      "label": "Bookshops",
+      "words": ["bookshop", "bookshops", "bookstore", "bookstores", "books"],
+      "osm": [["shop", "books"]],
+      "overture": ["bookstore", "comic_books_store"],
+      "naf": ["47.61Z"]
+    },
+    {
+      "id": "furniture",
+      "label": "Furniture stores",
+      "words": ["furniture", "furniture store", "interior", "home decor"],
+      "osm": [["shop", "furniture"], ["shop", "interior_decoration"]],
+      "overture": ["furniture_store", "home_goods_store", "interior_design", "mattress_store"],
+      "naf": ["47.59A"]
+    },
+    {
+      "id": "hardware",
+      "label": "Hardware stores",
+      "words": ["hardware", "hardware store", "diy", "home improvement"],
+      "osm": [["shop", "hardware"], ["shop", "doityourself"]],
+      "overture": [
+        "hardware_store",
+        "home_improvement_store",
+        "building_supply_store",
+        "hardware_home_and_garden_store"
+      ],
+      "naf": ["47.52B"]
+    },
+    {
+      "id": "bicycle",
+      "label": "Bike shops",
+      "words": ["bike shop", "bike shops", "bicycle", "bicycles", "cycle shop"],
+      "osm": [["shop", "bicycle"]],
+      "overture": ["bike_store", "bike_repair_maintenance"],
+      "naf": ["47.64Z"]
+    },
+    {
+      "id": "car_repair",
+      "label": "Car repair",
+      "words": ["garage", "garages", "car repair", "mechanic", "mechanics", "auto repair"],
+      "osm": [["shop", "car_repair"]],
+      "overture": ["automotive_repair", "auto_body_shop", "motorcycle_repair"],
+      "naf": ["45.20A"]
+    },
+    {
+      "id": "car_dealer",
+      "label": "Car dealers",
+      "words": ["car dealer", "car dealers", "car dealership", "dealership"],
+      "osm": [["shop", "car"]],
+      "overture": ["auto_dealer", "used_auto_dealer", "motorcycle_dealer", "vehicle_dealer"],
+      "naf": ["45.11Z"]
+    },
+    {
+      "id": "plumber",
+      "label": "Plumbers",
+      "words": ["plumber", "plumbers", "plumbing", "heating engineer"],
+      "osm": [["craft", "plumber"], ["craft", "hvac"]],
+      "overture": ["plumbing", "hvac_service"],
+      "naf": ["43.22A", "43.22B"]
+    },
+    {
+      "id": "electrician",
+      "label": "Electricians",
+      "words": ["electrician", "electricians", "electrical contractor"],
+      "osm": [["craft", "electrician"]],
+      "overture": ["electrician"],
+      "naf": ["43.21A"]
+    },
+    {
+      "id": "carpenter",
+      "label": "Carpenters",
+      "words": ["carpenter", "carpenters", "joiner", "joiners", "joinery", "woodworker"],
+      "osm": [["craft", "carpenter"], ["craft", "joiner"]],
+      "overture": ["carpenter", "cabinet_sales_service"],
+      "naf": ["43.32A", "16.23Z"]
+    },
+    {
+      "id": "builder",
+      "label": "Builders",
+      "words": [
+        "builder",
+        "builders",
+        "construction",
+        "contractor",
+        "contractors",
+        "mason",
+        "masons",
+        "building company"
+      ],
+      "osm": [["craft", "builder"], ["office", "construction_company"]],
+      "overture": [
+        "contractor",
+        "building_contractor",
+        "building_or_construction_service",
+        "masonry_contractor",
+        "home_developer"
+      ],
+      "naf": ["41.20A", "41.20B", "43.99C"]
+    },
+    {
+      "id": "painter",
+      "label": "Painters and decorators",
+      "words": ["painter", "painters", "decorator", "decorators"],
+      "osm": [["craft", "painter"]],
+      "overture": ["painting"],
+      "naf": ["43.34Z"]
+    },
+    {
+      "id": "roofer",
+      "label": "Roofers",
+      "words": ["roofer", "roofers", "roofing"],
+      "osm": [["craft", "roofer"]],
+      "overture": ["roofing"],
+      "naf": ["43.91B"]
+    },
+    {
+      "id": "locksmith",
+      "label": "Locksmiths",
+      "words": ["locksmith", "locksmiths"],
+      "osm": [["craft", "locksmith"], ["shop", "locksmith"]],
+      "overture": ["key_and_locksmith"],
+      "naf": ["43.29B"]
+    },
+    {
+      "id": "gardener",
+      "label": "Gardeners and landscapers",
+      "words": ["gardener", "gardeners", "landscaper", "landscapers", "landscaping"],
+      "osm": [["craft", "gardener"]],
+      "overture": ["landscaping", "gardener", "landscape_architect"],
+      "naf": ["81.30Z"]
+    },
+    {
+      "id": "cleaning",
+      "label": "Cleaning services",
+      "words": ["cleaner", "cleaners", "cleaning", "cleaning company", "janitorial"],
+      "osm": [["craft", "cleaning"], ["shop", "dry_cleaning"]],
+      "overture": [
+        "cleaning_service",
+        "janitorial_service",
+        "home_cleaning",
+        "dry_cleaning",
+        "laundry_service"
+      ],
+      "naf": ["81.21Z", "81.22Z"]
+    },
+    {
+      "id": "photographer",
+      "label": "Photographers",
+      "words": ["photographer", "photographers", "photo studio", "photography"],
+      "osm": [["craft", "photographer"], ["shop", "photo"]],
+      "overture": ["photography_service", "event_photography_service"],
+      "naf": ["74.20Z"]
+    },
+    {
+      "id": "dentist",
+      "label": "Dentists",
+      "words": ["dentist", "dentists", "dental", "dental clinic"],
+      "osm": [["amenity", "dentist"]],
+      "overture": ["dental_clinic", "general_dentistry", "orthodontics", "cosmetic_dentistry"],
+      "naf": ["86.23Z"]
+    },
+    {
+      "id": "doctor",
+      "label": "Doctors",
+      "words": ["doctor", "doctors", "gp", "clinic", "clinics", "medical practice"],
+      "osm": [["amenity", "doctors"], ["amenity", "clinic"]],
+      "overture": [
+        "doctors_office",
+        "family_practice",
+        "pediatric_clinic",
+        "dermatology",
+        "cardiology",
+        "ophthalmology"
+      ],
+      "naf": ["86.21Z", "86.22C"]
+    },
+    {
+      "id": "physio",
+      "label": "Physiotherapists",
+      "words": [
+        "physio",
+        "physiotherapist",
+        "physiotherapists",
+        "physical therapist",
+        "osteopath",
+        "osteopaths",
+        "chiropractor"
+      ],
+      "osm": [["healthcare", "physiotherapist"], ["healthcare", "osteopath"]],
+      "overture": ["physical_therapy", "osteopathic_medicine", "chiropractic"],
+      "naf": ["86.90E"]
+    },
+    {
+      "id": "pharmacy",
+      "label": "Pharmacies",
+      "words": ["pharmacy", "pharmacies", "chemist", "chemists", "drugstore"],
+      "osm": [["amenity", "pharmacy"]],
+      "overture": ["pharmacy", "drugstore"],
+      "naf": ["47.73Z"]
+    },
+    {
+      "id": "veterinary",
+      "label": "Vets",
+      "words": ["vet", "vets", "veterinary", "veterinarian", "veterinarians", "animal clinic"],
+      "osm": [["amenity", "veterinary"]],
+      "overture": ["veterinarian"],
+      "naf": ["75.00Z"]
+    },
+    {
+      "id": "gym",
+      "label": "Gyms",
+      "words": [
+        "gym",
+        "gyms",
+        "fitness",
+        "fitness centre",
+        "fitness center",
+        "crossfit",
+        "yoga",
+        "yoga studio",
+        "pilates"
+      ],
+      "osm": [["leisure", "fitness_centre"], ["leisure", "sports_centre"]],
+      "overture": ["gym", "yoga_studio", "pilates_studio", "fitness_trainer", "boxing_gym"],
+      "naf": ["93.13Z"]
+    },
+    {
+      "id": "driving_school",
+      "label": "Driving schools",
+      "words": ["driving school", "driving schools", "driving instructor"],
+      "osm": [["amenity", "driving_school"]],
+      "overture": ["driving_school"],
+      "naf": ["85.53Z"]
+    },
+    {
+      "id": "lawyer",
+      "label": "Lawyers",
+      "words": [
+        "lawyer",
+        "lawyers",
+        "solicitor",
+        "solicitors",
+        "attorney",
+        "attorneys",
+        "law firm",
+        "law firms",
+        "notary"
+      ],
+      "osm": [["office", "lawyer"], ["office", "notary"]],
+      "overture": ["attorney_or_law_firm", "legal_service", "notary_public"],
+      "naf": ["69.10Z"]
+    },
+    {
+      "id": "accountant",
+      "label": "Accountants",
+      "words": [
+        "accountant",
+        "accountants",
+        "accounting",
+        "bookkeeper",
+        "bookkeeping",
+        "tax advisor"
+      ],
+      "osm": [["office", "accountant"], ["office", "tax_advisor"]],
+      "overture": ["accountant", "tax_service"],
+      "naf": ["69.20Z"]
+    },
+    {
+      "id": "estate_agent",
+      "label": "Estate agents",
+      "words": [
+        "estate agent",
+        "estate agents",
+        "real estate",
+        "realtor",
+        "realtors",
+        "property agent"
+      ],
+      "osm": [["office", "estate_agent"]],
+      "overture": ["real_estate_agent", "real_estate_service", "property_management"],
+      "naf": ["68.31Z"]
+    },
+    {
+      "id": "insurance",
+      "label": "Insurance",
+      "words": ["insurance", "insurer", "insurance broker", "broker", "brokers"],
+      "osm": [["office", "insurance"]],
+      "overture": ["insurance_agency"],
+      "naf": ["66.22Z", "65.12Z"]
+    },
+    {
+      "id": "architect",
+      "label": "Architects",
+      "words": ["architect", "architects", "architecture firm"],
+      "osm": [["office", "architect"]],
+      "overture": ["architect", "architectural_designer"],
+      "naf": ["71.11Z"]
+    },
+    {
+      "id": "it",
+      "label": "IT and software",
+      "words": [
+        "it company",
+        "software",
+        "software company",
+        "web agency",
+        "developer",
+        "developers",
+        "tech company",
+        "startup",
+        "startups"
+      ],
+      "osm": [["office", "it"], ["office", "company"]],
+      "overture": [
+        "information_technology_company",
+        "it_service_and_computer_repair",
+        "software_development",
+        "it_consultant",
+        "web_designer"
+      ],
+      "naf": ["62.01Z", "62.02A", "63.12Z"]
+    },
+    {
+      "id": "marketing",
+      "label": "Marketing agencies",
+      "words": [
+        "marketing",
+        "marketing agency",
+        "advertising",
+        "advertising agency",
+        "ad agency",
+        "communication agency",
+        "design studio"
+      ],
+      "osm": [["office", "advertising_agency"]],
+      "overture": [
+        "marketing_agency",
+        "advertising_agency",
+        "internet_marketing_service",
+        "social_media_agency",
+        "graphic_designer",
+        "public_relations"
+      ],
+      "naf": ["73.11Z", "70.21Z", "74.10Z"]
+    },
+    {
+      "id": "consulting",
+      "label": "Consultancies",
+      "words": ["consultant", "consultants", "consulting", "consultancy", "advisory"],
+      "osm": [["office", "consulting"]],
+      "overture": ["business_consulting"],
+      "naf": ["70.22Z"]
+    },
+    {
+      "id": "coworking",
+      "label": "Coworking spaces",
+      "words": ["coworking", "co-working", "coworking space", "shared office"],
+      "osm": [["amenity", "coworking_space"], ["office", "coworking"]],
+      "overture": ["coworking_space"],
+      "naf": ["68.20B"]
+    },
+    {
+      "id": "school",
+      "label": "Private schools and tutoring",
+      "words": [
+        "tutoring",
+        "tutor",
+        "tutors",
+        "language school",
+        "music school",
+        "training centre",
+        "training center"
+      ],
+      "osm": [
+        ["amenity", "language_school"],
+        ["amenity", "music_school"],
+        ["office", "educational_institution"]
+      ],
+      "overture": ["tutoring_service", "language_school", "music_school", "test_preparation"],
+      "naf": ["85.59A", "85.59B", "85.52Z"]
+    },
+    {
+      "id": "pet",
+      "label": "Pet shops and grooming",
+      "words": ["pet shop", "pet shops", "pet store", "pet grooming", "groomer", "dog grooming"],
+      "osm": [["shop", "pet"], ["shop", "pet_grooming"]],
+      "overture": ["pet_store", "pet_groomer"],
+      "naf": ["47.76Z", "96.09Z"]
+    },
+    {
+      "id": "wine",
+      "label": "Wine shops",
+      "words": ["wine shop", "wine shops", "wine", "liquor store", "off licence", "cave"],
+      "osm": [["shop", "wine"], ["shop", "alcohol"]],
+      "overture": ["liquor_store", "beer_wine_spirits_store", "wine_shop"],
+      "naf": ["47.25Z"]
+    },
+    {
+      "id": "travel",
+      "label": "Travel agencies",
+      "words": ["travel agency", "travel agencies", "travel agent", "tour operator"],
+      "osm": [["shop", "travel_agency"], ["office", "travel_agent"]],
+      "overture": ["travel_agent", "tour_operator", "travel_service"],
+      "naf": ["79.11Z", "79.12Z"]
+    },
+    {
+      "id": "funeral",
+      "label": "Funeral directors",
+      "words": ["funeral", "funeral home", "funeral director", "undertaker"],
+      "osm": [["shop", "funeral_directors"]],
+      "overture": ["funeral_service"],
+      "naf": ["96.03Z"]
+    },
+    {
+      "id": "printing",
+      "label": "Print shops",
+      "words": ["print shop", "printing", "printer", "printers", "copy shop"],
+      "osm": [["shop", "copyshop"], ["craft", "printer"]],
+      "overture": ["printing_service", "commercial_printer"],
+      "naf": ["18.12Z"]
+    }
   ]
 }

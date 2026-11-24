@@ -35,7 +35,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         title='footprint', lifespan=lifespan, docs_url='/api/docs', openapi_url='/api/openapi.json'
     )
     app.add_middleware(
-        CORSMiddleware, allow_origins=s.cors_origins, allow_methods=['GET'], allow_headers=['*']
+        CORSMiddleware,
+        allow_origins=s.cors_origins,
+        # Any local dev server, whatever port it picked.
+        allow_origin_regex=r'http://(localhost|127\.0\.0\.1)(:\d+)?',
+        allow_methods=['GET'],
+        allow_headers=['*'],
     )
 
     def engine() -> Engine:

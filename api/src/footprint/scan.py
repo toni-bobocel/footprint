@@ -75,10 +75,10 @@ WEIGHTS: dict[Gap, int] = {
 
 
 def normalize(url: str) -> str:
-    url = url.strip()
-    if not re.match(r'^https?://', url, re.I):
-        url = f'https://{url.lstrip("/")}'
-    return url
+    # Try https first even when the listing says http, as browsers now do;
+    # _plain_http falls back if the site really has no certificate.
+    url = re.sub(r'^(?:https?:)?//', '', url.strip(), flags=re.I)
+    return f'https://{url}'
 
 
 async def _fetch(
@@ -207,7 +207,8 @@ def footprint(
         reviews.setdefault('google', maps_url)
 
     gaps: list[Gap] = []
-    if not business.website and 'openstreetmap' not in business.sources:
+    # Map sources record websites when they exist; the register never does.
+    if not business.website and not {'openstreetmap', 'overture'} & set(business.sources):
         return Footprint(
             business_id=business.id,
             website='unknown',

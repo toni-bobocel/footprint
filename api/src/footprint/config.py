@@ -17,6 +17,9 @@ class Settings:
         )
     )
     overpass_timeout_s: float = float(os.environ.get('OVERPASS_TIMEOUT_S', '25'))
+    # Pin a release (e.g. 2026-11-18.0) for reproducible results; empty means latest.
+    overture_release: str | None = os.environ.get('OVERTURE_RELEASE') or None
+    overture: bool = os.environ.get('OVERTURE', '1') != '0'
     nominatim_url: str = os.environ.get('NOMINATIM_URL', 'https://nominatim.openstreetmap.org')
     sirene_url: str = os.environ.get('SIRENE_URL', 'https://recherche-entreprises.api.gouv.fr')
     # Identifies the tool to the open-data operators, as their usage policies ask.

@@ -61,6 +61,7 @@ def test_search_streams_place_businesses_and_footprints(tmp_path: Path) -> None:
         nominatim_url='https://nominatim.example',
         sirene_url='https://sirene.example',
         cache_path=str(tmp_path / 'cache.db'),
+        overture=False,
     )
     with TestClient(create_app(settings)) as client:
         res = client.get('/api/search', params={'q': 'bakeries in Lyon without a website'})
@@ -78,7 +79,7 @@ def test_search_streams_place_businesses_and_footprints(tmp_path: Path) -> None:
 
 
 def test_search_needs_a_place(tmp_path: Path) -> None:
-    settings = Settings(cache_path=str(tmp_path / 'cache.db'))
+    settings = Settings(cache_path=str(tmp_path / 'cache.db'), overture=False)
     with TestClient(create_app(settings)) as client:
         res = client.get('/api/search', params={'q': 'bakeries'})
     stream = events(res.text)

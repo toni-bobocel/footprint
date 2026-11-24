@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import Any
 from urllib.parse import urlparse
 
+import duckdb
 import httpx
 
 from .cache import Cache
@@ -16,6 +17,7 @@ from .models import Business, Footprint, Place, Site
 from .query import Intent, parse
 from .scan import footprint, scan_site
 from .sources import nominatim, overpass, places, sirene
+from .sources.overture import Overture
 
 DAY = 86_400
 OSM_BUSY = 'OpenStreetMap is overloaded right now; showing what else I found.'
@@ -34,6 +36,7 @@ class Engine:
         self.s = settings
         self.c = clients
         self.cache = cache
+        self.overture = Overture(settings.overture_release) if settings.overture else None
 
     async def geocode(self, text: str) -> Place | None:
         if hit := await self.cache.get('geocode', text.lower(), 30 * DAY):
@@ -72,15 +75,6 @@ class Engine:
             return
         radius = _radius(radius_km or intent.radius_km, place)
         yield 'place', {**place.model_dump(), 'radius_km': radius}
-        if not cats and not intent.terms:
-            yield (
-                'problem',
-                {
-                    'code': 'no_subject',
-                    'message': 'Tell me what: "bakeries", "law firms", or a name.',
-                },
-            )
-            return
 
         events: asyncio.Queue[tuple[str, Any] | None] = asyncio.Queue()
         found: list[Business] = []
@@ -110,7 +104,7 @@ class Engine:
                     )
                 )
                 return
-            except httpx.HTTPError as err:
+            except (httpx.HTTPError, duckdb.Error) as err:
                 status[name] = 'error'
                 await events.put(
                     (
@@ -132,7 +126,12 @@ class Engine:
                     scans.append(asyncio.create_task(scan(b)))
 
         jobs = [source('openstreetmap', self._osm(place, radius, cats, intent.terms))]
-        if cats and _in_france(place):
+        if self.overture:
+            jobs.append(source('overture', self._overture(place, radius, cats, intent.terms)))
+        else:
+            status['overture'] = 'off'
+        # A name search goes to the map only: the registry can't search names by distance.
+        if not intent.terms and _in_france(place):
             jobs.append(source('sirene', self._sirene(place, radius, cats, intent)))
         else:
             status['sirene'] = 'skipped'
@@ -197,6 +196,19 @@ class Engine:
         await self.cache.put('osm', key, [b.model_dump() for b in found])
         return found
 
+    async def _overture(
+        self, place: Place, radius: float, cats: list[Category], terms: str | None
+    ) -> list[Business]:
+        assert self.overture
+        key = f'{",".join(c.id for c in cats)}|{terms}|{place.lat:.3f}|{place.lon:.3f}|{radius:.1f}'
+        if hit := await self.cache.get('overture', key, 7 * DAY):
+            return [Business(**b) for b in hit]
+        found = await self.overture.search(
+            self.c.http, place.lat, place.lon, radius, cats, terms, self.s.max_results
+        )
+        await self.cache.put('overture', key, [b.model_dump() for b in found])
+        return found
+
     async def _sirene(
         self, place: Place, radius: float, cats: list[Category], intent: Intent
     ) -> list[Business]:
@@ -255,4 +267,5 @@ def _describe(intent: Intent, cats: list[Category]) -> dict[str, Any]:
         'gaps': intent.gaps,
         'recent': intent.recent,
         'size': intent.size,
+        'everything': not cats and not intent.terms,
     }

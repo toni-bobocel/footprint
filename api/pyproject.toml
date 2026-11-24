@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Find businesses anywhere and see what their online presence is missing."
 requires-python = ">=3.13"
 dependencies = [
+    "duckdb>=2.0.1",
     "fastapi>=0.165.0",
     "httpx>=0.28.1",
     "selectolax>=1.0.2",
