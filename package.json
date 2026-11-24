@@ -1,0 +1,13 @@
+{
+  "name": "footprint",
+  "private": true,
+  "packageManager": "pnpm@12.23.0",
+  "scripts": {
+    "dev": "pnpm --filter @footprint/web dev",
+    "build": "pnpm --filter @footprint/web build",
+    "check": "biome check . && pnpm --filter @footprint/web typecheck && pnpm --filter @footprint/web test"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.8"
+  }
+}
