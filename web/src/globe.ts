@@ -190,14 +190,14 @@ export class Globe {
     const landGeo = new THREE.BufferGeometry()
     landGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3))
     landGeo.setAttribute('aSeed', new THREE.BufferAttribute(seeds(count, pos), 1))
-    this.land = material(INK, 0.0105, 0.9, 0.06)
+    this.land = material(INK, 0.0058, 0.9, 0.06)
 
     // A sparse veil over the whole sphere so the oceans still read as a globe.
-    const seaPos = fibonacci(14_000)
+    const seaPos = fibonacci(36_000)
     const seaGeo = new THREE.BufferGeometry()
     seaGeo.setAttribute('position', new THREE.BufferAttribute(seaPos, 3))
-    seaGeo.setAttribute('aSeed', new THREE.BufferAttribute(seeds(14_000, seaPos), 1))
-    this.sea = material(MIST, 0.0085, 0.55, 0.0)
+    seaGeo.setAttribute('aSeed', new THREE.BufferAttribute(seeds(36_000, seaPos), 1))
+    this.sea = material(MIST, 0.005, 0.5, 0.0)
 
     this.materials = [this.sea, this.land]
     this.group.add(new THREE.Points(seaGeo, this.sea), new THREE.Points(landGeo, this.land))
@@ -335,11 +335,11 @@ export class Globe {
     const tl = gsap.timeline()
     tl.to(this.state, { lift: 0, duration: 1.5, ease: 'expo.inOut' }, 0)
     tl.add(this.face(p, 1.5, 3.4), 0)
-    tl.to(this.state, { z: 1.32, duration: 1.1, ease: 'power3.in' })
+    tl.to(this.state, { z: 1.6, duration: 1.1, ease: 'power3.in' })
     tl.to(
       this.materials.map((m) => m.uniforms.uFade),
-      { value: 0, duration: 0.5, ease: 'power1.in' },
-      '-=0.45',
+      { value: 0, duration: 0.8, ease: 'power1.in' },
+      '-=0.9',
     )
     return tl
   }

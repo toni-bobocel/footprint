@@ -364,9 +364,10 @@ async function enterMap(place: Place) {
   // Start the map underneath while the globe is still diving.
   tl.add(() => {
     atlas.show(place, km)
-  }, 1.5)
-  tl.set(ui.atlas, { visibility: 'visible' }, 1.6)
-  tl.to(ui.atlas, { opacity: 1, duration: 1.1, ease: 'power1.inOut' }, 1.75)
+  }, 0.6)
+  // The map rises through the globe as it zooms, so the dots never thin out on screen.
+  tl.set(ui.atlas, { visibility: 'visible' }, 1.5)
+  tl.to(ui.atlas, { opacity: 1, duration: 1.0, ease: 'power1.inOut' }, 1.55)
   tl.add(() => {
     ui.results.hidden = false
     ui.hero.style.visibility = 'hidden'
