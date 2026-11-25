@@ -41,7 +41,8 @@ class Engine:
         self.c = clients
         self.cache = cache
         self.overture = Overture(settings.overture_release) if settings.overture else None
-        self._overpass_failed_at = 0.0
+        # monotonic() counts from boot, so 0 would read as a recent failure on a fresh machine.
+        self._overpass_failed_at = float('-inf')
 
     async def geocode(self, text: str) -> Place | None:
         key = text.lower()
