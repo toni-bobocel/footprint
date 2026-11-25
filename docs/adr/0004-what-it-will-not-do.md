@@ -13,7 +13,8 @@ what to leave out.
 - **Opt-outs are final.** French companies with
   `opposition_diffusion_commerciale` set have asked not to be prospected.
   They're dropped in the source adapter, before anything else sees them, in
-  both engines.
+  both engines. Dissolved, bankrupt or struck-off companies are dropped from
+  every register the same way.
 - **No personal data beyond the business.** The register returns directors'
   names and birth dates. They're never read into the model. Many small
   businesses are one person, and their name isn't what's being prospected.
@@ -22,7 +23,9 @@ what to leave out.
   three fields are requested.
 - **One visit per site.** The scanner makes one GET of the home page with an
   identifying User-Agent, stops reading at 1.5 MB, and caches the result for
-  three days. It doesn't crawl, submit forms or follow links.
+  three days. It doesn't crawl, submit forms or follow links. Email
+  addresses are only the ones a business publishes as `mailto:` links on its
+  own home page.
 - **Polite to open data.** Nominatim gets at most one request a second.
   Overpass mirrors are walked in order rather than hit at once. Everything is
   cached.

@@ -2,14 +2,17 @@
 
 Find businesses anywhere in the world, from a one-person plumber to a chain,
 and see what their online presence is missing: a website, https, a phone
-layout, Instagram, Facebook, LinkedIn, TikTok, reviews, analytics.
+layout, search basics, a way to get in touch, Instagram, Facebook, LinkedIn,
+TikTok, reviews, booking, analytics. In ten languages.
 
 **Live:** https://toni-bobocel.github.io/footprint/ (browser-only mode, see below)
 
 ![The globe](docs/img/globe.jpg)
 
-Type what you're after in plain words ("dentists in Porto", "new cafés in
-Lisbon with no Instagram", "plumbers within 10 km of Manchester") or click
+Type what you're after in plain words and in your own language
+("dentists in Porto", "boulangeries sans site à Lyon", "panaderías en Madrid
+sin web", "東京のパン屋 ウェブサイトなし", "пекарни в Москве"), with or
+without a preposition, or click
 anywhere on the globe, pick a radius, and search there. The globe dives into
 a map and results stream in as each source answers. The businesses with the
 most missing come first.
@@ -23,27 +26,33 @@ one concrete thing, ready to copy. The list exports to CSV.
 
 ## Where the data comes from
 
-| Source                                                               | Covers                                                           | How                                                                                          |
-| -------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| [Overture Maps](https://overturemaps.org) places                     | worldwide, ~60M places with websites, socials, phones            | GeoParquet on public S3, read with DuckDB; only the row groups around the search are fetched |
-| [OpenStreetMap](https://www.openstreetmap.org)                       | worldwide, live, volunteer-mapped                                | public Overpass servers, walked in order when one is busy                                    |
-| [Recherche d'entreprises](https://recherche-entreprises.api.gouv.fr) | every registered company in France, incl. ones with no shopfront | `near_point`, with headcount bands and creation dates                                        |
-| [Nominatim](https://nominatim.org)                                   | place names to coordinates and back                              | one request a second, as its policy asks                                                     |
-| Google Places                                                        | ratings and review counts                                        | only if you set your own `GOOGLE_PLACES_KEY`                                                 |
+| Source                                                                 | Covers                                                       | How                                                                                                                                                                                              |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [Overture Maps](https://overturemaps.org) places                       | worldwide, ~60M places with websites, socials, phones        | GeoParquet on public S3, read with DuckDB; only the row groups around the search are fetched                                                                                                     |
+| [OpenStreetMap](https://www.openstreetmap.org)                         | worldwide, live, volunteer-mapped                            | public Overpass servers, walked in order when one is busy                                                                                                                                        |
+| Official company registers                                             | every registered company, incl. ones with no shopfront       | France ([Recherche d'entreprises](https://recherche-entreprises.api.gouv.fr)), Norway (Brønnøysund), Finland (PRH), the UK (Companies House, free key), searched by place and NACE activity code |
+| [Wikidata](https://www.wikidata.org)                                   | larger companies worldwide, with official sites and accounts | one SPARQL query around the point                                                                                                                                                                |
+| [Nominatim](https://nominatim.org), [Photon](https://photon.komoot.io) | place names and register addresses to coordinates            | one request a second for Nominatim, as its policy asks                                                                                                                                           |
+| Google Places                                                          | ratings and review counts                                    | only if you set your own `GOOGLE_PLACES_KEY`                                                                                                                                                     |
 
 Records are merged by name and distance, so a bakery found on the map and in
 the register shows up once, with the map's website and the register's
 headcount.
 
 Then the API opens each business's home page once, like a visitor would, and
-notes the final scheme and certificate, load time, viewport tag, old
-generators and jQuery 1.x, "under construction" copy, stale copyright years,
-social profile links (not share buttons), review links and analytics tags.
+notes the final scheme and certificate, load time, viewport tag, the platform
+it's built with, title, description and main heading, contact links and
+forms, booking widgets, an online shop, structured data, old generators and
+jQuery 1.x, "under construction" copy, stale copyright years, social profile
+links (not share buttons), review links and analytics tags.
 No model is involved: every flag is a rule in [`scan.py`](api/src/footprint/scan.py),
 and the score is a weighted sum you can read in one dictionary.
 
-Why Overture comes first, why there's no LLM, and what the tool deliberately
-won't do are in [`docs/adr`](docs/adr).
+Searches are read by rules and word lists in ten languages (English, French,
+Spanish, Portuguese, German, Italian, Chinese, Japanese, Arabic, Russian), plus
+Overture's ~600 place types in English. Why Overture comes first, why there's
+no LLM, how the languages work and what the tool deliberately won't do are in
+[`docs/adr`](docs/adr).
 
 ## Two ways to run it
 
@@ -68,7 +77,8 @@ docker run -p 8000:8000 -v footprint:/data footprint-api
 ```
 
 **Without it.** The page on GitHub Pages has no server behind it. It queries
-Nominatim, Overpass and the French register straight from the browser, so it
+Nominatim, Overpass and the French register straight from the browser, with
+the same parser as the API, so it
 works, but it can't open other websites (browsers forbid it) or read
 Overture. Its footprint covers what the map records, and it says so.
 Point it at a running API with `?api=https://your-host` or the
@@ -76,29 +86,31 @@ Point it at a running API with `?api=https://your-host` or the
 
 ## Configuration
 
-| Variable             | Default                 |                                            |
-| -------------------- | ----------------------- | ------------------------------------------ |
-| `OVERTURE`           | `1`                     | set `0` to skip Overture                   |
-| `OVERTURE_RELEASE`   | latest                  | pin a release such as `2026-11-18.0`       |
-| `OVERPASS_URLS`      | two public instances    | comma-separated, tried in order            |
-| `OVERPASS_TIMEOUT_S` | `25`                    | per instance                               |
-| `SCAN_CONCURRENCY`   | `12`                    | websites opened at once                    |
-| `SCAN_TIMEOUT_S`     | `8`                     | per website                                |
-| `MAX_RESULTS`        | `300`                   | per search                                 |
-| `GOOGLE_PLACES_KEY`  | unset                   | enables ratings and review counts          |
-| `FOOTPRINT_CACHE`    | `footprint.db`          | SQLite cache of places, searches and scans |
-| `CORS_ORIGINS`       | localhost, GitHub Pages | comma-separated                            |
+| Variable              | Default                 |                                            |
+| --------------------- | ----------------------- | ------------------------------------------ |
+| `OVERTURE`            | `1`                     | set `0` to skip Overture                   |
+| `OVERTURE_RELEASE`    | latest                  | pin a release such as `2026-11-18.0`       |
+| `OVERPASS_URLS`       | two public instances    | comma-separated, tried in order            |
+| `OVERPASS_TIMEOUT_S`  | `25`                    | per instance                               |
+| `SCAN_CONCURRENCY`    | `12`                    | websites opened at once                    |
+| `SCAN_TIMEOUT_S`      | `8`                     | per website                                |
+| `MAX_RESULTS`         | `300`                   | per search                                 |
+| `GOOGLE_PLACES_KEY`   | unset                   | enables ratings and review counts          |
+| `COMPANIES_HOUSE_KEY` | unset                   | enables the UK register (free key)         |
+| `FOOTPRINT_CACHE`     | `footprint.db`          | SQLite cache of places, searches and scans |
+| `CORS_ORIGINS`        | localhost, GitHub Pages | comma-separated                            |
 
 ## Layout
 
 ```
 api/       FastAPI service: query parser, sources, merge, site scanner, SSE
 web/       Vite + TypeScript: three.js globe, MapLibre map, GSAP motion
-shared/    categories.json, read by both (OSM tags, Overture taxonomy, NAF codes)
+shared/    read by both: categories (words in ten languages, OSM tags, Overture
+           taxonomy, NACE codes), lexicon, taxonomy, and the parser test cases
 docs/adr/  decisions and their trade-offs
 ```
 
-The globe is 40k land points sampled from Natural Earth on a Fibonacci
+The globe is 147k land points sampled from Natural Earth 1:50m on a Fibonacci
 lattice (`web/scripts/land.mjs`) plus a sparse veil over the oceans, drawn by
 one shader that fades the far side and swells the surface under the pointer.
 
@@ -112,12 +124,15 @@ one shader that fades the far side and swells the surface under the pointer.
   says so instead of showing an empty map as if nothing were there.
 - "No Instagram" means no link was found on the map or the home page, not a
   search of Instagram itself.
-- In France, businesses known only to the register show their website as
-  unknown rather than missing: the register doesn't record websites.
+- Businesses known only to a company register show their website as
+  unknown rather than missing: registers don't reliably record websites.
+- Most countries have no open company register. There, results come from the
+  maps and Wikidata alone.
 
 ## Licence
 
 Code under MIT. Data: Overture Maps under CDLA-Permissive-2.0, with
 OpenStreetMap-derived records under ODbL. OpenStreetMap © contributors, ODbL.
 Base map by OpenFreeMap and OpenMapTiles. Land outlines from Natural Earth,
-public domain. Recherche d'entreprises under the Licence Ouverte.
+public domain. Recherche d'entreprises under the Licence Ouverte; Norwegian
+and Finnish register data under NLOD and CC BY 4.0; Wikidata under CC0.
