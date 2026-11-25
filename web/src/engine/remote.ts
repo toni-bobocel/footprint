@@ -28,6 +28,7 @@ export class Remote implements Engine {
       params.set('lon', String(req.lon))
     }
     if (req.radius_km) params.set('radius_km', String(req.radius_km))
+    if (req.lang) params.set('lang', req.lang)
     const res = await fetch(`${this.base}/api/search?${params}`, { signal })
     if (!res.body) return
     const reader = res.body.pipeThrough(new TextDecoderStream()).getReader()

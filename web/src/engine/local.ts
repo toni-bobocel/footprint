@@ -1,4 +1,4 @@
-import { CATEGORIES, type Category, parse } from './query'
+import { CATEGORIES, type Category, type ParsedQuery, parse } from './query'
 import type { Business, Engine, Footprint, Gap, Place, SearchEvent, SearchRequest } from './types'
 
 // The browser-only engine used on GitHub Pages, where there is no API.
@@ -86,6 +86,8 @@ function toPlace(row: any): Place {
     lon: Number(row.lon),
     kind: row.addresstype ?? row.type ?? null,
     country: row.address?.country_code?.toUpperCase() ?? null,
+    importance: Number(row.importance ?? 0),
+    capital: row.extratags?.capital_city ?? null,
     bbox: bb ? [bb[0], bb[1], bb[2], bb[3]] : null,
   }
 }
@@ -329,6 +331,61 @@ export function mapFootprint(b: Business): Footprint {
   }
 }
 
+// Same rules as the API's Engine._settle and _guess (api/src/footprint/search.py).
+const BROAD = ['country', 'state', 'region', 'province']
+const PROMINENT = 0.45
+
+async function geocode(text: string): Promise<Place | null> {
+  const rows = await nominatim('search', { q: text, limit: 1, extratags: 1 })
+  return rows[0] ? toPlace(rows[0]) : null
+}
+
+// Nominative guesses for an inflected Russian place name ("в Москве").
+function uninflect(text: string): string[] {
+  if (!/[еиу]$/.test(text)) return []
+  const stem = text.slice(0, -1)
+  return ['а', 'ь', '', 'я', 'ы'].map((ending) => stem + ending)
+}
+
+async function settle(text: string): Promise<Place | null> {
+  let place: Place | null = null
+  for (const variant of uninflect(text)) {
+    const candidate = await geocode(variant)
+    if (candidate && (candidate.importance ?? 0) >= PROMINENT) {
+      place = candidate
+      break
+    }
+  }
+  place ??= await geocode(text)
+  // The middle of Moldova is fields; its businesses are in Chișinău.
+  if (place?.capital && BROAD.includes(place.kind ?? '')) {
+    return (await geocode(`${place.capital}, ${text}`)) ?? place
+  }
+  return place
+}
+
+// No category and no preposition: "Moldova", "Tesla Austin".
+async function guess(q: ParsedQuery): Promise<Place | null> {
+  const terms = q.terms ?? ''
+  const words = terms.split(' ')
+  const splits: [string, string][] = [[terms, '']]
+  for (const k of [1, 2]) {
+    if (words.length > k) {
+      splits.push([words.slice(-k).join(' '), words.slice(0, -k).join(' ')])
+      splits.push([words.slice(0, k).join(' '), words.slice(k).join(' ')])
+    }
+  }
+  for (const [where, rest] of splits) {
+    const place = await geocode(where)
+    if (place && (place.importance ?? 0) >= PROMINENT) {
+      q.place = where
+      q.terms = rest || null
+      return BROAD.includes(place.kind ?? '') ? settle(where) : place
+    }
+  }
+  return null
+}
+
 export class Local implements Engine {
   readonly depth = 'map'
 
@@ -340,26 +397,9 @@ export class Local implements Engine {
   async *search(req: SearchRequest, signal: AbortSignal): AsyncIterable<SearchEvent> {
     const started = performance.now()
     const q = parse(req.q)
-    const cats = q.categories
-      .map((id) => CATEGORIES.find((c) => c.id === id))
-      .filter((c): c is Category => !!c)
-    yield {
-      kind: 'intent',
-      data: {
-        text: q.text,
-        categories: cats.map((c) => ({ id: c.id, label: c.label })),
-        terms: q.terms,
-        place: q.place,
-        gaps: q.gaps,
-        recent: q.recent,
-        size: q.size,
-        everything: !cats.length && !q.terms,
-      },
-    }
-
-    let place: Place | null = null
     const lat = req.lat ?? q.lat
     const lon = req.lon ?? q.lon
+    let place: Place | null = null
     if (lat != null && lon != null) {
       place = (await this.reverse(lat, lon)) ?? {
         name: `${lat.toFixed(4)}, ${lon.toFixed(4)}`,
@@ -367,17 +407,29 @@ export class Local implements Engine {
         lon,
       }
     } else if (q.place) {
-      const rows = await nominatim('search', { q: q.place, limit: 1 })
-      place = rows[0] ? toPlace(rows[0]) : null
+      place = await settle(q.place)
+    } else if (q.terms) {
+      place = await guess(q)
+    }
+    const cats = q.categories
+      .map((id) => CATEGORIES.find((c) => c.id === id))
+      .filter((c): c is Category => !!c)
+    yield {
+      kind: 'intent',
+      data: {
+        text: q.text,
+        categories: cats.map((c) => ({ id: c.id, label: c.label, labels: c.labels })),
+        types: q.types,
+        terms: q.terms,
+        place: q.place,
+        gaps: q.gaps,
+        recent: q.recent,
+        size: q.size,
+        everything: !cats.length && !q.types.length && !q.terms,
+      },
     }
     if (!place) {
-      yield {
-        kind: 'problem',
-        data: {
-          code: 'no_place',
-          message: 'Tell me where: a city, a country, or click the globe.',
-        },
-      }
+      yield { kind: 'problem', data: { code: 'no_place' } }
       return
     }
     const km = radiusFor(place, req.radius_km ?? q.radius_km)
@@ -400,27 +452,27 @@ export class Local implements Engine {
     }
 
     const inFrance = place.country ? place.country === 'FR' : false
-    const jobs: Promise<void>[] = [
-      overpass(overpassQuery(place.lat, place.lon, km, cats, q.terms), signal)
-        .then((els) => {
-          status.openstreetmap = 'ok'
-          const items = els
-            .map((el) => fromOsm(el, place.lat, place.lon, cats))
-            .filter((b): b is Business => !!b)
-          land('openstreetmap', items)
-        })
-        .catch(() => {
-          status.openstreetmap = 'unavailable'
-          push({
-            kind: 'notice',
-            data: {
-              source: 'openstreetmap',
-              message: 'OpenStreetMap is overloaded right now; showing what else I found.',
-            },
+    const jobs: Promise<void>[] = []
+    if (q.types.length && !cats.length) status.openstreetmap = 'skipped'
+    else
+      jobs.push(
+        overpass(overpassQuery(place.lat, place.lon, km, cats, q.terms), signal)
+          .then((els) => {
+            status.openstreetmap = 'ok'
+            const items = els
+              .map((el) => fromOsm(el, place.lat, place.lon, cats))
+              .filter((b): b is Business => !!b)
+            land('openstreetmap', items)
           })
-        }),
-    ]
-    if (!q.terms && inFrance) {
+          .catch(() => {
+            status.openstreetmap = 'unavailable'
+            push({
+              kind: 'notice',
+              data: { source: 'openstreetmap', code: 'busy' },
+            })
+          }),
+      )
+    if (!q.terms && !q.types.length && inFrance) {
       jobs.push(
         sirene(place.lat, place.lon, km, cats, q.recent, q.size, signal)
           .then((items) => {

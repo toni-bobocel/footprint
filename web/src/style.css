@@ -112,7 +112,44 @@ a {
 
 nav {
   display: flex;
+  align-items: center;
   gap: 28px;
+}
+
+.lang {
+  position: relative;
+}
+
+.lang-now {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.langs {
+  position: absolute;
+  right: 0;
+  top: 28px;
+  margin: 0;
+  padding: 10px 0;
+  list-style: none;
+  background: rgb(255 255 255 / 0.96);
+  backdrop-filter: blur(12px);
+  min-width: 140px;
+}
+
+.langs button {
+  display: block;
+  width: 100%;
+  padding: 6px 4px;
+  font-size: 13px;
+  color: var(--soft);
+  text-align: end;
+}
+
+.langs button:hover,
+.langs button[aria-current="true"] {
+  color: var(--ink);
 }
 
 .link {
@@ -765,6 +802,7 @@ nav {
 }
 
 /* These panels set their own display, which would beat the hidden attribute. */
+.langs[hidden],
 .pin[hidden],
 .picked[hidden],
 .results[hidden],

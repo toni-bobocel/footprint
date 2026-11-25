@@ -10,16 +10,9 @@ import { download, toCsv } from './csv'
 import { Local } from './engine/local'
 import { parse } from './engine/query'
 import { Remote } from './engine/remote'
-import {
-  type Business,
-  type Engine,
-  type Footprint,
-  GAP_LABEL,
-  type Gap,
-  type Intent,
-  type Place,
-} from './engine/types'
+import type { Business, Engine, Footprint, Gap, Intent, Place } from './engine/types'
 import { Globe, type Pick } from './globe'
+import { detect, LANGS, type Lang, STRINGS } from './i18n'
 import { categoryLabel, shortPlace } from './labels'
 import { Atlas } from './map'
 import { message } from './outreach'
@@ -33,24 +26,21 @@ const $ = <T extends Element = HTMLElement>(s: string, root: ParentNode = docume
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
 if (reduced) gsap.globalTimeline.timeScale(4)
 
-const EXAMPLES = [
-  'bakeries in Lyon without a website',
-  'dentists near Austin, Texas',
-  'new law firms in Berlin',
-  'cafés in Lisbon with no Instagram',
-  'plumbers within 10 km of Manchester',
-  'hair salons in Montréal not mobile friendly',
-  'architects in Tokyo',
-]
-const FILTERS: { gap: Gap; label: string; full?: boolean }[] = [
-  { gap: 'no_website', label: 'Website' },
-  { gap: 'no_instagram', label: 'Instagram' },
-  { gap: 'no_facebook', label: 'Facebook' },
-  { gap: 'no_linkedin', label: 'LinkedIn' },
-  { gap: 'no_reviews', label: 'Reviews', full: true },
-  { gap: 'not_mobile', label: 'Mobile', full: true },
-  { gap: 'not_secure', label: 'HTTPS', full: true },
-  { gap: 'slow', label: 'Speed', full: true },
+let lang: Lang = detect()
+let t = STRINGS[lang]
+
+// Brand names stay as they are; the rest comes from the language strings.
+const FILTERS: { gap: Gap; brand?: string; full?: boolean }[] = [
+  { gap: 'no_website' },
+  { gap: 'no_instagram', brand: 'Instagram' },
+  { gap: 'no_facebook', brand: 'Facebook' },
+  { gap: 'no_linkedin', brand: 'LinkedIn' },
+  { gap: 'no_reviews', full: true },
+  { gap: 'not_mobile', full: true },
+  { gap: 'not_secure', full: true },
+  { gap: 'slow', full: true },
+  { gap: 'weak_seo', full: true },
+  { gap: 'no_contact', full: true },
 ]
 const HOT = 60
 
@@ -111,8 +101,10 @@ async function pickEngine(): Promise<Engine> {
 
 /* Intro */
 
+let split: SplitText | null = null
+
 function intro() {
-  const split = SplitText.create(ui.title, {
+  split = SplitText.create(ui.title, {
     type: 'lines',
     mask: 'lines',
     linesClass: 'line-mask',
@@ -129,7 +121,7 @@ let typing: gsap.core.Timeline | null = null
 function typeExamples() {
   typing?.kill()
   typing = gsap.timeline({ repeat: -1 })
-  for (const text of EXAMPLES) {
+  for (const text of t.examples) {
     const c = { n: 0 }
     const set = () => {
       ui.ghost.textContent = text.slice(0, Math.round(c.n))
@@ -155,7 +147,7 @@ globe.onPick = async (p) => {
   ui.pin.hidden = false
   ui.pinName.textContent = `${p.lat.toFixed(2)}°, ${p.lon.toFixed(2)}°`
   typing?.pause()
-  ui.ghost.textContent = 'What are you looking for here? Empty means everything.'
+  ui.ghost.textContent = t.pickGhost
   if (first) {
     ui.picked.hidden = false
     placeKnob(state.km)
@@ -173,7 +165,7 @@ globe.onPick = async (p) => {
   )
   const place = await state.engine?.reverse(p.lat, p.lon).catch(() => null)
   if (state.pick?.lat !== p.lat) return
-  const name = place ? shortPlace(place.name) : 'Open water'
+  const name = place ? shortPlace(place.name) : t.openWater
   state.pick.name = name
   gsap.to(ui.pinName, {
     duration: 0.6,
@@ -294,11 +286,11 @@ async function run(q: string, where: { lat?: number; lon?: number; radius_km?: n
   ui.list.replaceChildren()
   closeDetail()
   atlas.clear()
-  status('Looking…')
+  status(t.looking)
   count(0)
 
   try {
-    for await (const ev of state.engine.search({ q, ...where }, abort.signal)) {
+    for await (const ev of state.engine.search({ q, lang, ...where }, abort.signal)) {
       if (abort.signal.aborted) return
       switch (ev.kind) {
         case 'intent':
@@ -318,10 +310,14 @@ async function run(q: string, where: { lat?: number; lon?: number; radius_km?: n
           update(ev.data.business_id)
           break
         case 'notice':
-          toast(ev.data.message)
+          toast(
+            ev.data.code === 'busy'
+              ? t.busy
+              : t.sourceDown(t.sources[ev.data.source] ?? ev.data.source),
+          )
           break
         case 'problem':
-          toast(ev.data.message)
+          toast(t.noPlace)
           if (state.mode === 'globe') ui.input.focus()
           return
         case 'done':
@@ -331,8 +327,8 @@ async function run(q: string, where: { lat?: number; lon?: number; radius_km?: n
     }
   } catch (err) {
     if (!abort.signal.aborted) {
-      toast("Something didn't answer. Try again in a moment.")
-      status('Stopped.')
+      toast(t.failed)
+      status(t.stopped)
     }
     if (import.meta.env.DEV && !abort.signal.aborted) throw err
   }
@@ -341,10 +337,7 @@ async function run(q: string, where: { lat?: number; lon?: number; radius_km?: n
 async function enterMap(place: Place) {
   const km = place.radius_km ?? state.km
   ui.rTitle.textContent = titleFor(state.intent, place)
-  ui.depth.textContent =
-    state.engine?.depth === 'full'
-      ? 'I opened each website once, just now, to check it.'
-      : 'This page has no server behind it, so I only see what OpenStreetMap records. Run the API to have every website checked too.'
+  ui.depth.textContent = state.engine?.depth === 'full' ? t.depthFull : t.depthMap
   renderFilters()
   if (state.mode === 'map') {
     await atlas.show(place, km)
@@ -406,11 +399,13 @@ $('.back').addEventListener('click', leaveMap)
 
 function titleFor(intent: Intent | null, place: Place) {
   const where = shortPlace(place.name)
-  if (!intent || intent.everything) return `Every business around ${where}`
+  if (!intent || intent.everything) return t.everyBusiness(where)
   const what = intent.categories.length
-    ? intent.categories.map((c) => c.label).join(' and ')
-    : `“${intent.terms}”`
-  return `${what} in ${where}`
+    ? intent.categories.map((c) => c.labels?.[lang] ?? c.label).join(t.and)
+    : intent.types?.length
+      ? intent.types.map((x) => categoryLabel(`overture:${x}`)).join(t.and)
+      : `“${intent.terms}”`
+  return t.whatIn(what, where)
 }
 
 /* Results list */
@@ -436,12 +431,12 @@ function channels(b: Business, fp: Footprint | undefined): string {
   const ch = (label: string, ok: boolean | null) =>
     `<span class="ch ${ok === null ? 'unknown' : ok ? '' : 'miss'}">${label}</span>`
   return [
-    ch('Site', known ? fp.website === 'ok' : null),
+    ch(t.site, known ? fp.website === 'ok' : null),
     ch('Instagram', known ? !!s.instagram : null),
     ch('Facebook', known ? !!s.facebook : null),
     ch('LinkedIn', known ? !!s.linkedin : null),
     ch('TikTok', known ? !!s.tiktok : null),
-    ch('Reviews', known && full ? !fp.gaps.includes('no_reviews') : null),
+    ch(t.reviews, known && full ? !fp.gaps.includes('no_reviews') : null),
   ].join('')
 }
 
@@ -458,15 +453,15 @@ function rowFor(b: Business): HTMLLIElement {
 function fillRow(li: HTMLElement, b: Business) {
   const fp = state.prints.get(b.id)
   const sub = [
-    categoryLabel(b.category),
+    categoryLabel(b.category, lang),
     b.distance_km < 1 ? `${Math.round(b.distance_km * 1000)} m` : `${b.distance_km.toFixed(1)} km`,
   ]
-  if (b.size) sub.push(`${b.size} staff`)
+  if (b.size) sub.push(t.staff(b.size))
   const score = !fp ? '·' : fp.website === 'unknown' ? '?' : String(fp.opportunity)
   const cls = !fp || fp.website === 'unknown' ? 'wait' : fp.opportunity >= HOT ? 'hot' : ''
   li.innerHTML = `
     <div class="row-name"></div>
-    <div class="row-score ${cls}" title="How much is missing, out of 100">${score}</div>
+    <div class="row-score ${cls}" title="${t.scoreTitle}">${score}</div>
     <div class="row-sub">${sub.filter(Boolean).join(' · ')}</div>
     <div class="channels">${channels(b, fp)}</div>`
   ;(li.firstElementChild as HTMLElement).textContent = b.name
@@ -506,9 +501,7 @@ function emptyState() {
   if (ui.list.querySelector('.empty')) return
   const p = document.createElement('p')
   p.className = 'empty'
-  p.textContent = state.items.size
-    ? 'Nothing matches every filter. Try switching one off.'
-    : 'Nothing yet. Still looking.'
+  p.textContent = state.items.size ? t.nothingMatches : t.nothingYet
   ui.list.append(p)
 }
 
@@ -518,7 +511,7 @@ function update(id: string) {
   const li = ui.list.querySelector<HTMLElement>(`[data-id="${CSS.escape(id)}"]`)
   if (b && li) fillRow(li, b)
   if (state.selected === id) openDetail(id)
-  status(`Checking ${pending()} more…`)
+  status(t.checking(pending()))
   // Re-sort in calm batches, and never under the user's pointer.
   resort?.kill()
   resort = gsap.delayedCall(1.2, () => (ui.list.matches(':hover') ? update(id) : reflow()))
@@ -550,8 +543,8 @@ function renderFilters() {
     b.type = 'button'
     b.className = `toggle${state.filters.has(f.gap) ? ' on' : ''}`
     b.dataset.gap = f.gap
-    b.textContent = f.label
-    b.title = GAP_LABEL[f.gap]
+    b.textContent = f.brand ?? t.filters[f.gap] ?? t.gaps[f.gap]
+    b.title = t.gaps[f.gap]
     ui.filters.append(b)
   }
 }
@@ -594,28 +587,18 @@ atlas.onSelect = (id) => {
 
 $('[data-act="csv"]').addEventListener('click', () => {
   const items = visible()
-  if (!items.length) return toast('Nothing to export yet.')
+  if (!items.length) return toast(t.nothingToExport)
   const where = state.place ? shortPlace(state.place.name).split(',')[0] : 'search'
   download(`footprint-${where.toLowerCase().replace(/\W+/g, '-')}.csv`, toCsv(items, state.prints))
-  toast(`${items.length} businesses exported.`)
+  toast(t.exported(items.length))
 })
-
-const SOURCE_NAMES: Record<string, string> = {
-  overture: 'Overture',
-  openstreetmap: 'OpenStreetMap',
-  sirene: 'company register',
-}
 
 function finish(ms: number, sources: Record<string, string>) {
   const secs = ms < 10_000 ? (ms / 1000).toFixed(1) : String(Math.round(ms / 1000))
   const used = Object.entries(sources)
     .filter(([, v]) => v === 'ok')
-    .map(([k]) => SOURCE_NAMES[k] ?? k)
-  status(
-    state.items.size
-      ? `found in ${secs} s · ${used.join(', ')}`
-      : `found in ${secs} s. Try a wider radius, or a nearby town.`,
-  )
+    .map(([k]) => t.sources[k] ?? k)
+  status(state.items.size ? t.found(secs, used.join(', ')) : t.foundNone(secs))
   if (state.items.size === 0) emptyState()
   reflow()
 }
@@ -661,31 +644,42 @@ function openDetail(id: string) {
   const full = state.engine?.depth === 'full'
   const site = fp?.site
   const s = fp?.socials ?? b.socials
+  const d = t.d
   const rows: [string, string, boolean][] = []
   const add = (label: string, value: string, bad = false) => rows.push([label, value, bad])
 
-  if (fp?.website === 'unknown') add('Website', 'Not known: only the company register lists it')
-  else if (!b.website) add('Website', 'None listed', true)
-  else if (fp?.website === 'unreachable') add('Website', `${link(b.website)}, didn't load`, true)
-  else add('Website', link(site?.final_url ?? b.website))
+  if (fp?.website === 'unknown') add(d.website, d.notKnown)
+  else if (!b.website) add(d.website, d.noneListed, true)
+  else if (fp?.website === 'unreachable') add(d.website, `${link(b.website)}, ${d.didntLoad}`, true)
+  else add(d.website, link(site?.final_url ?? b.website))
 
   if (site?.reachable) {
-    add(
-      'HTTPS',
-      site.https && site.ssl_valid !== false ? 'Yes' : site.https ? 'Broken certificate' : 'No',
-      !site.https || site.ssl_valid === false,
-    )
+    const secure = site.https && site.ssl_valid !== false
+    add(d.https, secure ? d.yes : site.https ? d.brokenCert : d.no, !secure)
     if (site.response_ms)
-      add('Load time', `${(site.response_ms / 1000).toFixed(1)} s`, site.response_ms > 3000)
-    add('Phone layout', site.mobile ? 'Yes' : 'No', !site.mobile)
+      add(d.loadTime, `${(site.response_ms / 1000).toFixed(1)} s`, site.response_ms > 3000)
+    add(d.phoneLayout, site.mobile ? d.yes : d.no, !site.mobile)
     add(
-      'Looks current',
-      site.outdated.length ? esc(site.outdated.join(', ')) : 'Yes',
+      d.current,
+      site.outdated.length ? esc(site.outdated.join(', ')) : d.yes,
       site.outdated.length > 0,
     )
+    const seo = site.seo_missing ?? []
     add(
-      'Analytics',
-      site.tracking.length ? site.tracking.map((t) => t.replace(/_/g, ' ')).join(', ') : 'None',
+      d.seo,
+      seo.length ? seo.map((p) => d.seoParts[p as keyof typeof d.seoParts] ?? p).join(', ') : d.yes,
+      seo.length > 0,
+    )
+    const contact = site.contact ?? []
+    add(d.contact, contact.length ? contact.join(', ') : d.none, !contact.length && !b.phone)
+    if (site.emails?.length)
+      add(d.emails, site.emails.map((e) => `<a href="mailto:${esc(e)}">${esc(e)}</a>`).join(', '))
+    if (site.platform) add(d.platform, esc(site.platform))
+    if (site.booking?.length) add(d.booking, esc(site.booking.join(', ')))
+    if (site.shop) add(d.shop, d.yes)
+    add(
+      d.analytics,
+      site.tracking.length ? site.tracking.map((x) => x.replace(/_/g, ' ')).join(', ') : d.none,
       !site.tracking.length,
     )
   }
@@ -696,54 +690,47 @@ function openDetail(id: string) {
       ['linkedin', 'LinkedIn'],
       ['tiktok', 'TikTok'],
     ]) {
-      add(
-        label,
-        s[net]
-          ? link(
-              s[net],
-              net === 'instagram' && !s[net].includes('/')
-                ? `@${s[net].replace(/^@/, '')}`
-                : undefined,
-            )
-          : 'Not found',
-        !s[net],
-      )
+      const handle = s[net]
+      const shown =
+        net === 'instagram' && handle && !handle.includes('/')
+          ? `@${handle.replace(/^@/, '')}`
+          : undefined
+      add(label, handle ? link(handle, shown) : d.notFound, !handle)
     }
     const reviews = Object.entries(fp?.reviews ?? {})
     if (full)
       add(
-        'Reviews',
-        reviews.length ? reviews.map(([k, v]) => link(v, k)).join(', ') : 'None found',
+        t.reviews,
+        reviews.length ? reviews.map(([k, v]) => link(v, k)).join(', ') : d.noneFound,
         !reviews.length,
       )
-    if (fp?.google_rating) add('Google', `${fp.google_rating} from ${fp.google_reviews} reviews`)
+    if (fp?.google_rating && fp.google_reviews)
+      add('Google', d.google(fp.google_rating, fp.google_reviews))
   }
-  if (b.size) add('Staff', b.size)
+  if (b.size) add(t.staff('').trim(), b.size)
   if (b.founded)
-    add(
-      'Founded',
-      new Date(b.founded).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }),
-    )
-  if (b.phone) add('Phone', `<a href="tel:${esc(b.phone.replace(/\s/g, ''))}">${esc(b.phone)}</a>`)
+    add(d.founded, new Date(b.founded).toLocaleDateString(lang, { month: 'long', year: 'numeric' }))
+  if (b.phone) add(d.phone, `<a href="tel:${esc(b.phone.replace(/\s/g, ''))}">${esc(b.phone)}</a>`)
 
-  const area = state.place ? shortPlace(state.place.name).split(',')[0] : 'your area'
+  const area = state.place ? shortPlace(state.place.name).split(',')[0] : ''
   const score = !fp || fp.website === 'unknown' ? '—' : String(fp.opportunity)
   const osm = b.id.startsWith('osm:')
     ? `https://www.openstreetmap.org/${b.id.slice(4)}`
     : `https://www.openstreetmap.org/?mlat=${b.lat}&mlon=${b.lon}#map=18/${b.lat}/${b.lon}`
+  const sources = b.sources.map((x) => t.sources[x] ?? x).join(' + ')
   const wasOpen = !ui.detail.hidden
   ui.detail.innerHTML = `
-    <div class="d-kind">${esc(categoryLabel(b.category) || 'Business')} · ${b.sources.map((x) => SOURCE_NAMES[x] ?? x).join(' + ')}</div>
+    <div class="d-kind">${esc(categoryLabel(b.category, lang) || d.business)} · ${esc(sources)}</div>
     <h3 class="d-name">${esc(b.name)}</h3>
-    <p class="d-where">${esc(b.address ?? '')}${b.address ? '<br>' : ''}${b.distance_km.toFixed(1)} km from the centre of the search</p>
-    <div class="d-score"><b class="${fp && fp.opportunity >= HOT ? 'hot' : ''}">${score}</b><span>${fp?.website === 'unknown' ? 'Check by hand: the register has no website data' : 'out of 100 missing'}</span></div>
+    <p class="d-where">${esc(b.address ?? '')}${b.address ? '<br>' : ''}${d.fromCentre(b.distance_km.toFixed(1))}</p>
+    <div class="d-score"><b class="${fp && fp.opportunity >= HOT ? 'hot' : ''}">${score}</b><span>${fp?.website === 'unknown' ? d.byHand : d.outOf}</span></div>
     <ul class="checks">${rows.map(([l, v, bad]) => `<li class="${bad ? 'bad' : ''}"><span>${l}</span><span>${v}</span></li>`).join('')}</ul>
-    <p class="d-label">First message</p>
-    <pre class="msg" contenteditable="true" spellcheck="false">${esc(message(b, fp, area))}</pre>
+    <p class="d-label">${d.firstMessage}</p>
+    <pre class="msg" contenteditable="true" spellcheck="false">${esc(message(b, fp, area, t, lang))}</pre>
     <div class="d-acts">
-      <button class="act" type="button" data-act="copy">Copy message</button>
-      <a class="act" href="${esc(osm)}" target="_blank" rel="noopener noreferrer">Open on the map</a>
-      <button class="act quiet" type="button" data-act="close">Close</button>
+      <button class="act" type="button" data-act="copy">${d.copy}</button>
+      <a class="act" href="${esc(osm)}" target="_blank" rel="noopener noreferrer">${d.openMap}</a>
+      <button class="act quiet" type="button" data-act="close">${d.close}</button>
     </div>`
   ui.detail.querySelector('.d-score b.hot')?.setAttribute('style', 'color: var(--red)')
   if (!wasOpen) {
@@ -787,8 +774,8 @@ ui.detail.addEventListener('click', async (e) => {
   if (act === 'copy') {
     const text = ui.detail.querySelector('.msg')?.textContent ?? ''
     await navigator.clipboard.writeText(text).then(
-      () => toast('Message copied.'),
-      () => toast("Couldn't reach the clipboard. Select the text instead."),
+      () => toast(t.copied),
+      () => toast(t.clipboard),
     )
   }
 })
@@ -841,9 +828,72 @@ function toast(text: string) {
 
 addEventListener('keydown', (e) => {
   if (e.key !== 'Escape') return
-  if (!ui.sheet.hidden) closeSheet()
+  if (!langList.hidden) langList.hidden = true
+  else if (!ui.sheet.hidden) closeSheet()
   else if (!ui.detail.hidden) closeDetail()
   else if (state.pick) dropPin()
+})
+
+/* Language */
+
+const langNow = $<HTMLButtonElement>('.lang-now')
+const langList = $('.langs')
+
+function get(path: string): string {
+  return path.split('.').reduce<unknown>((o, k) => (o as Record<string, unknown>)?.[k], t) as string
+}
+
+function applyLang() {
+  document.documentElement.lang = lang
+  // Arabic reads right to left.
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr'
+  for (const el of document.querySelectorAll<HTMLElement>('[data-t]')) {
+    el.textContent = get(el.dataset.t as string)
+  }
+  split?.revert()
+  ui.title.innerHTML = `${t.hero[0]}<br />${t.hero[1]}`
+  if (split) {
+    split = SplitText.create(ui.title, { type: 'lines', mask: 'lines', linesClass: 'line-mask' })
+  }
+  for (const [name, [title, paragraphs]] of [
+    ['how', t.how],
+    ['sources', t.about],
+  ] as const) {
+    $(`article[data-sheet="${name}"]`, ui.sheet).innerHTML =
+      `<h2>${title}</h2>${paragraphs.map((p) => `<p>${p}</p>`).join('')}`
+  }
+  langNow.textContent = lang.toUpperCase()
+  langList.innerHTML = LANGS.map(
+    (l) =>
+      `<li><button type="button" data-lang="${l}" lang="${l}" aria-current="${l === lang}">${STRINGS[l].native}</button></li>`,
+  ).join('')
+  ui.input.setAttribute('aria-label', t.hint)
+  if (state.pick) ui.ghost.textContent = t.pickGhost
+  else if (typing) typeExamples()
+  if (state.mode === 'map' && state.place) {
+    ui.rTitle.textContent = titleFor(state.intent, state.place)
+    ui.depth.textContent = state.engine?.depth === 'full' ? t.depthFull : t.depthMap
+    renderFilters()
+    render()
+    if (state.selected) openDetail(state.selected)
+  }
+}
+
+langNow.addEventListener('click', () => {
+  const open = langList.hidden
+  langList.hidden = !open
+  langNow.setAttribute('aria-expanded', String(open))
+  if (open) gsap.from(langList.children, { autoAlpha: 0, y: -4, stagger: 0.025, duration: 0.4 })
+})
+langList.addEventListener('click', (e) => {
+  const picked = (e.target as HTMLElement).closest<HTMLElement>('[data-lang]')?.dataset.lang
+  if (!picked) return
+  lang = picked as Lang
+  t = STRINGS[lang]
+  localStorage.setItem('footprint.lang', lang)
+  langList.hidden = true
+  langNow.setAttribute('aria-expanded', 'false')
+  applyLang()
 })
 
 /* Boot */
@@ -854,6 +904,7 @@ async function boot() {
     globe.load(`${import.meta.env.BASE_URL}land.bin`),
   ])
   state.engine = engine
+  applyLang()
   placeKnob(state.km)
   intro()
 }

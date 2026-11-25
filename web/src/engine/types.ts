@@ -13,6 +13,8 @@ export type Gap =
   | 'no_tiktok'
   | 'no_reviews'
   | 'no_tracking'
+  | 'weak_seo'
+  | 'no_contact'
 
 export interface Place {
   name: string
@@ -20,6 +22,9 @@ export interface Place {
   lon: number
   kind?: string | null
   country?: string | null
+  capital?: string | null
+  locality?: string | null
+  importance?: number
   bbox?: [number, number, number, number] | null
   radius_km?: number
 }
@@ -52,6 +57,15 @@ export interface Site {
   socials: Record<string, string>
   tracking: string[]
   reviews: Record<string, string>
+  platform?: string | null
+  title?: string | null
+  description?: string | null
+  seo_missing?: string[]
+  emails?: string[]
+  contact?: string[]
+  booking?: string[]
+  shop?: string | null
+  structured_data?: boolean
 }
 
 export interface Footprint {
@@ -68,7 +82,8 @@ export interface Footprint {
 
 export interface Intent {
   text: string
-  categories: { id: string; label: string }[]
+  categories: { id: string; label: string; labels?: Record<string, string> }[]
+  types?: string[]
   terms: string | null
   place: string | null
   gaps: Gap[]
@@ -82,8 +97,8 @@ export type SearchEvent =
   | { kind: 'place'; data: Place }
   | { kind: 'businesses'; data: { source: string; items: Business[] } }
   | { kind: 'footprint'; data: Footprint }
-  | { kind: 'notice'; data: { source: string; message: string } }
-  | { kind: 'problem'; data: { code: string; message: string } }
+  | { kind: 'notice'; data: { source: string; code: string } }
+  | { kind: 'problem'; data: { code: string } }
   | { kind: 'done'; data: { count: number; elapsed_ms: number; sources: Record<string, string> } }
 
 export interface SearchRequest {
@@ -91,6 +106,7 @@ export interface SearchRequest {
   lat?: number
   lon?: number
   radius_km?: number
+  lang?: string
 }
 
 export interface Engine {
@@ -98,19 +114,4 @@ export interface Engine {
   readonly depth: 'full' | 'map'
   search(req: SearchRequest, signal: AbortSignal): AsyncIterable<SearchEvent>
   reverse(lat: number, lon: number): Promise<Place | null>
-}
-
-export const GAP_LABEL: Record<Gap, string> = {
-  no_website: 'No website',
-  unreachable: 'Website down',
-  not_secure: 'Not secure',
-  slow: 'Slow site',
-  not_mobile: 'Not mobile',
-  outdated: 'Outdated site',
-  no_instagram: 'No Instagram',
-  no_facebook: 'No Facebook',
-  no_linkedin: 'No LinkedIn',
-  no_tiktok: 'No TikTok',
-  no_reviews: 'No reviews',
-  no_tracking: 'No analytics',
 }

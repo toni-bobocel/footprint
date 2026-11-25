@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { toCsv } from '../csv'
+import { STRINGS } from '../i18n'
 import { message } from '../outreach'
 import { mapFootprint, merge } from './local'
 import type { Business } from './types'
@@ -61,7 +62,7 @@ describe('merge', () => {
 describe('outreach', () => {
   it('names one concrete thing', () => {
     const b = shop()
-    const text = message(b, mapFootprint(b), 'Lyon')
+    const text = message(b, mapFootprint(b), 'Lyon', STRINGS.en, 'en')
     expect(text).toContain('Hi Boulangerie du Parc,')
     expect(text).toContain("I couldn't find a website for you")
     expect(text).toContain('around Lyon')
@@ -74,5 +75,14 @@ describe('csv', () => {
     const row = csv.split('\r\n')[1]
     expect(row.startsWith(`"'=HYPERLINK(""x"")"`)).toBe(true)
     expect(row).toContain('"3 Place, Lyon"')
+  })
+})
+
+describe('outreach in French', () => {
+  it('uses the category name in the reader language', () => {
+    const b = shop()
+    const text = message(b, mapFootprint(b), 'Lyon', STRINGS.fr, 'fr')
+    expect(text).toContain('Bonjour Boulangerie du Parc,')
+    expect(text).toContain('les boulangeries autour de Lyon')
   })
 })
