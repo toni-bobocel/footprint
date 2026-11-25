@@ -1,0 +1,228 @@
+{
+  "$comment": "Run by api/tests/test_query.py and web/src/engine/query.test.ts so the two parsers stay identical.",
+  "cases": [
+    {
+      "q": "bakeries in Lyon without a website",
+      "categories": ["bakery"],
+      "place": "Lyon",
+      "gaps": ["no_website"]
+    },
+    {
+      "q": "Plumbers near Manchester with no Instagram and no reviews",
+      "categories": ["plumber"],
+      "place": "Manchester",
+      "gaps": ["no_instagram", "no_reviews"]
+    },
+    {
+      "q": "cafes in Lyon that have no website",
+      "categories": ["cafe"],
+      "place": "Lyon",
+      "gaps": ["no_website"]
+    },
+    {
+      "q": "pet shops in Trinidad and Tobago",
+      "categories": ["pet"],
+      "place": "Trinidad and Tobago"
+    },
+    {
+      "q": "coffee shops in New York",
+      "categories": ["cafe"],
+      "place": "New York"
+    },
+    {
+      "q": "new coffee shops in Brooklyn, New York",
+      "categories": ["cafe"],
+      "place": "Brooklyn, New York",
+      "recent": true
+    },
+    {
+      "q": "coffee shops in Rome",
+      "categories": ["cafe"],
+      "place": "Rome"
+    },
+    {
+      "q": "small law firms within 20 km of 48.8566, 2.3522",
+      "categories": ["lawyer"],
+      "place": null,
+      "size": "small",
+      "radius_km": 20.0,
+      "lat": 48.8566,
+      "lon": 2.3522
+    },
+    {
+      "q": "Tesla in Austin",
+      "categories": [],
+      "place": "Austin",
+      "terms": "Tesla"
+    },
+    {
+      "q": "Tesla",
+      "categories": [],
+      "place": null,
+      "terms": "Tesla"
+    },
+    {
+      "q": "Moldova",
+      "categories": [],
+      "place": null,
+      "terms": "Moldova"
+    },
+    {
+      "q": "hair salons",
+      "categories": ["hairdresser"],
+      "place": null
+    },
+    {
+      "q": "New York bakeries",
+      "categories": ["bakery"],
+      "place": "New York"
+    },
+    {
+      "q": "dentists in São Paulo not mobile friendly",
+      "categories": ["dentist"],
+      "place": "São Paulo",
+      "gaps": ["not_mobile"]
+    },
+    {
+      "q": "cafés in Paris",
+      "categories": ["cafe"],
+      "place": "Paris"
+    },
+    {
+      "q": "bakery moldova",
+      "categories": ["bakery"],
+      "place": "moldova"
+    },
+    {
+      "q": "fréjus dentiste",
+      "categories": ["dentist"],
+      "place": "fréjus"
+    },
+    {
+      "q": "dentiste à Fréjus",
+      "categories": ["dentist"],
+      "place": "Fréjus"
+    },
+    {
+      "q": "plombier près de Nantes",
+      "categories": ["plumber"],
+      "place": "Nantes"
+    },
+    {
+      "q": "coiffeur paris",
+      "categories": ["hairdresser"],
+      "place": "paris"
+    },
+    {
+      "q": "boulangeries récentes à Lyon sans site",
+      "categories": ["bakery"],
+      "place": "Lyon",
+      "gaps": ["no_website"],
+      "recent": true
+    },
+    {
+      "q": "nouvelles boulangeries à Lyon",
+      "categories": ["bakery"],
+      "place": "Lyon",
+      "recent": true
+    },
+    {
+      "q": "petits restaurants près de Nice",
+      "categories": ["restaurant"],
+      "place": "Nice",
+      "size": "small"
+    },
+    {
+      "q": "panaderías en Madrid sin web",
+      "categories": ["bakery"],
+      "place": "Madrid",
+      "gaps": ["no_website"]
+    },
+    {
+      "q": "restaurantes en Rio de Janeiro",
+      "categories": ["restaurant"],
+      "place": "Rio de Janeiro"
+    },
+    {
+      "q": "padarias em Lisboa sem instagram",
+      "categories": ["bakery"],
+      "place": "Lisboa",
+      "gaps": ["no_instagram"]
+    },
+    {
+      "q": "Bäckereien in München ohne Webseite",
+      "categories": ["bakery"],
+      "place": "München",
+      "gaps": ["no_website"]
+    },
+    {
+      "q": "neue Cafés in Berlin",
+      "categories": ["cafe"],
+      "place": "Berlin",
+      "recent": true
+    },
+    {
+      "q": "panetterie a Roma senza sito",
+      "categories": ["bakery"],
+      "place": "Roma",
+      "gaps": ["no_website"]
+    },
+    {
+      "q": "上海的面包店",
+      "categories": ["bakery"],
+      "place": "上海"
+    },
+    {
+      "q": "北京没有网站的咖啡店",
+      "categories": ["cafe"],
+      "place": "北京",
+      "gaps": ["no_website"]
+    },
+    {
+      "q": "台北 咖啡店",
+      "categories": ["cafe"],
+      "place": "台北"
+    },
+    {
+      "q": "東京のパン屋 ウェブサイトなし",
+      "categories": ["bakery"],
+      "place": "東京",
+      "gaps": ["no_website"]
+    },
+    {
+      "q": "大阪のカフェ",
+      "categories": ["cafe"],
+      "place": "大阪"
+    },
+    {
+      "q": "مخابز في دبي بدون موقع",
+      "categories": ["bakery"],
+      "place": "دبي",
+      "gaps": ["no_website"]
+    },
+    {
+      "q": "пекарни в Москве без сайта",
+      "categories": ["bakery"],
+      "place": "Москве",
+      "gaps": ["no_website"]
+    },
+    {
+      "q": "стоматологии в Казани без отзывов",
+      "categories": ["dentist"],
+      "place": "Казани",
+      "gaps": ["no_reviews"]
+    },
+    {
+      "q": "cheese shops in Paris",
+      "categories": [],
+      "types": ["cheese_shop"],
+      "place": "Paris"
+    },
+    {
+      "q": "escape room london",
+      "categories": [],
+      "types": ["escape_room"],
+      "place": "london"
+    }
+  ]
+}

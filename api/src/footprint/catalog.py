@@ -11,6 +11,8 @@ _DEFAULT = Path(__file__).resolve().parents[3] / 'shared' / 'categories.json'
 class Category:
     id: str
     label: str
+    # Display names per language, and every word that means this category in any of them.
+    labels: dict[str, str]
     words: tuple[str, ...]
     osm: tuple[tuple[str, str], ...]
     overture: tuple[str, ...]
@@ -24,7 +26,8 @@ def categories(path: Path = _DEFAULT) -> tuple[Category, ...]:
         Category(
             id=c['id'],
             label=c['label'],
-            words=tuple(w.lower() for w in c['words']),
+            labels=c['labels'],
+            words=tuple(w.lower() for ws in c['words'].values() for w in ws),
             osm=tuple((k, v) for k, v in c['osm']),
             overture=tuple(c['overture']),
             naf=tuple(c['naf']),

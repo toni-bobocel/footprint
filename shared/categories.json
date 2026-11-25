@@ -1,10 +1,33 @@
 {
-  "$comment": "One catalogue for the API and the web client. osm: tag pairs matched with OR. overture: names anywhere in an Overture place's taxonomy hierarchy. naf: French activity codes for the SIRENE source.",
+  "$comment": "One catalogue for the API and the web client. words: what people type, per language; labels: what the interface shows. osm: tag pairs matched with OR. overture: names anywhere in an Overture place's taxonomy hierarchy. naf: French activity codes for the SIRENE source.",
   "categories": [
     {
       "id": "bakery",
       "label": "Bakeries",
-      "words": ["bakery", "bakeries", "baker", "bakers", "boulangerie"],
+      "labels": {
+        "en": "Bakeries",
+        "fr": "Boulangeries",
+        "es": "Panaderías",
+        "pt": "Padarias",
+        "de": "Bäckereien",
+        "it": "Panetterie",
+        "zh": "面包店",
+        "ja": "パン屋",
+        "ar": "مخابز",
+        "ru": "Пекарни"
+      },
+      "words": {
+        "en": ["bakeries", "bakery", "baker", "bakers"],
+        "fr": ["boulangeries", "boulangerie", "boulanger", "boulangers"],
+        "es": ["panaderías", "panadería", "panaderia", "panaderias"],
+        "pt": ["padarias", "padaria"],
+        "de": ["bäckereien", "bäckerei", "bäcker"],
+        "it": ["panetterie", "panetteria", "panificio", "forno"],
+        "zh": ["面包店", "面包房", "烘焙店"],
+        "ja": ["パン屋", "ベーカリー"],
+        "ar": ["مخابز", "مخبز"],
+        "ru": ["пекарни", "пекарня", "булочная", "булочные"]
+      },
       "osm": [["shop", "bakery"]],
       "overture": ["bakery"],
       "naf": ["10.71C", "10.71D"]
@@ -12,7 +35,30 @@
     {
       "id": "pastry",
       "label": "Pastry shops",
-      "words": ["pastry", "pastries", "patisserie", "cake shop"],
+      "labels": {
+        "en": "Pastry shops",
+        "fr": "Pâtisseries",
+        "es": "Pastelerías",
+        "pt": "Confeitarias",
+        "de": "Konditoreien",
+        "it": "Pasticcerie",
+        "zh": "甜品店",
+        "ja": "ケーキ屋",
+        "ar": "محلات الحلويات",
+        "ru": "Кондитерские"
+      },
+      "words": {
+        "en": ["pastry shops", "pastry", "pastries", "patisserie", "cake shop"],
+        "fr": ["pâtisseries", "pâtisserie", "patisserie", "chocolatier"],
+        "es": ["pastelerías", "pastelería", "reposterías"],
+        "pt": ["confeitarias", "confeitaria", "pastelaria", "pastelarias"],
+        "de": ["konditoreien", "konditorei"],
+        "it": ["pasticcerie", "pasticceria"],
+        "zh": ["甜品店", "蛋糕店", "糕点店"],
+        "ja": ["ケーキ屋", "洋菓子店", "パティスリー"],
+        "ar": ["محلات الحلويات", "حلويات"],
+        "ru": ["кондитерские", "кондитерская"]
+      },
       "osm": [["shop", "pastry"], ["shop", "confectionery"]],
       "overture": ["dessert_shop", "cupcake_shop", "chocolatier", "patisserie"],
       "naf": ["10.71D"]
@@ -20,7 +66,30 @@
     {
       "id": "butcher",
       "label": "Butchers",
-      "words": ["butcher", "butchers"],
+      "labels": {
+        "en": "Butchers",
+        "fr": "Boucheries",
+        "es": "Carnicerías",
+        "pt": "Açougues",
+        "de": "Metzgereien",
+        "it": "Macellerie",
+        "zh": "肉店",
+        "ja": "肉屋",
+        "ar": "ملاحم",
+        "ru": "Мясные лавки"
+      },
+      "words": {
+        "en": ["butchers", "butcher"],
+        "fr": ["boucheries", "boucherie", "boucher"],
+        "es": ["carnicerías", "carnicería"],
+        "pt": ["açougues", "açougue", "talhos", "talho"],
+        "de": ["metzgereien", "metzgerei", "metzger", "fleischerei"],
+        "it": ["macellerie", "macelleria"],
+        "zh": ["肉店", "肉铺"],
+        "ja": ["肉屋", "精肉店"],
+        "ar": ["ملاحم", "ملحمة", "جزار"],
+        "ru": ["мясные лавки", "мясная лавка"]
+      },
       "osm": [["shop", "butcher"]],
       "overture": ["butcher_shop"],
       "naf": ["47.22Z", "10.13B"]
@@ -28,7 +97,43 @@
     {
       "id": "grocery",
       "label": "Grocery stores",
-      "words": ["grocery", "groceries", "grocer", "convenience store", "corner shop"],
+      "labels": {
+        "en": "Grocery stores",
+        "fr": "Épiceries",
+        "es": "Tiendas de comestibles",
+        "pt": "Mercearias",
+        "de": "Lebensmittelgeschäfte",
+        "it": "Alimentari",
+        "zh": "杂货店",
+        "ja": "コンビニ",
+        "ar": "بقالات",
+        "ru": "Продуктовые магазины"
+      },
+      "words": {
+        "en": [
+          "grocery stores",
+          "grocery",
+          "groceries",
+          "grocer",
+          "convenience store",
+          "corner shop"
+        ],
+        "fr": ["épiceries", "épicerie", "supérette"],
+        "es": [
+          "tiendas de comestibles",
+          "tienda de comestibles",
+          "colmado",
+          "abarrotes",
+          "ultramarinos"
+        ],
+        "pt": ["mercearias", "mercearia", "mercadinho"],
+        "de": ["lebensmittelgeschäfte", "lebensmittelgeschäft", "späti", "kiosk"],
+        "it": ["alimentari", "negozio di alimentari"],
+        "zh": ["杂货店", "便利店", "小卖部"],
+        "ja": ["コンビニ", "食料品店"],
+        "ar": ["بقالات", "بقالة", "دكان"],
+        "ru": ["продуктовые магазины", "продуктовый магазин", "магазин у дома"]
+      },
       "osm": [["shop", "convenience"], ["shop", "greengrocer"]],
       "overture": [
         "grocery_store",
@@ -42,7 +147,30 @@
     {
       "id": "supermarket",
       "label": "Supermarkets",
-      "words": ["supermarket", "supermarkets"],
+      "labels": {
+        "en": "Supermarkets",
+        "fr": "Supermarchés",
+        "es": "Supermercados",
+        "pt": "Supermercados",
+        "de": "Supermärkte",
+        "it": "Supermercati",
+        "zh": "超市",
+        "ja": "スーパー",
+        "ar": "سوبرماركت",
+        "ru": "Супермаркеты"
+      },
+      "words": {
+        "en": ["supermarkets", "supermarket"],
+        "fr": ["supermarchés", "supermarché", "hypermarché"],
+        "es": ["supermercados", "supermercado"],
+        "pt": ["supermercados", "supermercado"],
+        "de": ["supermärkte", "supermarkt"],
+        "it": ["supermercati", "supermercato"],
+        "zh": ["超市", "超级市场"],
+        "ja": ["スーパー", "スーパーマーケット"],
+        "ar": ["سوبرماركت", "متاجر كبرى"],
+        "ru": ["супермаркеты", "супермаркет"]
+      },
       "osm": [["shop", "supermarket"]],
       "overture": ["supermarket", "hypermarket"],
       "naf": ["47.11D", "47.11F"]
@@ -50,7 +178,30 @@
     {
       "id": "restaurant",
       "label": "Restaurants",
-      "words": ["restaurant", "restaurants", "bistro", "bistros", "diner", "diners"],
+      "labels": {
+        "en": "Restaurants",
+        "fr": "Restaurants",
+        "es": "Restaurantes",
+        "pt": "Restaurantes",
+        "de": "Restaurants",
+        "it": "Ristoranti",
+        "zh": "餐厅",
+        "ja": "レストラン",
+        "ar": "مطاعم",
+        "ru": "Рестораны"
+      },
+      "words": {
+        "en": ["restaurants", "restaurant", "bistro", "bistros", "diner", "diners"],
+        "fr": ["restaurants", "restaurant", "resto", "restos", "brasserie"],
+        "es": ["restaurantes", "restaurante"],
+        "pt": ["restaurantes", "restaurante"],
+        "de": ["restaurants", "restaurant", "gaststätte", "gasthaus"],
+        "it": ["ristoranti", "ristorante", "trattoria", "osteria"],
+        "zh": ["餐厅", "餐馆", "饭店", "饭馆"],
+        "ja": ["レストラン", "飲食店", "食堂"],
+        "ar": ["مطاعم", "مطعم"],
+        "ru": ["рестораны", "ресторан"]
+      },
       "osm": [["amenity", "restaurant"]],
       "overture": ["restaurant"],
       "naf": ["56.10A"]
@@ -58,7 +209,30 @@
     {
       "id": "fast_food",
       "label": "Fast food",
-      "words": ["fast food", "takeaway", "takeaways", "burger", "kebab", "pizzeria", "pizzerias"],
+      "labels": {
+        "en": "Fast food",
+        "fr": "Fast-foods",
+        "es": "Comida rápida",
+        "pt": "Lanchonetes",
+        "de": "Imbisse",
+        "it": "Fast food",
+        "zh": "快餐店",
+        "ja": "ファストフード",
+        "ar": "وجبات سريعة",
+        "ru": "Фастфуд"
+      },
+      "words": {
+        "en": ["fast food", "takeaway", "takeaways", "burger", "kebab", "pizzeria", "pizzerias"],
+        "fr": ["fast-foods", "fast-food", "snack", "kebab", "pizzeria"],
+        "es": ["comida rápida", "pizzerías", "hamburgueserías"],
+        "pt": ["lanchonetes", "lanchonete", "fast food", "pizzarias"],
+        "de": ["imbisse", "imbiss", "schnellrestaurant", "pizzeria", "dönerladen"],
+        "it": ["fast food", "pizzerie", "pizzeria", "paninoteca"],
+        "zh": ["快餐店", "快餐"],
+        "ja": ["ファストフード", "ハンバーガー"],
+        "ar": ["وجبات سريعة", "مطاعم الوجبات السريعة"],
+        "ru": ["фастфуд", "шаурма", "пиццерии"]
+      },
       "osm": [["amenity", "fast_food"]],
       "overture": [
         "fast_food_restaurant",
@@ -73,7 +247,30 @@
     {
       "id": "cafe",
       "label": "Cafés",
-      "words": ["cafe", "cafes", "café", "cafés", "coffee shop", "coffee shops", "coffee"],
+      "labels": {
+        "en": "Cafés",
+        "fr": "Cafés",
+        "es": "Cafeterías",
+        "pt": "Cafés",
+        "de": "Cafés",
+        "it": "Bar caffè",
+        "zh": "咖啡店",
+        "ja": "カフェ",
+        "ar": "مقاهي",
+        "ru": "Кафе"
+      },
+      "words": {
+        "en": ["cafés", "cafe", "cafes", "café", "coffee shop", "coffee shops", "coffee"],
+        "fr": ["cafés", "café", "salon de thé", "coffee shop"],
+        "es": ["cafeterías", "cafetería", "café", "cafés"],
+        "pt": ["cafés", "café", "cafeteria", "cafeterias"],
+        "de": ["cafés", "café", "cafe", "kaffee"],
+        "it": ["bar caffè", "caffè", "caffetteria"],
+        "zh": ["咖啡店", "咖啡馆", "咖啡厅"],
+        "ja": ["カフェ", "喫茶店", "コーヒー店"],
+        "ar": ["مقاهي", "مقهى", "كافيه"],
+        "ru": ["кафе", "кофейни", "кофейня"]
+      },
       "osm": [["amenity", "cafe"]],
       "overture": ["cafe", "coffee_shop", "tea_room", "bubble_tea_shop"],
       "naf": ["56.30Z"]
@@ -81,7 +278,30 @@
     {
       "id": "bar",
       "label": "Bars and pubs",
-      "words": ["bar", "bars", "pub", "pubs"],
+      "labels": {
+        "en": "Bars",
+        "fr": "Bars",
+        "es": "Bares",
+        "pt": "Bares",
+        "de": "Bars",
+        "it": "Pub",
+        "zh": "酒吧",
+        "ja": "バー",
+        "ar": "حانات",
+        "ru": "Бары"
+      },
+      "words": {
+        "en": ["bars", "bar", "pub", "pubs"],
+        "fr": ["bars", "bar", "pub"],
+        "es": ["bares", "bar", "pub"],
+        "pt": ["bares", "bar", "botequim"],
+        "de": ["bars", "bar", "kneipe", "kneipen"],
+        "it": ["pub", "bar", "birreria", "enoteca"],
+        "zh": ["酒吧"],
+        "ja": ["バー", "居酒屋", "パブ"],
+        "ar": ["حانات", "بار"],
+        "ru": ["бары", "бар", "паб"]
+      },
       "osm": [["amenity", "bar"], ["amenity", "pub"]],
       "overture": ["bar", "pub"],
       "naf": ["56.30Z"]
@@ -89,7 +309,30 @@
     {
       "id": "hotel",
       "label": "Hotels",
-      "words": ["hotel", "hotels", "guest house", "guesthouses", "b&b", "hostel", "hostels"],
+      "labels": {
+        "en": "Hotels",
+        "fr": "Hôtels",
+        "es": "Hoteles",
+        "pt": "Hotéis",
+        "de": "Hotels",
+        "it": "Hotel",
+        "zh": "酒店",
+        "ja": "ホテル",
+        "ar": "فنادق",
+        "ru": "Отели"
+      },
+      "words": {
+        "en": ["hotels", "hotel", "guest house", "guesthouses", "b&b", "hostel", "hostels"],
+        "fr": ["hôtels", "hôtel", "hotel", "chambres d'hôtes", "auberge"],
+        "es": ["hoteles", "hotel", "hostal", "hostales"],
+        "pt": ["hotéis", "hotel", "pousada", "pousadas"],
+        "de": ["hotels", "hotel", "pension", "herberge"],
+        "it": ["hotel", "albergo", "alberghi", "b&b"],
+        "zh": ["酒店", "宾馆", "旅馆"],
+        "ja": ["ホテル", "旅館", "民宿"],
+        "ar": ["فنادق", "فندق"],
+        "ru": ["отели", "отель", "гостиница", "гостиницы", "хостел"]
+      },
       "osm": [["tourism", "hotel"], ["tourism", "guest_house"], ["tourism", "hostel"]],
       "overture": ["hotel", "bed_and_breakfast", "hostel", "inn", "guest_house"],
       "naf": ["55.10Z", "55.20Z"]
@@ -97,15 +340,38 @@
     {
       "id": "hairdresser",
       "label": "Hairdressers",
-      "words": [
-        "hairdresser",
-        "hairdressers",
-        "hair salon",
-        "hair salons",
-        "barber",
-        "barbers",
-        "barbershop"
-      ],
+      "labels": {
+        "en": "Hairdressers",
+        "fr": "Coiffeurs",
+        "es": "Peluquerías",
+        "pt": "Cabeleireiros",
+        "de": "Friseure",
+        "it": "Parrucchieri",
+        "zh": "理发店",
+        "ja": "美容院",
+        "ar": "صالونات الحلاقة",
+        "ru": "Парикмахерские"
+      },
+      "words": {
+        "en": [
+          "hairdressers",
+          "hairdresser",
+          "hair salon",
+          "hair salons",
+          "barber",
+          "barbers",
+          "barbershop"
+        ],
+        "fr": ["coiffeurs", "coiffeur", "coiffeuse", "salon de coiffure", "barbier"],
+        "es": ["peluquerías", "peluquería", "barbería", "barberías"],
+        "pt": ["cabeleireiros", "cabeleireiro", "salão de cabeleireiro", "barbearia", "barbearias"],
+        "de": ["friseure", "friseur", "frisör", "friseursalon", "barbier"],
+        "it": ["parrucchieri", "parrucchiere", "barbiere", "barbieri"],
+        "zh": ["理发店", "美发店", "发廊"],
+        "ja": ["美容院", "美容室", "理容室", "床屋"],
+        "ar": ["صالونات الحلاقة", "حلاق", "صالون تجميل الشعر"],
+        "ru": ["парикмахерские", "парикмахерская", "барбершоп"]
+      },
       "osm": [["shop", "hairdresser"]],
       "overture": ["hair_salon", "barber", "hair_stylist"],
       "naf": ["96.02A"]
@@ -113,16 +379,39 @@
     {
       "id": "beauty",
       "label": "Beauty salons",
-      "words": [
-        "beauty",
-        "beauty salon",
-        "beauty salons",
-        "nail salon",
-        "nails",
-        "spa",
-        "spas",
-        "aesthetician"
-      ],
+      "labels": {
+        "en": "Beauty salons",
+        "fr": "Instituts de beauté",
+        "es": "Salones de belleza",
+        "pt": "Salões de beleza",
+        "de": "Kosmetikstudios",
+        "it": "Centri estetici",
+        "zh": "美容院",
+        "ja": "エステサロン",
+        "ar": "صالونات التجميل",
+        "ru": "Салоны красоты"
+      },
+      "words": {
+        "en": [
+          "beauty salons",
+          "beauty",
+          "beauty salon",
+          "nail salon",
+          "nails",
+          "spa",
+          "spas",
+          "aesthetician"
+        ],
+        "fr": ["instituts de beauté", "institut de beauté", "esthéticienne", "onglerie", "spa"],
+        "es": ["salones de belleza", "salón de belleza", "centro de estética", "manicura"],
+        "pt": ["salões de beleza", "salão de beleza", "estética", "manicure"],
+        "de": ["kosmetikstudios", "kosmetikstudio", "nagelstudio", "schönheitssalon"],
+        "it": ["centri estetici", "centro estetico", "estetista", "nail bar"],
+        "zh": ["美容院", "美甲店", "美容店"],
+        "ja": ["エステサロン", "ネイルサロン", "エステ"],
+        "ar": ["صالونات التجميل", "صالون تجميل", "سبا"],
+        "ru": ["салоны красоты", "салон красоты", "маникюр", "спа"]
+      },
       "osm": [["shop", "beauty"], ["leisure", "spa"]],
       "overture": [
         "beauty_salon",
@@ -138,7 +427,30 @@
     {
       "id": "tattoo",
       "label": "Tattoo studios",
-      "words": ["tattoo", "tattoos", "tattoo studio", "piercing"],
+      "labels": {
+        "en": "Tattoo studios",
+        "fr": "Salons de tatouage",
+        "es": "Estudios de tatuaje",
+        "pt": "Estúdios de tatuagem",
+        "de": "Tattoostudios",
+        "it": "Studi di tatuaggi",
+        "zh": "纹身店",
+        "ja": "タトゥースタジオ",
+        "ar": "استوديوهات الوشم",
+        "ru": "Тату-салоны"
+      },
+      "words": {
+        "en": ["tattoo studios", "tattoo", "tattoos", "tattoo studio", "piercing"],
+        "fr": ["salons de tatouage", "tatoueur", "tatouage", "piercing"],
+        "es": ["estudios de tatuaje", "tatuajes", "tatuador"],
+        "pt": ["estúdios de tatuagem", "tatuagem", "tatuador"],
+        "de": ["tattoostudios", "tattoostudio", "tätowierer"],
+        "it": ["studi di tatuaggi", "tatuatore", "tatuaggi"],
+        "zh": ["纹身店", "纹身"],
+        "ja": ["タトゥースタジオ", "タトゥー"],
+        "ar": ["استوديوهات الوشم", "وشم"],
+        "ru": ["тату-салоны", "тату-салон", "тату"]
+      },
       "osm": [["shop", "tattoo"]],
       "overture": ["tattoo_and_piercing", "tattoo"],
       "naf": ["96.09Z"]
@@ -146,7 +458,30 @@
     {
       "id": "florist",
       "label": "Florists",
-      "words": ["florist", "florists", "flower shop", "flowers"],
+      "labels": {
+        "en": "Florists",
+        "fr": "Fleuristes",
+        "es": "Floristerías",
+        "pt": "Floriculturas",
+        "de": "Blumenläden",
+        "it": "Fioristi",
+        "zh": "花店",
+        "ja": "花屋",
+        "ar": "محلات الزهور",
+        "ru": "Цветочные магазины"
+      },
+      "words": {
+        "en": ["florists", "florist", "flower shop", "flowers"],
+        "fr": ["fleuristes", "fleuriste"],
+        "es": ["floristerías", "floristería", "florista"],
+        "pt": ["floriculturas", "floricultura", "florista", "floristas"],
+        "de": ["blumenläden", "blumenladen", "florist", "blumengeschäft"],
+        "it": ["fioristi", "fiorista", "fioraio"],
+        "zh": ["花店"],
+        "ja": ["花屋", "フラワーショップ"],
+        "ar": ["محلات الزهور", "محل زهور"],
+        "ru": ["цветочные магазины", "цветочный магазин", "цветы"]
+      },
       "osm": [["shop", "florist"]],
       "overture": ["florist", "flowers_and_gifts_store"],
       "naf": ["47.76Z"]
@@ -154,7 +489,38 @@
     {
       "id": "clothes",
       "label": "Clothing stores",
-      "words": ["clothes", "clothing", "fashion", "boutique", "boutiques", "apparel"],
+      "labels": {
+        "en": "Clothing stores",
+        "fr": "Magasins de vêtements",
+        "es": "Tiendas de ropa",
+        "pt": "Lojas de roupa",
+        "de": "Bekleidungsgeschäfte",
+        "it": "Negozi di abbigliamento",
+        "zh": "服装店",
+        "ja": "洋服屋",
+        "ar": "محلات الملابس",
+        "ru": "Магазины одежды"
+      },
+      "words": {
+        "en": [
+          "clothing stores",
+          "clothes",
+          "clothing",
+          "fashion",
+          "boutique",
+          "boutiques",
+          "apparel"
+        ],
+        "fr": ["magasins de vêtements", "vêtements", "boutique de vêtements", "prêt-à-porter"],
+        "es": ["tiendas de ropa", "tienda de ropa", "ropa", "moda"],
+        "pt": ["lojas de roupa", "loja de roupa", "roupas", "moda"],
+        "de": ["bekleidungsgeschäfte", "modegeschäft", "kleidung", "boutique"],
+        "it": ["negozi di abbigliamento", "abbigliamento", "boutique"],
+        "zh": ["服装店", "服饰店"],
+        "ja": ["洋服屋", "衣料品店", "アパレル"],
+        "ar": ["محلات الملابس", "ملابس", "أزياء"],
+        "ru": ["магазины одежды", "магазин одежды", "одежда"]
+      },
       "osm": [["shop", "clothes"], ["shop", "boutique"]],
       "overture": ["clothing_store", "fashion_boutique", "fashion_and_apparel_store"],
       "naf": ["47.71Z"]
@@ -162,7 +528,30 @@
     {
       "id": "shoes",
       "label": "Shoe stores",
-      "words": ["shoes", "shoe store", "shoe shop"],
+      "labels": {
+        "en": "Shoe stores",
+        "fr": "Magasins de chaussures",
+        "es": "Zapaterías",
+        "pt": "Sapatarias",
+        "de": "Schuhgeschäfte",
+        "it": "Negozi di scarpe",
+        "zh": "鞋店",
+        "ja": "靴屋",
+        "ar": "محلات الأحذية",
+        "ru": "Обувные магазины"
+      },
+      "words": {
+        "en": ["shoe stores", "shoes", "shoe store", "shoe shop"],
+        "fr": ["magasins de chaussures", "chaussures"],
+        "es": ["zapaterías", "zapatería", "zapatos"],
+        "pt": ["sapatarias", "sapataria", "calçados"],
+        "de": ["schuhgeschäfte", "schuhgeschäft", "schuhe"],
+        "it": ["negozi di scarpe", "calzature", "scarpe"],
+        "zh": ["鞋店"],
+        "ja": ["靴屋", "シューズショップ"],
+        "ar": ["محلات الأحذية", "أحذية"],
+        "ru": ["обувные магазины", "обувь"]
+      },
       "osm": [["shop", "shoes"]],
       "overture": ["shoe_store"],
       "naf": ["47.72A"]
@@ -170,7 +559,30 @@
     {
       "id": "jeweller",
       "label": "Jewellers",
-      "words": ["jeweller", "jewellers", "jeweler", "jewelers", "jewelry", "jewellery"],
+      "labels": {
+        "en": "Jewellers",
+        "fr": "Bijouteries",
+        "es": "Joyerías",
+        "pt": "Joalherias",
+        "de": "Juweliere",
+        "it": "Gioiellerie",
+        "zh": "珠宝店",
+        "ja": "宝石店",
+        "ar": "محلات المجوهرات",
+        "ru": "Ювелирные магазины"
+      },
+      "words": {
+        "en": ["jewellers", "jeweller", "jeweler", "jewelers", "jewelry", "jewellery"],
+        "fr": ["bijouteries", "bijouterie", "bijoutier", "joaillier"],
+        "es": ["joyerías", "joyería", "joyero"],
+        "pt": ["joalherias", "joalheria", "ourivesaria"],
+        "de": ["juweliere", "juwelier", "schmuck"],
+        "it": ["gioiellerie", "gioielleria", "gioielliere"],
+        "zh": ["珠宝店", "首饰店"],
+        "ja": ["宝石店", "ジュエリーショップ"],
+        "ar": ["محلات المجوهرات", "مجوهرات", "صائغ"],
+        "ru": ["ювелирные магазины", "ювелирный магазин"]
+      },
       "osm": [["shop", "jewelry"]],
       "overture": ["jewelry_store", "watch_store"],
       "naf": ["47.77Z"]
@@ -178,7 +590,30 @@
     {
       "id": "optician",
       "label": "Opticians",
-      "words": ["optician", "opticians", "optometrist", "glasses"],
+      "labels": {
+        "en": "Opticians",
+        "fr": "Opticiens",
+        "es": "Ópticas",
+        "pt": "Óticas",
+        "de": "Optiker",
+        "it": "Ottici",
+        "zh": "眼镜店",
+        "ja": "眼鏡店",
+        "ar": "محلات النظارات",
+        "ru": "Оптики"
+      },
+      "words": {
+        "en": ["opticians", "optician", "optometrist", "glasses"],
+        "fr": ["opticiens", "opticien", "lunetterie"],
+        "es": ["ópticas", "óptica", "óptico"],
+        "pt": ["óticas", "ótica", "óptica"],
+        "de": ["optiker", "brillen"],
+        "it": ["ottici", "ottica", "ottico"],
+        "zh": ["眼镜店"],
+        "ja": ["眼鏡店", "メガネ屋"],
+        "ar": ["محلات النظارات", "نظارات", "بصريات"],
+        "ru": ["оптики", "оптика", "салон оптики"]
+      },
       "osm": [["shop", "optician"]],
       "overture": ["eyewear_store", "optometry"],
       "naf": ["47.78A"]
@@ -186,7 +621,30 @@
     {
       "id": "books",
       "label": "Bookshops",
-      "words": ["bookshop", "bookshops", "bookstore", "bookstores", "books"],
+      "labels": {
+        "en": "Bookshops",
+        "fr": "Librairies",
+        "es": "Librerías",
+        "pt": "Livrarias",
+        "de": "Buchhandlungen",
+        "it": "Librerie",
+        "zh": "书店",
+        "ja": "本屋",
+        "ar": "مكتبات",
+        "ru": "Книжные магазины"
+      },
+      "words": {
+        "en": ["bookshops", "bookshop", "bookstore", "bookstores", "books"],
+        "fr": ["librairies", "librairie"],
+        "es": ["librerías", "librería"],
+        "pt": ["livrarias", "livraria"],
+        "de": ["buchhandlungen", "buchhandlung"],
+        "it": ["librerie", "libreria"],
+        "zh": ["书店"],
+        "ja": ["本屋", "書店"],
+        "ar": ["مكتبات", "مكتبة"],
+        "ru": ["книжные магазины", "книжный магазин"]
+      },
       "osm": [["shop", "books"]],
       "overture": ["bookstore", "comic_books_store"],
       "naf": ["47.61Z"]
@@ -194,7 +652,30 @@
     {
       "id": "furniture",
       "label": "Furniture stores",
-      "words": ["furniture", "furniture store", "interior", "home decor"],
+      "labels": {
+        "en": "Furniture stores",
+        "fr": "Magasins de meubles",
+        "es": "Tiendas de muebles",
+        "pt": "Lojas de móveis",
+        "de": "Möbelgeschäfte",
+        "it": "Negozi di mobili",
+        "zh": "家具店",
+        "ja": "家具屋",
+        "ar": "محلات الأثاث",
+        "ru": "Мебельные магазины"
+      },
+      "words": {
+        "en": ["furniture stores", "furniture", "furniture store", "interior", "home decor"],
+        "fr": ["magasins de meubles", "meubles", "décoration", "ameublement"],
+        "es": ["tiendas de muebles", "muebles", "mueblería"],
+        "pt": ["lojas de móveis", "móveis", "decoração"],
+        "de": ["möbelgeschäfte", "möbelhaus", "möbel"],
+        "it": ["negozi di mobili", "mobili", "arredamento"],
+        "zh": ["家具店", "家居店"],
+        "ja": ["家具屋", "インテリアショップ"],
+        "ar": ["محلات الأثاث", "أثاث"],
+        "ru": ["мебельные магазины", "мебель"]
+      },
       "osm": [["shop", "furniture"], ["shop", "interior_decoration"]],
       "overture": ["furniture_store", "home_goods_store", "interior_design", "mattress_store"],
       "naf": ["47.59A"]
@@ -202,7 +683,30 @@
     {
       "id": "hardware",
       "label": "Hardware stores",
-      "words": ["hardware", "hardware store", "diy", "home improvement"],
+      "labels": {
+        "en": "Hardware stores",
+        "fr": "Quincailleries",
+        "es": "Ferreterías",
+        "pt": "Lojas de ferragens",
+        "de": "Baumärkte",
+        "it": "Ferramenta",
+        "zh": "五金店",
+        "ja": "ホームセンター",
+        "ar": "محلات الأدوات",
+        "ru": "Хозяйственные магазины"
+      },
+      "words": {
+        "en": ["hardware stores", "hardware", "hardware store", "diy", "home improvement"],
+        "fr": ["quincailleries", "quincaillerie", "bricolage"],
+        "es": ["ferreterías", "ferretería"],
+        "pt": ["lojas de ferragens", "ferragens", "material de construção"],
+        "de": ["baumärkte", "baumarkt", "eisenwarenhandlung"],
+        "it": ["ferramenta", "fai da te"],
+        "zh": ["五金店", "建材店"],
+        "ja": ["ホームセンター", "金物屋"],
+        "ar": ["محلات الأدوات", "خردوات"],
+        "ru": ["хозяйственные магазины", "строительный магазин", "хозтовары"]
+      },
       "osm": [["shop", "hardware"], ["shop", "doityourself"]],
       "overture": [
         "hardware_store",
@@ -215,7 +719,30 @@
     {
       "id": "bicycle",
       "label": "Bike shops",
-      "words": ["bike shop", "bike shops", "bicycle", "bicycles", "cycle shop"],
+      "labels": {
+        "en": "Bike shops",
+        "fr": "Magasins de vélos",
+        "es": "Tiendas de bicicletas",
+        "pt": "Lojas de bicicletas",
+        "de": "Fahrradläden",
+        "it": "Negozi di biciclette",
+        "zh": "自行车店",
+        "ja": "自転車屋",
+        "ar": "محلات الدراجات",
+        "ru": "Веломагазины"
+      },
+      "words": {
+        "en": ["bike shops", "bike shop", "bicycle", "bicycles", "cycle shop"],
+        "fr": ["magasins de vélos", "vélos", "cycles", "réparateur vélo"],
+        "es": ["tiendas de bicicletas", "bicicletas"],
+        "pt": ["lojas de bicicletas", "bicicletarias", "bicicletas"],
+        "de": ["fahrradläden", "fahrradladen", "fahrradgeschäft"],
+        "it": ["negozi di biciclette", "biciclette", "ciclofficina"],
+        "zh": ["自行车店"],
+        "ja": ["自転車屋"],
+        "ar": ["محلات الدراجات", "دراجات"],
+        "ru": ["веломагазины", "велосипеды"]
+      },
       "osm": [["shop", "bicycle"]],
       "overture": ["bike_store", "bike_repair_maintenance"],
       "naf": ["47.64Z"]
@@ -223,7 +750,30 @@
     {
       "id": "car_repair",
       "label": "Car repair",
-      "words": ["garage", "garages", "car repair", "mechanic", "mechanics", "auto repair"],
+      "labels": {
+        "en": "Car repair",
+        "fr": "Garages",
+        "es": "Talleres mecánicos",
+        "pt": "Oficinas mecânicas",
+        "de": "Autowerkstätten",
+        "it": "Officine",
+        "zh": "汽车修理厂",
+        "ja": "自動車整備工場",
+        "ar": "ورش السيارات",
+        "ru": "Автосервисы"
+      },
+      "words": {
+        "en": ["car repair", "garage", "garages", "mechanic", "mechanics", "auto repair"],
+        "fr": ["garages", "garage", "garagiste", "mécanicien", "carrosserie"],
+        "es": ["talleres mecánicos", "taller mecánico", "taller", "mecánico"],
+        "pt": ["oficinas mecânicas", "oficina mecânica", "oficina", "mecânico"],
+        "de": ["autowerkstätten", "autowerkstatt", "werkstatt", "kfz-werkstatt"],
+        "it": ["officine", "officina", "meccanico", "carrozzeria"],
+        "zh": ["汽车修理厂", "修车店", "汽修"],
+        "ja": ["自動車整備工場", "整備工場", "車屋"],
+        "ar": ["ورش السيارات", "ورشة سيارات", "ميكانيكي"],
+        "ru": ["автосервисы", "автосервис", "автомастерская"]
+      },
       "osm": [["shop", "car_repair"]],
       "overture": ["automotive_repair", "auto_body_shop", "motorcycle_repair"],
       "naf": ["45.20A"]
@@ -231,7 +781,30 @@
     {
       "id": "car_dealer",
       "label": "Car dealers",
-      "words": ["car dealer", "car dealers", "car dealership", "dealership"],
+      "labels": {
+        "en": "Car dealers",
+        "fr": "Concessionnaires",
+        "es": "Concesionarios",
+        "pt": "Concessionárias",
+        "de": "Autohäuser",
+        "it": "Concessionarie",
+        "zh": "汽车经销商",
+        "ja": "カーディーラー",
+        "ar": "معارض السيارات",
+        "ru": "Автосалоны"
+      },
+      "words": {
+        "en": ["car dealers", "car dealer", "car dealership", "dealership"],
+        "fr": ["concessionnaires", "concessionnaire", "garage automobile"],
+        "es": ["concesionarios", "concesionario"],
+        "pt": ["concessionárias", "concessionária", "stand de automóveis"],
+        "de": ["autohäuser", "autohaus", "autohändler"],
+        "it": ["concessionarie", "concessionaria", "autosalone"],
+        "zh": ["汽车经销商", "4s店"],
+        "ja": ["カーディーラー", "ディーラー"],
+        "ar": ["معارض السيارات", "وكالة سيارات"],
+        "ru": ["автосалоны", "автосалон"]
+      },
       "osm": [["shop", "car"]],
       "overture": ["auto_dealer", "used_auto_dealer", "motorcycle_dealer", "vehicle_dealer"],
       "naf": ["45.11Z"]
@@ -239,7 +812,30 @@
     {
       "id": "plumber",
       "label": "Plumbers",
-      "words": ["plumber", "plumbers", "plumbing", "heating engineer"],
+      "labels": {
+        "en": "Plumbers",
+        "fr": "Plombiers",
+        "es": "Fontaneros",
+        "pt": "Canalizadores",
+        "de": "Klempner",
+        "it": "Idraulici",
+        "zh": "水管工",
+        "ja": "水道屋",
+        "ar": "سباكين",
+        "ru": "Сантехники"
+      },
+      "words": {
+        "en": ["plumbers", "plumber", "plumbing", "heating engineer"],
+        "fr": ["plombiers", "plombier", "chauffagiste", "plomberie"],
+        "es": ["fontaneros", "fontanero", "plomero", "plomeros"],
+        "pt": ["canalizadores", "canalizador", "encanador", "encanadores"],
+        "de": ["klempner", "installateur", "sanitär", "heizungsbauer"],
+        "it": ["idraulici", "idraulico"],
+        "zh": ["水管工", "水电工"],
+        "ja": ["水道屋", "配管工"],
+        "ar": ["سباكين", "سباك"],
+        "ru": ["сантехники", "сантехник"]
+      },
       "osm": [["craft", "plumber"], ["craft", "hvac"]],
       "overture": ["plumbing", "hvac_service"],
       "naf": ["43.22A", "43.22B"]
@@ -247,7 +843,30 @@
     {
       "id": "electrician",
       "label": "Electricians",
-      "words": ["electrician", "electricians", "electrical contractor"],
+      "labels": {
+        "en": "Electricians",
+        "fr": "Électriciens",
+        "es": "Electricistas",
+        "pt": "Eletricistas",
+        "de": "Elektriker",
+        "it": "Elettricisti",
+        "zh": "电工",
+        "ja": "電気工事店",
+        "ar": "كهربائيين",
+        "ru": "Электрики"
+      },
+      "words": {
+        "en": ["electricians", "electrician", "electrical contractor"],
+        "fr": ["électriciens", "électricien", "electricien"],
+        "es": ["electricistas", "electricista"],
+        "pt": ["eletricistas", "eletricista", "electricista"],
+        "de": ["elektriker", "elektriker", "elektroinstallateur"],
+        "it": ["elettricisti", "elettricista"],
+        "zh": ["电工"],
+        "ja": ["電気工事店", "電気屋"],
+        "ar": ["كهربائيين", "كهربائي"],
+        "ru": ["электрики", "электрик"]
+      },
       "osm": [["craft", "electrician"]],
       "overture": ["electrician"],
       "naf": ["43.21A"]
@@ -255,7 +874,30 @@
     {
       "id": "carpenter",
       "label": "Carpenters",
-      "words": ["carpenter", "carpenters", "joiner", "joiners", "joinery", "woodworker"],
+      "labels": {
+        "en": "Carpenters",
+        "fr": "Menuisiers",
+        "es": "Carpinteros",
+        "pt": "Carpinteiros",
+        "de": "Schreiner",
+        "it": "Falegnami",
+        "zh": "木工",
+        "ja": "大工",
+        "ar": "نجارين",
+        "ru": "Столяры"
+      },
+      "words": {
+        "en": ["carpenters", "carpenter", "joiner", "joiners", "joinery", "woodworker"],
+        "fr": ["menuisiers", "menuisier", "charpentier", "ébéniste"],
+        "es": ["carpinteros", "carpintero", "carpintería"],
+        "pt": ["carpinteiros", "carpinteiro", "marceneiro", "marcenaria"],
+        "de": ["schreiner", "tischler", "zimmerei", "schreinerei"],
+        "it": ["falegnami", "falegname", "falegnameria"],
+        "zh": ["木工"],
+        "ja": ["大工", "工務店"],
+        "ar": ["نجارين", "نجار"],
+        "ru": ["столяры", "столяр", "плотник"]
+      },
       "osm": [["craft", "carpenter"], ["craft", "joiner"]],
       "overture": ["carpenter", "cabinet_sales_service"],
       "naf": ["43.32A", "16.23Z"]
@@ -263,16 +905,46 @@
     {
       "id": "builder",
       "label": "Builders",
-      "words": [
-        "builder",
-        "builders",
-        "construction",
-        "contractor",
-        "contractors",
-        "mason",
-        "masons",
-        "building company"
-      ],
+      "labels": {
+        "en": "Builders",
+        "fr": "Entreprises de bâtiment",
+        "es": "Constructoras",
+        "pt": "Construtoras",
+        "de": "Bauunternehmen",
+        "it": "Imprese edili",
+        "zh": "建筑公司",
+        "ja": "建設会社",
+        "ar": "شركات المقاولات",
+        "ru": "Строительные компании"
+      },
+      "words": {
+        "en": [
+          "builders",
+          "builder",
+          "construction",
+          "contractor",
+          "contractors",
+          "mason",
+          "masons",
+          "building company"
+        ],
+        "fr": [
+          "entreprises de bâtiment",
+          "maçon",
+          "maçons",
+          "entreprise de bâtiment",
+          "btp",
+          "entreprise de construction"
+        ],
+        "es": ["constructoras", "constructora", "albañil", "albañiles", "empresa de construcción"],
+        "pt": ["construtoras", "construtora", "pedreiro", "pedreiros"],
+        "de": ["bauunternehmen", "bauunternehmen", "baufirma", "maurer"],
+        "it": ["imprese edili", "impresa edile", "muratore", "edilizia"],
+        "zh": ["建筑公司", "装修公司"],
+        "ja": ["建設会社", "建築会社", "リフォーム"],
+        "ar": ["شركات المقاولات", "مقاول", "شركة بناء"],
+        "ru": ["строительные компании", "строительная компания", "строители"]
+      },
       "osm": [["craft", "builder"], ["office", "construction_company"]],
       "overture": [
         "contractor",
@@ -286,7 +958,30 @@
     {
       "id": "painter",
       "label": "Painters and decorators",
-      "words": ["painter", "painters", "decorator", "decorators"],
+      "labels": {
+        "en": "Painters",
+        "fr": "Peintres en bâtiment",
+        "es": "Pintores",
+        "pt": "Pintores",
+        "de": "Maler",
+        "it": "Imbianchini",
+        "zh": "油漆工",
+        "ja": "塗装店",
+        "ar": "دهانين",
+        "ru": "Маляры"
+      },
+      "words": {
+        "en": ["painters", "painter", "decorator", "decorators"],
+        "fr": ["peintres en bâtiment", "peintre en bâtiment", "peintre décorateur"],
+        "es": ["pintores", "pintor"],
+        "pt": ["pintores", "pintor"],
+        "de": ["maler", "malerbetrieb", "maler"],
+        "it": ["imbianchini", "imbianchino", "pittore edile"],
+        "zh": ["油漆工"],
+        "ja": ["塗装店", "塗装業"],
+        "ar": ["دهانين", "دهان"],
+        "ru": ["маляры", "маляр"]
+      },
       "osm": [["craft", "painter"]],
       "overture": ["painting"],
       "naf": ["43.34Z"]
@@ -294,7 +989,30 @@
     {
       "id": "roofer",
       "label": "Roofers",
-      "words": ["roofer", "roofers", "roofing"],
+      "labels": {
+        "en": "Roofers",
+        "fr": "Couvreurs",
+        "es": "Techadores",
+        "pt": "Telhadistas",
+        "de": "Dachdecker",
+        "it": "Copritetto",
+        "zh": "屋顶维修",
+        "ja": "屋根屋",
+        "ar": "أسطح",
+        "ru": "Кровельщики"
+      },
+      "words": {
+        "en": ["roofers", "roofer", "roofing"],
+        "fr": ["couvreurs", "couvreur", "toiture"],
+        "es": ["techadores", "tejados"],
+        "pt": ["telhadistas", "telhados"],
+        "de": ["dachdecker", "dachdecker"],
+        "it": ["copritetto", "tetti"],
+        "zh": ["屋顶维修"],
+        "ja": ["屋根屋", "屋根工事"],
+        "ar": ["أسطح"],
+        "ru": ["кровельщики", "кровля"]
+      },
       "osm": [["craft", "roofer"]],
       "overture": ["roofing"],
       "naf": ["43.91B"]
@@ -302,7 +1020,30 @@
     {
       "id": "locksmith",
       "label": "Locksmiths",
-      "words": ["locksmith", "locksmiths"],
+      "labels": {
+        "en": "Locksmiths",
+        "fr": "Serruriers",
+        "es": "Cerrajeros",
+        "pt": "Serralheiros",
+        "de": "Schlüsseldienste",
+        "it": "Fabbri",
+        "zh": "开锁",
+        "ja": "鍵屋",
+        "ar": "أقفال",
+        "ru": "Слесари"
+      },
+      "words": {
+        "en": ["locksmiths", "locksmith"],
+        "fr": ["serruriers", "serrurier", "serrurerie"],
+        "es": ["cerrajeros", "cerrajero", "cerrajería"],
+        "pt": ["serralheiros", "chaveiro", "chaveiros", "serralheiro"],
+        "de": ["schlüsseldienste", "schlüsseldienst", "schlosser"],
+        "it": ["fabbri", "fabbro"],
+        "zh": ["开锁", "锁匠"],
+        "ja": ["鍵屋"],
+        "ar": ["أقفال", "فني أقفال"],
+        "ru": ["слесари", "вскрытие замков", "ключи"]
+      },
       "osm": [["craft", "locksmith"], ["shop", "locksmith"]],
       "overture": ["key_and_locksmith"],
       "naf": ["43.29B"]
@@ -310,7 +1051,37 @@
     {
       "id": "gardener",
       "label": "Gardeners and landscapers",
-      "words": ["gardener", "gardeners", "landscaper", "landscapers", "landscaping"],
+      "labels": {
+        "en": "Gardeners and landscapers",
+        "fr": "Paysagistes",
+        "es": "Jardineros",
+        "pt": "Jardineiros",
+        "de": "Gärtner",
+        "it": "Giardinieri",
+        "zh": "园林公司",
+        "ja": "造園",
+        "ar": "تنسيق حدائق",
+        "ru": "Садовники"
+      },
+      "words": {
+        "en": [
+          "gardeners and landscapers",
+          "gardener",
+          "gardeners",
+          "landscaper",
+          "landscapers",
+          "landscaping"
+        ],
+        "fr": ["paysagistes", "paysagiste", "jardinier", "jardiniers"],
+        "es": ["jardineros", "jardinero", "paisajista", "jardinería"],
+        "pt": ["jardineiros", "jardineiro", "paisagista", "paisagismo"],
+        "de": ["gärtner", "gärtnerei", "garten- und landschaftsbau", "landschaftsgärtner"],
+        "it": ["giardinieri", "giardiniere", "vivaista", "paesaggista"],
+        "zh": ["园林公司", "园艺"],
+        "ja": ["造園", "植木屋"],
+        "ar": ["تنسيق حدائق", "بستاني"],
+        "ru": ["садовники", "ландшафтный дизайн", "садовник"]
+      },
       "osm": [["craft", "gardener"]],
       "overture": ["landscaping", "gardener", "landscape_architect"],
       "naf": ["81.30Z"]
@@ -318,7 +1089,37 @@
     {
       "id": "cleaning",
       "label": "Cleaning services",
-      "words": ["cleaner", "cleaners", "cleaning", "cleaning company", "janitorial"],
+      "labels": {
+        "en": "Cleaning services",
+        "fr": "Entreprises de nettoyage",
+        "es": "Empresas de limpieza",
+        "pt": "Empresas de limpeza",
+        "de": "Reinigungsfirmen",
+        "it": "Imprese di pulizie",
+        "zh": "保洁公司",
+        "ja": "清掃会社",
+        "ar": "شركات التنظيف",
+        "ru": "Клининговые компании"
+      },
+      "words": {
+        "en": [
+          "cleaning services",
+          "cleaner",
+          "cleaners",
+          "cleaning",
+          "cleaning company",
+          "janitorial"
+        ],
+        "fr": ["entreprises de nettoyage", "nettoyage", "pressing", "ménage"],
+        "es": ["empresas de limpieza", "limpieza", "tintorería"],
+        "pt": ["empresas de limpeza", "limpeza", "lavandaria", "lavanderia"],
+        "de": ["reinigungsfirmen", "reinigung", "gebäudereinigung", "putzfirma"],
+        "it": ["imprese di pulizie", "pulizie", "lavanderia", "tintoria"],
+        "zh": ["保洁公司", "清洁公司", "干洗店"],
+        "ja": ["清掃会社", "クリーニング"],
+        "ar": ["شركات التنظيف", "تنظيف", "مصبغة"],
+        "ru": ["клининговые компании", "клининг", "химчистка"]
+      },
       "osm": [["craft", "cleaning"], ["shop", "dry_cleaning"]],
       "overture": [
         "cleaning_service",
@@ -332,7 +1133,30 @@
     {
       "id": "photographer",
       "label": "Photographers",
-      "words": ["photographer", "photographers", "photo studio", "photography"],
+      "labels": {
+        "en": "Photographers",
+        "fr": "Photographes",
+        "es": "Fotógrafos",
+        "pt": "Fotógrafos",
+        "de": "Fotografen",
+        "it": "Fotografi",
+        "zh": "摄影工作室",
+        "ja": "写真館",
+        "ar": "مصورين",
+        "ru": "Фотографы"
+      },
+      "words": {
+        "en": ["photographers", "photographer", "photo studio", "photography"],
+        "fr": ["photographes", "photographe", "studio photo"],
+        "es": ["fotógrafos", "fotógrafo", "estudio de fotografía"],
+        "pt": ["fotógrafos", "fotógrafo", "estúdio fotográfico"],
+        "de": ["fotografen", "fotograf", "fotostudio"],
+        "it": ["fotografi", "fotografo", "studio fotografico"],
+        "zh": ["摄影工作室", "摄影师"],
+        "ja": ["写真館", "フォトスタジオ", "写真家"],
+        "ar": ["مصورين", "مصور", "استوديو تصوير"],
+        "ru": ["фотографы", "фотограф", "фотостудия"]
+      },
       "osm": [["craft", "photographer"], ["shop", "photo"]],
       "overture": ["photography_service", "event_photography_service"],
       "naf": ["74.20Z"]
@@ -340,7 +1164,30 @@
     {
       "id": "dentist",
       "label": "Dentists",
-      "words": ["dentist", "dentists", "dental", "dental clinic"],
+      "labels": {
+        "en": "Dentists",
+        "fr": "Dentistes",
+        "es": "Dentistas",
+        "pt": "Dentistas",
+        "de": "Zahnärzte",
+        "it": "Dentisti",
+        "zh": "牙科",
+        "ja": "歯医者",
+        "ar": "أطباء الأسنان",
+        "ru": "Стоматологии"
+      },
+      "words": {
+        "en": ["dentists", "dentist", "dental", "dental clinic"],
+        "fr": ["dentistes", "dentiste", "cabinet dentaire", "chirurgien-dentiste"],
+        "es": ["dentistas", "dentista", "clínica dental", "odontólogo"],
+        "pt": ["dentistas", "dentista", "clínica dentária", "clínica odontológica"],
+        "de": ["zahnärzte", "zahnarzt", "zahnarztpraxis"],
+        "it": ["dentisti", "dentista", "studio dentistico"],
+        "zh": ["牙科", "牙医", "口腔诊所"],
+        "ja": ["歯医者", "歯科", "歯科医院"],
+        "ar": ["أطباء الأسنان", "طبيب أسنان", "عيادة أسنان"],
+        "ru": ["стоматологии", "стоматология", "стоматолог", "зубной врач"]
+      },
       "osm": [["amenity", "dentist"]],
       "overture": ["dental_clinic", "general_dentistry", "orthodontics", "cosmetic_dentistry"],
       "naf": ["86.23Z"]
@@ -348,7 +1195,30 @@
     {
       "id": "doctor",
       "label": "Doctors",
-      "words": ["doctor", "doctors", "gp", "clinic", "clinics", "medical practice"],
+      "labels": {
+        "en": "Doctors",
+        "fr": "Médecins",
+        "es": "Médicos",
+        "pt": "Médicos",
+        "de": "Ärzte",
+        "it": "Medici",
+        "zh": "诊所",
+        "ja": "クリニック",
+        "ar": "أطباء",
+        "ru": "Врачи"
+      },
+      "words": {
+        "en": ["doctors", "doctor", "gp", "clinic", "clinics", "medical practice"],
+        "fr": ["médecins", "médecin", "généraliste", "cabinet médical", "clinique"],
+        "es": ["médicos", "médico", "clínica", "consultorio"],
+        "pt": ["médicos", "médico", "clínica", "consultório"],
+        "de": ["ärzte", "arzt", "arztpraxis", "hausarzt", "klinik"],
+        "it": ["medici", "medico", "ambulatorio", "clinica"],
+        "zh": ["诊所", "医生", "医院"],
+        "ja": ["クリニック", "医院", "病院"],
+        "ar": ["أطباء", "طبيب", "عيادة"],
+        "ru": ["врачи", "врач", "клиника", "медицинский центр"]
+      },
       "osm": [["amenity", "doctors"], ["amenity", "clinic"]],
       "overture": [
         "doctors_office",
@@ -363,15 +1233,38 @@
     {
       "id": "physio",
       "label": "Physiotherapists",
-      "words": [
-        "physio",
-        "physiotherapist",
-        "physiotherapists",
-        "physical therapist",
-        "osteopath",
-        "osteopaths",
-        "chiropractor"
-      ],
+      "labels": {
+        "en": "Physiotherapists",
+        "fr": "Kinés",
+        "es": "Fisioterapeutas",
+        "pt": "Fisioterapeutas",
+        "de": "Physiotherapeuten",
+        "it": "Fisioterapisti",
+        "zh": "理疗",
+        "ja": "整骨院",
+        "ar": "علاج طبيعي",
+        "ru": "Физиотерапевты"
+      },
+      "words": {
+        "en": [
+          "physiotherapists",
+          "physio",
+          "physiotherapist",
+          "physical therapist",
+          "osteopath",
+          "osteopaths",
+          "chiropractor"
+        ],
+        "fr": ["kinés", "kiné", "kinésithérapeute", "ostéopathe", "ostéopathes"],
+        "es": ["fisioterapeutas", "fisioterapeuta", "fisioterapia", "osteópata"],
+        "pt": ["fisioterapeutas", "fisioterapeuta", "fisioterapia", "osteopata"],
+        "de": ["physiotherapeuten", "physiotherapie", "physiotherapeut", "osteopath"],
+        "it": ["fisioterapisti", "fisioterapista", "fisioterapia", "osteopata"],
+        "zh": ["理疗", "康复中心", "推拿"],
+        "ja": ["整骨院", "接骨院", "整体"],
+        "ar": ["علاج طبيعي", "أخصائي علاج طبيعي"],
+        "ru": ["физиотерапевты", "физиотерапия", "остеопат", "массаж"]
+      },
       "osm": [["healthcare", "physiotherapist"], ["healthcare", "osteopath"]],
       "overture": ["physical_therapy", "osteopathic_medicine", "chiropractic"],
       "naf": ["86.90E"]
@@ -379,7 +1272,30 @@
     {
       "id": "pharmacy",
       "label": "Pharmacies",
-      "words": ["pharmacy", "pharmacies", "chemist", "chemists", "drugstore"],
+      "labels": {
+        "en": "Pharmacies",
+        "fr": "Pharmacies",
+        "es": "Farmacias",
+        "pt": "Farmácias",
+        "de": "Apotheken",
+        "it": "Farmacie",
+        "zh": "药店",
+        "ja": "薬局",
+        "ar": "صيدليات",
+        "ru": "Аптеки"
+      },
+      "words": {
+        "en": ["pharmacies", "pharmacy", "chemist", "chemists", "drugstore"],
+        "fr": ["pharmacies", "pharmacie", "parapharmacie"],
+        "es": ["farmacias", "farmacia"],
+        "pt": ["farmácias", "farmácia"],
+        "de": ["apotheken", "apotheke"],
+        "it": ["farmacie", "farmacia"],
+        "zh": ["药店", "药房"],
+        "ja": ["薬局", "ドラッグストア"],
+        "ar": ["صيدليات", "صيدلية"],
+        "ru": ["аптеки", "аптека"]
+      },
       "osm": [["amenity", "pharmacy"]],
       "overture": ["pharmacy", "drugstore"],
       "naf": ["47.73Z"]
@@ -387,7 +1303,30 @@
     {
       "id": "veterinary",
       "label": "Vets",
-      "words": ["vet", "vets", "veterinary", "veterinarian", "veterinarians", "animal clinic"],
+      "labels": {
+        "en": "Vets",
+        "fr": "Vétérinaires",
+        "es": "Veterinarios",
+        "pt": "Veterinários",
+        "de": "Tierärzte",
+        "it": "Veterinari",
+        "zh": "宠物医院",
+        "ja": "動物病院",
+        "ar": "أطباء بيطريون",
+        "ru": "Ветклиники"
+      },
+      "words": {
+        "en": ["vets", "vet", "veterinary", "veterinarian", "veterinarians", "animal clinic"],
+        "fr": ["vétérinaires", "vétérinaire", "clinique vétérinaire"],
+        "es": ["veterinarios", "veterinario", "veterinaria", "clínica veterinaria"],
+        "pt": ["veterinários", "veterinário", "clínica veterinária"],
+        "de": ["tierärzte", "tierarzt", "tierarztpraxis", "tierklinik"],
+        "it": ["veterinari", "veterinario", "clinica veterinaria"],
+        "zh": ["宠物医院", "兽医"],
+        "ja": ["動物病院", "獣医"],
+        "ar": ["أطباء بيطريون", "طبيب بيطري", "عيادة بيطرية"],
+        "ru": ["ветклиники", "ветеринар", "ветклиника", "ветеринарная клиника"]
+      },
       "osm": [["amenity", "veterinary"]],
       "overture": ["veterinarian"],
       "naf": ["75.00Z"]
@@ -395,17 +1334,47 @@
     {
       "id": "gym",
       "label": "Gyms",
-      "words": [
-        "gym",
-        "gyms",
-        "fitness",
-        "fitness centre",
-        "fitness center",
-        "crossfit",
-        "yoga",
-        "yoga studio",
-        "pilates"
-      ],
+      "labels": {
+        "en": "Gyms",
+        "fr": "Salles de sport",
+        "es": "Gimnasios",
+        "pt": "Academias",
+        "de": "Fitnessstudios",
+        "it": "Palestre",
+        "zh": "健身房",
+        "ja": "ジム",
+        "ar": "صالات رياضية",
+        "ru": "Фитнес-клубы"
+      },
+      "words": {
+        "en": [
+          "gyms",
+          "gym",
+          "fitness",
+          "fitness centre",
+          "fitness center",
+          "crossfit",
+          "yoga",
+          "yoga studio",
+          "pilates"
+        ],
+        "fr": [
+          "salles de sport",
+          "salle de sport",
+          "salle de fitness",
+          "yoga",
+          "pilates",
+          "crossfit"
+        ],
+        "es": ["gimnasios", "gimnasio", "centro de fitness", "yoga"],
+        "pt": ["academias", "academia", "ginásio", "ginásios", "ioga"],
+        "de": ["fitnessstudios", "fitnessstudio", "yogastudio", "gym"],
+        "it": ["palestre", "palestra", "centro fitness", "yoga"],
+        "zh": ["健身房", "瑜伽馆"],
+        "ja": ["ジム", "フィットネスクラブ", "ヨガスタジオ"],
+        "ar": ["صالات رياضية", "نادي رياضي", "جيم"],
+        "ru": ["фитнес-клубы", "спортзал", "фитнес", "тренажерный зал", "йога"]
+      },
       "osm": [["leisure", "fitness_centre"], ["leisure", "sports_centre"]],
       "overture": ["gym", "yoga_studio", "pilates_studio", "fitness_trainer", "boxing_gym"],
       "naf": ["93.13Z"]
@@ -413,7 +1382,30 @@
     {
       "id": "driving_school",
       "label": "Driving schools",
-      "words": ["driving school", "driving schools", "driving instructor"],
+      "labels": {
+        "en": "Driving schools",
+        "fr": "Auto-écoles",
+        "es": "Autoescuelas",
+        "pt": "Autoescolas",
+        "de": "Fahrschulen",
+        "it": "Autoscuole",
+        "zh": "驾校",
+        "ja": "自動車学校",
+        "ar": "مدارس تعليم القيادة",
+        "ru": "Автошколы"
+      },
+      "words": {
+        "en": ["driving schools", "driving school", "driving instructor"],
+        "fr": ["auto-écoles", "auto-école", "auto école"],
+        "es": ["autoescuelas", "autoescuela"],
+        "pt": ["autoescolas", "autoescola", "escola de condução"],
+        "de": ["fahrschulen", "fahrschule"],
+        "it": ["autoscuole", "autoscuola"],
+        "zh": ["驾校"],
+        "ja": ["自動車学校", "教習所"],
+        "ar": ["مدارس تعليم القيادة", "مدرسة قيادة"],
+        "ru": ["автошколы", "автошкола"]
+      },
       "osm": [["amenity", "driving_school"]],
       "overture": ["driving_school"],
       "naf": ["85.53Z"]
@@ -421,17 +1413,40 @@
     {
       "id": "lawyer",
       "label": "Lawyers",
-      "words": [
-        "lawyer",
-        "lawyers",
-        "solicitor",
-        "solicitors",
-        "attorney",
-        "attorneys",
-        "law firm",
-        "law firms",
-        "notary"
-      ],
+      "labels": {
+        "en": "Lawyers",
+        "fr": "Avocats",
+        "es": "Abogados",
+        "pt": "Advogados",
+        "de": "Anwälte",
+        "it": "Avvocati",
+        "zh": "律师事务所",
+        "ja": "法律事務所",
+        "ar": "محامين",
+        "ru": "Юристы"
+      },
+      "words": {
+        "en": [
+          "lawyers",
+          "lawyer",
+          "solicitor",
+          "solicitors",
+          "attorney",
+          "attorneys",
+          "law firm",
+          "law firms",
+          "notary"
+        ],
+        "fr": ["avocats", "avocat", "cabinet d'avocats", "notaire", "notaires"],
+        "es": ["abogados", "abogado", "bufete", "notario", "notarías"],
+        "pt": ["advogados", "advogado", "escritório de advocacia", "notário", "cartório"],
+        "de": ["anwälte", "anwalt", "rechtsanwalt", "rechtsanwälte", "kanzlei", "notar"],
+        "it": ["avvocati", "avvocato", "studio legale", "notaio"],
+        "zh": ["律师事务所", "律师"],
+        "ja": ["法律事務所", "弁護士"],
+        "ar": ["محامين", "محامي", "مكتب محاماة"],
+        "ru": ["юристы", "юрист", "адвокат", "адвокаты", "нотариус"]
+      },
       "osm": [["office", "lawyer"], ["office", "notary"]],
       "overture": ["attorney_or_law_firm", "legal_service", "notary_public"],
       "naf": ["69.10Z"]
@@ -439,14 +1454,43 @@
     {
       "id": "accountant",
       "label": "Accountants",
-      "words": [
-        "accountant",
-        "accountants",
-        "accounting",
-        "bookkeeper",
-        "bookkeeping",
-        "tax advisor"
-      ],
+      "labels": {
+        "en": "Accountants",
+        "fr": "Comptables",
+        "es": "Contables",
+        "pt": "Contabilistas",
+        "de": "Steuerberater",
+        "it": "Commercialisti",
+        "zh": "会计师事务所",
+        "ja": "会計事務所",
+        "ar": "محاسبين",
+        "ru": "Бухгалтеры"
+      },
+      "words": {
+        "en": [
+          "accountants",
+          "accountant",
+          "accounting",
+          "bookkeeper",
+          "bookkeeping",
+          "tax advisor"
+        ],
+        "fr": [
+          "comptables",
+          "comptable",
+          "expert-comptable",
+          "experts-comptables",
+          "cabinet comptable"
+        ],
+        "es": ["contables", "contable", "contador", "contadores", "asesoría fiscal", "gestoría"],
+        "pt": ["contabilistas", "contabilista", "contador", "contadores", "contabilidade"],
+        "de": ["steuerberater", "steuerberater", "buchhalter", "buchhaltung"],
+        "it": ["commercialisti", "commercialista", "contabile"],
+        "zh": ["会计师事务所", "会计"],
+        "ja": ["会計事務所", "税理士"],
+        "ar": ["محاسبين", "محاسب", "مكتب محاسبة"],
+        "ru": ["бухгалтеры", "бухгалтер", "бухгалтерские услуги"]
+      },
       "osm": [["office", "accountant"], ["office", "tax_advisor"]],
       "overture": ["accountant", "tax_service"],
       "naf": ["69.20Z"]
@@ -454,14 +1498,37 @@
     {
       "id": "estate_agent",
       "label": "Estate agents",
-      "words": [
-        "estate agent",
-        "estate agents",
-        "real estate",
-        "realtor",
-        "realtors",
-        "property agent"
-      ],
+      "labels": {
+        "en": "Estate agents",
+        "fr": "Agences immobilières",
+        "es": "Inmobiliarias",
+        "pt": "Imobiliárias",
+        "de": "Immobilienmakler",
+        "it": "Agenzie immobiliari",
+        "zh": "房产中介",
+        "ja": "不動産屋",
+        "ar": "مكاتب عقارية",
+        "ru": "Агентства недвижимости"
+      },
+      "words": {
+        "en": [
+          "estate agents",
+          "estate agent",
+          "real estate",
+          "realtor",
+          "realtors",
+          "property agent"
+        ],
+        "fr": ["agences immobilières", "agence immobilière", "immobilier", "agent immobilier"],
+        "es": ["inmobiliarias", "inmobiliaria", "agente inmobiliario"],
+        "pt": ["imobiliárias", "imobiliária", "corretor de imóveis"],
+        "de": ["immobilienmakler", "immobilienmakler", "makler", "immobilien"],
+        "it": ["agenzie immobiliari", "agenzia immobiliare", "immobiliare"],
+        "zh": ["房产中介", "房地产中介", "地产"],
+        "ja": ["不動産屋", "不動産会社"],
+        "ar": ["مكاتب عقارية", "مكتب عقاري", "عقارات"],
+        "ru": ["агентства недвижимости", "агентство недвижимости", "риэлтор"]
+      },
       "osm": [["office", "estate_agent"]],
       "overture": ["real_estate_agent", "real_estate_service", "property_management"],
       "naf": ["68.31Z"]
@@ -469,7 +1536,30 @@
     {
       "id": "insurance",
       "label": "Insurance",
-      "words": ["insurance", "insurer", "insurance broker", "broker", "brokers"],
+      "labels": {
+        "en": "Insurance",
+        "fr": "Assurances",
+        "es": "Seguros",
+        "pt": "Seguros",
+        "de": "Versicherungen",
+        "it": "Assicurazioni",
+        "zh": "保险公司",
+        "ja": "保険代理店",
+        "ar": "شركات التأمين",
+        "ru": "Страховые компании"
+      },
+      "words": {
+        "en": ["insurance", "insurer", "insurance broker", "broker", "brokers"],
+        "fr": ["assurances", "assurance", "assureur", "courtier"],
+        "es": ["seguros", "aseguradora", "corredor de seguros"],
+        "pt": ["seguros", "seguradora", "corretor de seguros"],
+        "de": ["versicherungen", "versicherung", "versicherungsmakler"],
+        "it": ["assicurazioni", "assicurazione", "broker assicurativo"],
+        "zh": ["保险公司", "保险"],
+        "ja": ["保険代理店", "保険"],
+        "ar": ["شركات التأمين", "تأمين"],
+        "ru": ["страховые компании", "страхование", "страховая"]
+      },
       "osm": [["office", "insurance"]],
       "overture": ["insurance_agency"],
       "naf": ["66.22Z", "65.12Z"]
@@ -477,7 +1567,30 @@
     {
       "id": "architect",
       "label": "Architects",
-      "words": ["architect", "architects", "architecture firm"],
+      "labels": {
+        "en": "Architects",
+        "fr": "Architectes",
+        "es": "Arquitectos",
+        "pt": "Arquitetos",
+        "de": "Architekten",
+        "it": "Architetti",
+        "zh": "建筑设计事务所",
+        "ja": "建築事務所",
+        "ar": "مهندسين معماريين",
+        "ru": "Архитекторы"
+      },
+      "words": {
+        "en": ["architects", "architect", "architecture firm"],
+        "fr": ["architectes", "architecte", "cabinet d'architecture"],
+        "es": ["arquitectos", "arquitecto", "estudio de arquitectura"],
+        "pt": ["arquitetos", "arquiteto", "arquitecto", "escritório de arquitetura"],
+        "de": ["architekten", "architekt", "architekturbüro"],
+        "it": ["architetti", "architetto", "studio di architettura"],
+        "zh": ["建筑设计事务所", "建筑师"],
+        "ja": ["建築事務所", "建築家"],
+        "ar": ["مهندسين معماريين", "مكتب هندسي", "معماري"],
+        "ru": ["архитекторы", "архитектор", "архитектурное бюро"]
+      },
       "osm": [["office", "architect"]],
       "overture": ["architect", "architectural_designer"],
       "naf": ["71.11Z"]
@@ -485,17 +1598,61 @@
     {
       "id": "it",
       "label": "IT and software",
-      "words": [
-        "it company",
-        "software",
-        "software company",
-        "web agency",
-        "developer",
-        "developers",
-        "tech company",
-        "startup",
-        "startups"
-      ],
+      "labels": {
+        "en": "IT and software",
+        "fr": "Entreprises informatiques",
+        "es": "Empresas de informática",
+        "pt": "Empresas de informática",
+        "de": "IT-Firmen",
+        "it": "Aziende informatiche",
+        "zh": "软件公司",
+        "ja": "IT企業",
+        "ar": "شركات تقنية المعلومات",
+        "ru": "IT-компании"
+      },
+      "words": {
+        "en": [
+          "it and software",
+          "it company",
+          "software",
+          "software company",
+          "web agency",
+          "developer",
+          "developers",
+          "tech company",
+          "startup",
+          "startups"
+        ],
+        "fr": [
+          "entreprises informatiques",
+          "informatique",
+          "agence web",
+          "développeur",
+          "éditeur de logiciels",
+          "start-up",
+          "startup"
+        ],
+        "es": [
+          "empresas de informática",
+          "informática",
+          "agencia web",
+          "desarrollo de software",
+          "startup"
+        ],
+        "pt": [
+          "empresas de informática",
+          "informática",
+          "agência web",
+          "desenvolvimento de software",
+          "startup"
+        ],
+        "de": ["it-firmen", "it-firma", "softwarefirma", "webagentur", "startup"],
+        "it": ["aziende informatiche", "informatica", "web agency", "software house", "startup"],
+        "zh": ["软件公司", "科技公司", "it公司"],
+        "ja": ["it企業", "ソフトウェア会社", "web制作会社"],
+        "ar": ["شركات تقنية المعلومات", "شركة برمجيات", "تقنية المعلومات"],
+        "ru": ["it-компании", "it-компания", "разработка сайтов", "веб-студия"]
+      },
       "osm": [["office", "it"], ["office", "company"]],
       "overture": [
         "information_technology_company",
@@ -509,15 +1666,45 @@
     {
       "id": "marketing",
       "label": "Marketing agencies",
-      "words": [
-        "marketing",
-        "marketing agency",
-        "advertising",
-        "advertising agency",
-        "ad agency",
-        "communication agency",
-        "design studio"
-      ],
+      "labels": {
+        "en": "Marketing agencies",
+        "fr": "Agences de communication",
+        "es": "Agencias de marketing",
+        "pt": "Agências de marketing",
+        "de": "Marketingagenturen",
+        "it": "Agenzie di comunicazione",
+        "zh": "广告公司",
+        "ja": "広告代理店",
+        "ar": "وكالات التسويق",
+        "ru": "Маркетинговые агентства"
+      },
+      "words": {
+        "en": [
+          "marketing agencies",
+          "marketing",
+          "marketing agency",
+          "advertising",
+          "advertising agency",
+          "ad agency",
+          "communication agency",
+          "design studio"
+        ],
+        "fr": [
+          "agences de communication",
+          "agence de communication",
+          "agence marketing",
+          "agence de publicité",
+          "studio de design"
+        ],
+        "es": ["agencias de marketing", "agencia de marketing", "agencia de publicidad"],
+        "pt": ["agências de marketing", "agência de marketing", "agência de publicidade"],
+        "de": ["marketingagenturen", "werbeagentur", "marketingagentur"],
+        "it": ["agenzie di comunicazione", "agenzia di comunicazione", "agenzia pubblicitaria"],
+        "zh": ["广告公司", "营销公司"],
+        "ja": ["広告代理店", "マーケティング会社"],
+        "ar": ["وكالات التسويق", "وكالة تسويق", "وكالة إعلان"],
+        "ru": ["маркетинговые агентства", "рекламное агентство", "маркетинг"]
+      },
       "osm": [["office", "advertising_agency"]],
       "overture": [
         "marketing_agency",
@@ -532,7 +1719,37 @@
     {
       "id": "consulting",
       "label": "Consultancies",
-      "words": ["consultant", "consultants", "consulting", "consultancy", "advisory"],
+      "labels": {
+        "en": "Consultancies",
+        "fr": "Cabinets de conseil",
+        "es": "Consultorías",
+        "pt": "Consultorias",
+        "de": "Unternehmensberatungen",
+        "it": "Società di consulenza",
+        "zh": "咨询公司",
+        "ja": "コンサルティング会社",
+        "ar": "شركات استشارات",
+        "ru": "Консалтинговые компании"
+      },
+      "words": {
+        "en": [
+          "consultancies",
+          "consultant",
+          "consultants",
+          "consulting",
+          "consultancy",
+          "advisory"
+        ],
+        "fr": ["cabinets de conseil", "conseil", "consultant", "consultants"],
+        "es": ["consultorías", "consultoría", "consultor", "consultores"],
+        "pt": ["consultorias", "consultoria", "consultor", "consultores"],
+        "de": ["unternehmensberatungen", "unternehmensberatung", "berater", "beratung"],
+        "it": ["società di consulenza", "consulenza", "consulente"],
+        "zh": ["咨询公司", "顾问公司"],
+        "ja": ["コンサルティング会社", "コンサル"],
+        "ar": ["شركات استشارات", "استشارات", "مستشار"],
+        "ru": ["консалтинговые компании", "консалтинг", "консультанты"]
+      },
       "osm": [["office", "consulting"]],
       "overture": ["business_consulting"],
       "naf": ["70.22Z"]
@@ -540,7 +1757,30 @@
     {
       "id": "coworking",
       "label": "Coworking spaces",
-      "words": ["coworking", "co-working", "coworking space", "shared office"],
+      "labels": {
+        "en": "Coworking spaces",
+        "fr": "Espaces de coworking",
+        "es": "Espacios de coworking",
+        "pt": "Espaços de coworking",
+        "de": "Coworking-Spaces",
+        "it": "Spazi di coworking",
+        "zh": "联合办公空间",
+        "ja": "コワーキングスペース",
+        "ar": "مساحات العمل المشترك",
+        "ru": "Коворкинги"
+      },
+      "words": {
+        "en": ["coworking spaces", "coworking", "co-working", "coworking space", "shared office"],
+        "fr": ["espaces de coworking", "coworking", "espace de coworking"],
+        "es": ["espacios de coworking", "coworking"],
+        "pt": ["espaços de coworking", "coworking"],
+        "de": ["coworking-spaces", "coworking"],
+        "it": ["spazi di coworking", "coworking"],
+        "zh": ["联合办公空间", "共享办公"],
+        "ja": ["コワーキングスペース"],
+        "ar": ["مساحات العمل المشترك", "عمل مشترك"],
+        "ru": ["коворкинги", "коворкинг"]
+      },
       "osm": [["amenity", "coworking_space"], ["office", "coworking"]],
       "overture": ["coworking_space"],
       "naf": ["68.20B"]
@@ -548,15 +1788,46 @@
     {
       "id": "school",
       "label": "Private schools and tutoring",
-      "words": [
-        "tutoring",
-        "tutor",
-        "tutors",
-        "language school",
-        "music school",
-        "training centre",
-        "training center"
-      ],
+      "labels": {
+        "en": "Private schools and tutoring",
+        "fr": "Écoles et soutien scolaire",
+        "es": "Academias",
+        "pt": "Escolas de idiomas",
+        "de": "Nachhilfe und Sprachschulen",
+        "it": "Scuole e ripetizioni",
+        "zh": "培训机构",
+        "ja": "塾",
+        "ar": "مراكز تعليمية",
+        "ru": "Учебные центры"
+      },
+      "words": {
+        "en": [
+          "private schools and tutoring",
+          "tutoring",
+          "tutor",
+          "tutors",
+          "language school",
+          "music school",
+          "training centre",
+          "training center"
+        ],
+        "fr": [
+          "écoles et soutien scolaire",
+          "soutien scolaire",
+          "cours particuliers",
+          "école de langues",
+          "école de musique",
+          "organisme de formation"
+        ],
+        "es": ["academias", "academia de idiomas", "clases particulares", "escuela de música"],
+        "pt": ["escolas de idiomas", "explicações", "aulas particulares", "escola de música"],
+        "de": ["nachhilfe und sprachschulen", "nachhilfe", "sprachschule", "musikschule"],
+        "it": ["scuole e ripetizioni", "ripetizioni", "scuola di lingue", "scuola di musica"],
+        "zh": ["培训机构", "补习班", "语言学校"],
+        "ja": ["塾", "学習塾", "英会話教室", "音楽教室"],
+        "ar": ["مراكز تعليمية", "دروس خصوصية", "مدرسة لغات"],
+        "ru": ["учебные центры", "репетиторы", "языковая школа", "музыкальная школа"]
+      },
       "osm": [
         ["amenity", "language_school"],
         ["amenity", "music_school"],
@@ -568,7 +1839,38 @@
     {
       "id": "pet",
       "label": "Pet shops and grooming",
-      "words": ["pet shop", "pet shops", "pet store", "pet grooming", "groomer", "dog grooming"],
+      "labels": {
+        "en": "Pet shops and grooming",
+        "fr": "Animaleries",
+        "es": "Tiendas de mascotas",
+        "pt": "Pet shops",
+        "de": "Zoohandlungen",
+        "it": "Negozi per animali",
+        "zh": "宠物店",
+        "ja": "ペットショップ",
+        "ar": "متاجر الحيوانات الأليفة",
+        "ru": "Зоомагазины"
+      },
+      "words": {
+        "en": [
+          "pet shops and grooming",
+          "pet shop",
+          "pet shops",
+          "pet store",
+          "pet grooming",
+          "groomer",
+          "dog grooming"
+        ],
+        "fr": ["animaleries", "animalerie", "toiletteur", "toilettage"],
+        "es": ["tiendas de mascotas", "tienda de mascotas", "peluquería canina"],
+        "pt": ["pet shops", "loja de animais", "banho e tosa"],
+        "de": ["zoohandlungen", "zoohandlung", "hundesalon", "tierbedarf"],
+        "it": ["negozi per animali", "toelettatura", "pet shop"],
+        "zh": ["宠物店", "宠物美容"],
+        "ja": ["ペットショップ", "トリミングサロン"],
+        "ar": ["متاجر الحيوانات الأليفة", "متجر حيوانات"],
+        "ru": ["зоомагазины", "зоомагазин", "груминг"]
+      },
       "osm": [["shop", "pet"], ["shop", "pet_grooming"]],
       "overture": ["pet_store", "pet_groomer"],
       "naf": ["47.76Z", "96.09Z"]
@@ -576,7 +1878,30 @@
     {
       "id": "wine",
       "label": "Wine shops",
-      "words": ["wine shop", "wine shops", "wine", "liquor store", "off licence", "cave"],
+      "labels": {
+        "en": "Wine shops",
+        "fr": "Cavistes",
+        "es": "Vinotecas",
+        "pt": "Garrafeiras",
+        "de": "Weinhandlungen",
+        "it": "Enoteche",
+        "zh": "酒行",
+        "ja": "酒屋",
+        "ar": "متاجر النبيذ",
+        "ru": "Винные магазины"
+      },
+      "words": {
+        "en": ["wine shops", "wine shop", "wine", "liquor store", "off licence", "cave"],
+        "fr": ["cavistes", "caviste", "cave à vin", "cave"],
+        "es": ["vinotecas", "vinoteca", "bodega", "licorería"],
+        "pt": ["garrafeiras", "garrafeira", "loja de vinhos"],
+        "de": ["weinhandlungen", "weinhandlung", "weinladen", "spirituosen"],
+        "it": ["enoteche", "enoteca", "vineria"],
+        "zh": ["酒行", "红酒店"],
+        "ja": ["酒屋", "ワインショップ"],
+        "ar": ["متاجر النبيذ"],
+        "ru": ["винные магазины", "винный магазин", "алкомаркет"]
+      },
       "osm": [["shop", "wine"], ["shop", "alcohol"]],
       "overture": ["liquor_store", "beer_wine_spirits_store", "wine_shop"],
       "naf": ["47.25Z"]
@@ -584,7 +1909,30 @@
     {
       "id": "travel",
       "label": "Travel agencies",
-      "words": ["travel agency", "travel agencies", "travel agent", "tour operator"],
+      "labels": {
+        "en": "Travel agencies",
+        "fr": "Agences de voyage",
+        "es": "Agencias de viajes",
+        "pt": "Agências de viagens",
+        "de": "Reisebüros",
+        "it": "Agenzie di viaggio",
+        "zh": "旅行社",
+        "ja": "旅行代理店",
+        "ar": "وكالات السفر",
+        "ru": "Турагентства"
+      },
+      "words": {
+        "en": ["travel agencies", "travel agency", "travel agent", "tour operator"],
+        "fr": ["agences de voyage", "agence de voyage", "agences de voyages", "voyagiste"],
+        "es": ["agencias de viajes", "agencia de viajes"],
+        "pt": ["agências de viagens", "agência de viagens"],
+        "de": ["reisebüros", "reisebüro", "reiseveranstalter"],
+        "it": ["agenzie di viaggio", "agenzia di viaggi", "agenzia viaggi"],
+        "zh": ["旅行社"],
+        "ja": ["旅行代理店", "旅行会社"],
+        "ar": ["وكالات السفر", "وكالة سفر", "مكتب سياحة"],
+        "ru": ["турагентства", "турагентство", "туроператор"]
+      },
       "osm": [["shop", "travel_agency"], ["office", "travel_agent"]],
       "overture": ["travel_agent", "tour_operator", "travel_service"],
       "naf": ["79.11Z", "79.12Z"]
@@ -592,7 +1940,30 @@
     {
       "id": "funeral",
       "label": "Funeral directors",
-      "words": ["funeral", "funeral home", "funeral director", "undertaker"],
+      "labels": {
+        "en": "Funeral directors",
+        "fr": "Pompes funèbres",
+        "es": "Funerarias",
+        "pt": "Funerárias",
+        "de": "Bestatter",
+        "it": "Onoranze funebri",
+        "zh": "殡仪馆",
+        "ja": "葬儀社",
+        "ar": "دور الجنازات",
+        "ru": "Ритуальные услуги"
+      },
+      "words": {
+        "en": ["funeral directors", "funeral", "funeral home", "funeral director", "undertaker"],
+        "fr": ["pompes funèbres", "funérarium"],
+        "es": ["funerarias", "funeraria"],
+        "pt": ["funerárias", "funerária", "agência funerária"],
+        "de": ["bestatter", "bestattungsinstitut"],
+        "it": ["onoranze funebri", "agenzia funebre"],
+        "zh": ["殡仪馆", "殡葬服务"],
+        "ja": ["葬儀社", "葬儀屋"],
+        "ar": ["دور الجنازات", "خدمات جنائزية"],
+        "ru": ["ритуальные услуги", "похоронное бюро"]
+      },
       "osm": [["shop", "funeral_directors"]],
       "overture": ["funeral_service"],
       "naf": ["96.03Z"]
@@ -600,7 +1971,30 @@
     {
       "id": "printing",
       "label": "Print shops",
-      "words": ["print shop", "printing", "printer", "printers", "copy shop"],
+      "labels": {
+        "en": "Print shops",
+        "fr": "Imprimeries",
+        "es": "Imprentas",
+        "pt": "Gráficas",
+        "de": "Druckereien",
+        "it": "Tipografie",
+        "zh": "印刷厂",
+        "ja": "印刷会社",
+        "ar": "مطابع",
+        "ru": "Типографии"
+      },
+      "words": {
+        "en": ["print shops", "print shop", "printing", "printer", "printers", "copy shop"],
+        "fr": ["imprimeries", "imprimerie", "imprimeur", "reprographie"],
+        "es": ["imprentas", "imprenta", "copistería"],
+        "pt": ["gráficas", "gráfica", "tipografia", "copiadora"],
+        "de": ["druckereien", "druckerei", "copyshop"],
+        "it": ["tipografie", "tipografia", "copisteria", "stamperia"],
+        "zh": ["印刷厂", "打印店"],
+        "ja": ["印刷会社", "印刷所"],
+        "ar": ["مطابع", "مطبعة"],
+        "ru": ["типографии", "типография", "полиграфия"]
+      },
       "osm": [["shop", "copyshop"], ["craft", "printer"]],
       "overture": ["printing_service", "commercial_printer"],
       "naf": ["18.12Z"]

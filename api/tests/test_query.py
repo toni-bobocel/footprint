@@ -1,53 +1,31 @@
+import json
+from pathlib import Path
+from typing import Any
+
 import pytest
 
-from footprint.query import parse
+from footprint.query import fold, parse
+
+CASES = json.loads(
+    (Path(__file__).resolve().parents[2] / 'shared' / 'query-cases.json').read_text('utf-8')
+)['cases']
 
 
-@pytest.mark.parametrize(
-    ('text', 'categories', 'place', 'gaps'),
-    [
-        ('bakeries in Lyon without a website', ['bakery'], 'lyon', ['no_website']),
-        (
-            'Plumbers near Manchester with no Instagram and no reviews',
-            ['plumber'],
-            'manchester',
-            ['no_instagram', 'no_reviews'],
-        ),
-        ('cafes in Lyon that have no website', ['cafe'], 'lyon', ['no_website']),
-        ('pet shops in Trinidad and Tobago', ['pet'], 'trinidad and tobago', []),
-        ('dentists in São Paulo not mobile friendly', ['dentist'], 'são paulo', ['not_mobile']),
-        ('hair salons', ['hairdresser'], None, []),
-    ],
-)
-def test_reads_what_and_where(
-    text: str, categories: list[str], place: str | None, gaps: list[str]
-) -> None:
-    intent = parse(text)
-    assert intent.categories == categories
-    assert intent.place == place
-    assert intent.gaps == gaps
+@pytest.mark.parametrize('case', CASES, ids=[c['q'] for c in CASES])
+def test_shared_case(case: dict[str, Any]) -> None:
+    intent = parse(case['q'])
+    assert intent.categories == case['categories']
+    assert intent.types == case.get('types', [])
+    assert intent.place == case['place']
+    assert intent.terms == case.get('terms')
+    assert intent.gaps == case.get('gaps', [])
+    assert intent.recent == case.get('recent', False)
+    assert intent.size == case.get('size')
+    assert intent.radius_km == case.get('radius_km')
+    assert intent.lat == case.get('lat')
 
 
-def test_new_in_a_place_name_is_not_a_filter() -> None:
-    intent = parse('coffee shops in New York')
-    assert intent.place == 'new york'
-    assert not intent.recent
-    assert parse('new coffee shops in Brooklyn, New York').recent
-
-
-def test_longest_phrase_wins() -> None:
-    assert parse('coffee shops in Rome').categories == ['cafe']
-
-
-def test_coordinates_and_radius() -> None:
-    intent = parse('small law firms within 20 km of 48.8566, 2.3522')
-    assert intent.categories == ['lawyer']
-    assert (intent.lat, intent.lon, intent.radius_km) == (48.8566, 2.3522, 20.0)
-    assert intent.size == 'small'
-
-
-def test_unknown_words_become_a_name_search() -> None:
-    intent = parse('Tesla in Austin')
-    assert intent.categories == []
-    assert intent.terms == 'tesla'
-    assert intent.place == 'austin'
+def test_fold_keeps_japanese_and_cyrillic() -> None:
+    assert fold('Près de') == 'pres de'
+    assert fold('パン屋') == 'パン屋'
+    assert fold('Москва') == 'москва'
