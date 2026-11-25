@@ -98,3 +98,31 @@ def test_registry_only_is_unknown_not_missing() -> None:
     fp = footprint(shop(sources=['sirene']), None)
     assert fp.website == 'unknown'
     assert fp.gaps == []
+
+
+WORDPRESS = b"""<!doctype html><html><head><title>Garage Martin</title>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="/wp-content/themes/x/style.css">
+<script type="application/ld+json">{"@type": "AutoRepair"}</script>
+</head><body><h1>Garage Martin</h1>
+<a href="mailto:contact@garage-martin.fr?subject=Devis">Write to us</a>
+<a href="tel:+33478000000">Call</a>
+<a href="https://www.planity.com/garage-martin">Book online</a>
+</body></html>"""
+
+
+def test_reads_platform_contact_and_booking() -> None:
+    site = analyse('https://garage-martin.fr/', WORDPRESS, 300, True)
+    assert site.platform == 'wordpress'
+    assert site.emails == ['contact@garage-martin.fr']
+    assert site.contact == ['email', 'phone']
+    assert site.booking == ['planity']
+    assert site.structured_data
+    assert site.seo_missing == ['description']
+    assert 'weak_seo' in footprint(shop(website='garage-martin.fr'), site).gaps
+
+
+def test_no_way_to_get_in_touch() -> None:
+    bare = b'<html><head><title>x</title></head><body><h1>x</h1></body></html>'
+    fp = footprint(shop(website='x.fr'), analyse('https://x.fr/', bare, 100, True))
+    assert 'no_contact' in fp.gaps

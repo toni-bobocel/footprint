@@ -76,9 +76,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         lat: float | None = Query(default=None, ge=-90, le=90),
         lon: float | None = Query(default=None, ge=-180, le=180),
         radius_km: float | None = Query(default=None, gt=0, le=50),
+        lang: str = Query(default='en', pattern='^[a-z]{2}$'),
     ) -> StreamingResponse:
         async def stream() -> AsyncIterator[str]:
-            async for kind, data in engine().run(q, lat, lon, radius_km):
+            async for kind, data in engine().run(q, lat, lon, radius_km, lang):
                 yield f'event: {kind}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n'
 
         return StreamingResponse(

@@ -74,12 +74,14 @@ class Overture:
         cats: list[Category],
         terms: str | None,
         limit: int,
+        types: list[str] | None = None,
     ) -> list[Business]:
         if self.release is None:
             self.release = await latest_release(client)
-        everything = not cats and not terms
+        types = types or []
+        everything = not cats and not terms and not types
         km = min(radius_km, EVERYTHING_RADIUS_KM if everything else MAX_RADIUS_KM)
-        sql, params = build(self.release, lat, lon, km, cats, terms, limit)
+        sql, params = build(self.release, lat, lon, km, cats, terms, limit, types)
         async with self._lock:
             rows = await asyncio.to_thread(self._query, sql, params)
         return parse(rows, lat, lon, km, cats)
@@ -96,6 +98,7 @@ def build(
     cats: list[Category],
     terms: str | None,
     limit: int,
+    types: list[str] | None = None,
 ) -> tuple[str, list[Any]]:
     dlat = km / 110.574
     dlon = km / (111.320 * max(cos(radians(lat)), 0.01))
@@ -106,9 +109,9 @@ def build(
         "coalesce(operating_status, 'open') <> 'permanently_closed'",
     ]
     params: list[Any] = [lon - dlon, lon + dlon, lat - dlat, lat + dlat, MIN_CONFIDENCE]
-    if cats:
+    if cats or types:
         where.append('list_has_any(taxonomy.hierarchy, ?)')
-        params.append(sorted({name for c in cats for name in c.overture}))
+        params.append(sorted({name for c in cats for name in c.overture} | set(types or [])))
     elif terms:
         where.append('names.primary ILIKE ?')
         params.append(f'%{terms}%')

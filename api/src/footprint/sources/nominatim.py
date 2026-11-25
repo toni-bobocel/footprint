@@ -30,6 +30,12 @@ def _place(row: dict[str, Any]) -> Place:
         lon=float(row['lon']),
         kind=str(row.get('addresstype') or row.get('type') or '') or None,
         country=str(address.get('country_code', '')).upper() or None,
+        capital=(row.get('extratags') or {}).get('capital_city'),
+        locality=next(
+            (address[k] for k in ('city', 'town', 'village', 'municipality') if address.get(k)),
+            None,
+        ),
+        importance=float(row.get('importance') or 0),
         bbox=(float(bbox[0]), float(bbox[1]), float(bbox[2]), float(bbox[3])) if bbox else None,
     )
 
@@ -38,7 +44,7 @@ async def geocode(client: httpx.AsyncClient, base: str, text: str) -> Place | No
     await _polite()
     res = await client.get(
         f'{base}/search',
-        params={'q': text, 'format': 'jsonv2', 'limit': 1, 'addressdetails': 1},
+        params={'q': text, 'format': 'jsonv2', 'limit': 1, 'addressdetails': 1, 'extratags': 1},
     )
     res.raise_for_status()
     rows = res.json()

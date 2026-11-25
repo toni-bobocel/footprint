@@ -31,6 +31,8 @@ class Settings:
     scan_timeout_s: float = float(os.environ.get('SCAN_TIMEOUT_S', '8'))
     max_results: int = int(os.environ.get('MAX_RESULTS', '300'))
     google_places_key: str | None = os.environ.get('GOOGLE_PLACES_KEY') or None
+    # Free key from developer.company-information.service.gov.uk; turns on UK registers.
+    companies_house_key: str | None = os.environ.get('COMPANIES_HOUSE_KEY') or None
     cors_origins: list[str] = field(
         default_factory=lambda: _list(
             'CORS_ORIGINS', 'http://localhost:5173,https://toni-bobocel.github.io'

@@ -58,6 +58,38 @@ UNDER_CONSTRUCTION = re.compile(
 # Year ranges are written with a hyphen or an en dash.
 COPYRIGHT = re.compile(r'(?:©|&copy;|copyright)\s*(?:\d{4}\s*[-\u2013]\s*)?(\d{4})', re.I)
 
+PLATFORMS = {
+    'wordpress': ('wp-content/', 'wp-includes/'),
+    'wix': ('static.wixstatic.com', 'wix.com website builder'),
+    'squarespace': ('static1.squarespace.com', 'squarespace'),
+    'shopify': ('cdn.shopify.com',),
+    'webflow': ('assets.website-files.com', 'webflow'),
+    'jimdo': ('jimdo',),
+    'godaddy': ('img1.wsimg.com',),
+    'prestashop': ('prestashop',),
+    'woocommerce': ('woocommerce',),
+    'joomla': ('/media/jui/', 'joomla'),
+    'drupal': ('drupal.settings', '/sites/default/files'),
+    'framer': ('framerusercontent.com',),
+}
+BOOKING = {
+    'calendly': 'calendly.com',
+    'doctolib': 'doctolib.',
+    'planity': 'planity.com',
+    'treatwell': 'treatwell.',
+    'thefork': 'thefork.',
+    'opentable': 'opentable.',
+    'resy': 'resy.com',
+    'booksy': 'booksy.com',
+    'fresha': 'fresha.com',
+    'zenchef': 'zenchef',
+    'booking.com': 'booking.com',
+    'simplybook': 'simplybook',
+    'acuity': 'acuityscheduling.com',
+}
+SHOPS = ('shopify', 'woocommerce', 'prestashop', 'add-to-cart', 'add_to_cart', 'snipcart', 'ecwid')
+EMAIL = re.compile(r'^mailto:([^?\s]+@[^?\s]+)', re.I)
+
 WEIGHTS: dict[Gap, int] = {
     'no_website': 40,
     'unreachable': 35,
@@ -71,6 +103,8 @@ WEIGHTS: dict[Gap, int] = {
     'no_facebook': 5,
     'no_linkedin': 4,
     'no_tiktok': 3,
+    'weak_seo': 8,
+    'no_contact': 6,
 }
 
 
@@ -143,9 +177,19 @@ def analyse(final_url: str, body: bytes, elapsed_ms: int, ssl_valid: bool | None
 
     socials: dict[str, str] = {}
     reviews: dict[str, str] = {}
+    emails: list[str] = []
+    contact: set[str] = set()
     for a in tree.css('a[href]'):
         href = (a.attributes.get('href') or '').strip()
         lowered = href.lower()
+        if m := EMAIL.match(href):
+            contact.add('email')
+            if m.group(1).lower() not in emails and len(emails) < 3:
+                emails.append(m.group(1).lower())
+        elif lowered.startswith('tel:'):
+            contact.add('phone')
+        elif lowered.startswith(('https://wa.me', 'https://api.whatsapp.com', 'whatsapp:')):
+            contact.add('whatsapp')
         for network, hosts in SOCIAL_HOSTS.items():
             if (
                 network not in socials
@@ -158,6 +202,34 @@ def analyse(final_url: str, body: bytes, elapsed_ms: int, ssl_valid: bool | None
                 reviews[site] = href
 
     lowered_html = html.lower()
+    if tree.css_first('form input[type="email" i], form textarea'):
+        contact.add('form')
+
+    platform = next(
+        (name for name, marks in PLATFORMS.items() if any(m in lowered_html for m in marks)), None
+    )
+    if not platform and generator:
+        platform = generator.split()[0].lower()
+    booking = [name for name, host in BOOKING.items() if host in lowered_html]
+    shop = next((s for s in SHOPS if s in lowered_html), None)
+
+    title_node = tree.css_first('title')
+    title = (title_node.text(strip=True) if title_node else '') or None
+    desc_node = tree.css_first('meta[name="description" i]')
+    description = ((desc_node.attributes.get('content') or '').strip() if desc_node else '') or None
+    seo_missing = [
+        name
+        for name, ok in (
+            ('title', bool(title)),
+            ('description', bool(description)),
+            ('h1', tree.css_first('h1') is not None),
+        )
+        if not ok
+    ]
+    structured = (
+        'application/ld+json' in lowered_html or 'itemtype="http://schema.org' in lowered_html
+    )
+
     tracking = [name for name, marker in TRACKERS.items() if marker in lowered_html]
     if 'fbq(' in html and 'meta_pixel' not in tracking:
         tracking.append('meta_pixel')
@@ -188,6 +260,15 @@ def analyse(final_url: str, body: bytes, elapsed_ms: int, ssl_valid: bool | None
         socials=socials,
         tracking=tracking,
         reviews=reviews,
+        platform=platform,
+        title=title[:200] if title else None,
+        description=description[:300] if description else None,
+        seo_missing=seo_missing,
+        emails=emails,
+        contact=sorted(contact),
+        booking=booking,
+        shop=shop,
+        structured_data=structured,
     )
 
 
@@ -235,6 +316,10 @@ def footprint(
             gaps.append('outdated')
         if not site.tracking:
             gaps.append('no_tracking')
+        if site.seo_missing:
+            gaps.append('weak_seo')
+        if not site.contact and not business.phone:
+            gaps.append('no_contact')
     for network in ('instagram', 'facebook', 'linkedin', 'tiktok'):
         if network not in socials:
             gaps.append(f'no_{network}')  # type: ignore[arg-type]
